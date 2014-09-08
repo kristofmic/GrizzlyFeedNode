@@ -1,5 +1,10 @@
 @import '../components/divider';
+@import 'feeds';
 
 .snackbar {
   border-radius: 4px;
+}
+
+.page-heading {
+  margin-top: 0px;
 }

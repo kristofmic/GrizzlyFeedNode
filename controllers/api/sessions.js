@@ -24,7 +24,7 @@ function create(req, res) {
     .then(verifyPassword)
     .then(tokens.createSessionToken)
     .then(User.updateOne)
-    .then(responder.handleResponse(res, 201, ['email', 'token', 'isActive', 'isVerified']))
+    .then(responder.handleResponse(res, 201, ['email', 'token', 'createdAt']))
     .catch(responder.handleError(res));
 
   function verifyUser(user) {
@@ -73,7 +73,7 @@ function show(req, res) {
 
   function sendResponse(user) {
     if (!user) { responder.handleError(res, 401, 'Token not found or expired.')(); }
-    else { responder.handleResponse(res, null, ['email', 'token', 'isActive', 'isVerified', 'createdAt'])(user); }
+    else { responder.handleResponse(res, null, ['email', 'token', 'createdAt'])(user); }
   }
 }
 

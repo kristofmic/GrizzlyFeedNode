@@ -95,6 +95,11 @@
         templateUrl: 'feeds.html',
         controller: 'feedsController'
       })
+      .state('main.private.addFeeds', {
+        url: '/add',
+        templateUrl: 'add_feeds.html',
+        controller: 'addFeedsController'
+      })
       .state('main.private.account', {
         url: '/account',
         templateUrl: 'account.html',
@@ -108,7 +113,7 @@
     function authorizeState(e, toState) {
       if (toState.data.auth && !$auth.isAuthenticated()) {
         e.preventDefault();
-
+        $state.go('main.public.login', null, { location: 'replace' });
       }
     }
   }

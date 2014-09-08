@@ -67,7 +67,7 @@ function update(req, res) {
 
   User.findBy({ token: token, tokenExpiration: { $gte: new Date() }})
     .then(updateUser)
-    .then(responder.handleResponse(res, 201, ['email', 'token', 'isActive', 'isVerified']))
+    .then(responder.handleResponse(res, 201, ['email', 'token', 'createdAt']))
     .catch(responder.handleError(res));
 
   function updateUser(user) {
