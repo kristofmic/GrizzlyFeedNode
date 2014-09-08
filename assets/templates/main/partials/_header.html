@@ -13,29 +13,39 @@
     </div>
 
     <div class="collapse navbar-collapse" id="nav-links">
-      <ul class="nav navbar-nav navbar-right">
-        <li>
+      <ul class="nav navbar-nav navbar-right" ng-switch="isAuthenticated()">
+        <li ng-switch-when="true">
           <a ui-sref="main.private.feeds">
             <i class="fa fa-newspaper-o fa-lg"></i>
           </a>
         </li>
-        <li>
+        <li ng-switch-when="true">
           <a ui-sref="main.private.addFeeds">
             <i class="fa fa-search-plus fa-lg"></i>
           </a>
         </li>
-        <li>
+        <li ng-switch-when="true">
           <a ui-sref="main.private.account">
             <i class="fa fa-user fa-lg"></i>
           </a>
         </li>
-        <li>
+        <li ng-switch-when="true">
           <a ui-sref="main.private.logout">
             <i class="fa fa-sign-out fa-lg"></i>
           </a>
         </li>
-        <li>
+        <li ng-switch-when="true">
           <p class="navbar-text">{{user.get('email')}}</p>
+        </li>
+        <li ng-switch-when="false">
+          <a ui-sref="main.public.signup">
+            Signup
+          </a>
+        </li>
+        <li ng-switch-when="false">
+          <a ui-sref="main.public.login">
+            Login
+          </a>
         </li>
       </ul>
     </div>

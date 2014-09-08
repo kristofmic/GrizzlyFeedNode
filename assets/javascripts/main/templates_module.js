@@ -22,17 +22,12 @@ angular.module('nl.Templates', []).run(['$templateCache', function($templateCach
 
 
   $templateCache.put('main.html',
-    "<div ui-view=\"header\"></div><div class=\"container\" ui-view></div>"
+    "<div ng-include=\"'_header.html'\"></div><div class=\"container\" ui-view></div>"
   );
 
 
-  $templateCache.put('dash_header.html',
-    "<nav class=\"navbar navbar-default navbar-static-top\" role=\"navigation\"><div class=\"container\"><div class=\"navbar-header\"><button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#nav-links\"><span class=\"sr-only\">Toggle navigation</span> <span class=\"icon-bar\"></span> <span class=\"icon-bar\"></span> <span class=\"icon-bar\"></span></button> <a class=\"navbar-brand\" href=\"/\">Grizzly Feed</a></div><div class=\"collapse navbar-collapse\" id=\"nav-links\"><ul class=\"nav navbar-nav navbar-right\"><li><a ui-sref=\"main.private.feeds\"><i class=\"fa fa-newspaper-o fa-lg\"></i></a></li><li><a ui-sref=\"main.private.addFeeds\"><i class=\"fa fa-search-plus fa-lg\"></i></a></li><li><a ui-sref=\"main.private.account\"><i class=\"fa fa-user fa-lg\"></i></a></li><li><a ui-sref=\"main.private.logout\"><i class=\"fa fa-sign-out fa-lg\"></i></a></li><li><p class=\"navbar-text\">{{user.get('email')}}</p></li></ul></div></div></nav>"
-  );
-
-
-  $templateCache.put('mkt_header.html',
-    "<nav class=\"navbar navbar-default navbar-static-top\" role=\"navigation\"><div class=\"container\"><div class=\"navbar-header\"><button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#nav-links\"><span class=\"sr-only\">Toggle navigation</span> <span class=\"icon-bar\"></span> <span class=\"icon-bar\"></span> <span class=\"icon-bar\"></span></button> <a class=\"navbar-brand\" href=\"/\">Grizzly Feed</a></div><div class=\"collapse navbar-collapse\" id=\"nav-links\"><ul class=\"nav navbar-nav navbar-right\" ng-switch=\"isAuthenticated()\"><li ng-switch-when=\"false\"><a ui-sref=\"main.public.login\">Log In</a></li><li ng-switch-when=\"false\"><a ui-sref=\"main.public.signup\">Sign Up</a></li><li ng-switch-when=\"true\"><a ui-sref=\"main.private.feeds\">Feeds</a></li><li ng-switch-when=\"true\"><a ui-sref=\"main.private.logout\">Log Out</a></li></ul></div></div></nav>"
+  $templateCache.put('_header.html',
+    "<nav class=\"navbar navbar-default navbar-static-top\" role=\"navigation\"><div class=\"container\"><div class=\"navbar-header\"><button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#nav-links\"><span class=\"sr-only\">Toggle navigation</span> <span class=\"icon-bar\"></span> <span class=\"icon-bar\"></span> <span class=\"icon-bar\"></span></button> <a class=\"navbar-brand\" href=\"/\">Grizzly Feed</a></div><div class=\"collapse navbar-collapse\" id=\"nav-links\"><ul class=\"nav navbar-nav navbar-right\" ng-switch=\"isAuthenticated()\"><li ng-switch-when=\"true\"><a ui-sref=\"main.private.feeds\"><i class=\"fa fa-newspaper-o fa-lg\"></i></a></li><li ng-switch-when=\"true\"><a ui-sref=\"main.private.addFeeds\"><i class=\"fa fa-search-plus fa-lg\"></i></a></li><li ng-switch-when=\"true\"><a ui-sref=\"main.private.account\"><i class=\"fa fa-user fa-lg\"></i></a></li><li ng-switch-when=\"true\"><a ui-sref=\"main.private.logout\"><i class=\"fa fa-sign-out fa-lg\"></i></a></li><li ng-switch-when=\"true\"><p class=\"navbar-text\">{{user.get('email')}}</p></li><li ng-switch-when=\"false\"><a ui-sref=\"main.public.signup\">Signup</a></li><li ng-switch-when=\"false\"><a ui-sref=\"main.public.login\">Login</a></li></ul></div></div></nav>"
   );
 
 

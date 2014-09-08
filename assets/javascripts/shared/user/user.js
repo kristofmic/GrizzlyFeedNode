@@ -30,6 +30,7 @@
     self.login = login;
     self.logout = logout;
     self.resetPassword = resetPassword;
+    self.token = getToken();
     self.props = {
       get: getProp,
       set: setProp
@@ -42,7 +43,7 @@
         token = getToken();
 
       if (token) {
-        return $http.get('/api/sessions', { headers: { token: token }})
+        return $http.get('/api/session', { headers: { token: token }})
           .then(setUserFromResponse);
       }
       else {

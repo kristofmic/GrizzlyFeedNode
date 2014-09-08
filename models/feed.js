@@ -1,6 +1,7 @@
 var
   mongoose = require('mongoose'),
   Promise = require('bluebird'),
+  _ = require('lodash'),
   handleDeferred = require('../lib/responder').handleDeferred,
   paramFilter = require('../lib/param_filter'),
   schema,
@@ -28,3 +29,16 @@ schemaKeys = _.keys(schema);
 feedSchema = mongoose.Schema(schema);
 Feed = mongoose.model('Feed', feedSchema);
 
+Feed.findAll = findAll;
+
+function findAll() {
+  var
+    deferredPromise = new Promise(defer);
+
+  return deferredPromise;
+
+  function defer(resolve, reject) {
+    Feed.find()
+      .exec(handleDeferred(resolve, reject));
+  }
+}

@@ -60,25 +60,20 @@ function create(req, res) {
 
 function update(req, res) {
   var
-    token = req.header('token'),
     password = req.body.password,
     newPassword = req.body.newPassword,
     updateParams = _.omit(req.body, ['token', 'tokenExpiration', 'isActive', 'isVerified', 'passwordResetToken', 'passwordResetTokenExpiration', 'password', 'newPassword']);
 
-  User.findBy({ token: token, tokenExpiration: { $gte: new Date() }})
-    .then(updateUser)
+  updateUser(req.user)
     .then(responder.handleResponse(res, 201, ['email', 'token', 'createdAt']))
     .catch(responder.handleError(res));
 
   function updateUser(user) {
-    if (!user) { responder.handleError(res, 401, 'Token not found or expired.')(); }
+    if (password && newPassword) {
+      return updatePassword(user, password, newPassword);
+    }
     else {
-      if (password && newPassword) {
-        return updatePassword(user, password, newPassword);
-      }
-      else {
-        return User.updateOne(user, updateParams);
-      }
+      return User.updateOne(user, updateParams);
     }
   }
 

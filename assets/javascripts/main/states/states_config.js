@@ -31,7 +31,7 @@
         templateUrl: 'main.html',
         controller: 'mainController',
         resolve: {
-          userInit: ['user', function(user) {
+          userInit: ['user', function initUser(user) {
             return user.init();
           }]
         }
@@ -39,14 +39,7 @@
 
       .state('main.public', {
         abstract: true,
-        views: {
-          'header': {
-            templateUrl: 'mkt_header.html'
-          },
-          '': {
-            template: '<div ui-view></div>'
-          }
-        },
+        template: '<div ui-view></div>',
         data: { auth: false }
       })
       .state('main.public.home', {
@@ -76,14 +69,7 @@
 
       .state('main.private', {
         abstract: true,
-        views: {
-          'header': {
-            templateUrl: 'dash_header.html'
-          },
-          '': {
-            template: '<div ui-view></div>'
-          }
-        },
+        template: '<div ui-view></div>',
         data: { auth: true }
       })
       .state('main.private.logout', {
@@ -98,7 +84,12 @@
       .state('main.private.addFeeds', {
         url: '/add',
         templateUrl: 'add_feeds.html',
-        controller: 'addFeedsController'
+        controller: 'addFeedsController',
+        resolve: {
+          feedsInit: ['feeds', function initFeeds(feeds) {
+            return feeds.init();
+          }]
+        }
       })
       .state('main.private.account', {
         url: '/account',

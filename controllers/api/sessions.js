@@ -42,11 +42,7 @@ function create(req, res) {
 }
 
 function destroy(req, res) {
-  var
-    token = req.header('token');
-
-  User.findBy({ token: token })
-    .then(destroyToken)
+  destroyToken(req.user)
     .then(responder.handleResponse(res, null, 'Success'))
     .catch(responder.handleError(res));
 
@@ -64,17 +60,7 @@ function destroy(req, res) {
 }
 
 function show(req, res) {
-  var
-    token = req.header('token');
-
-  User.findBy({ token: token, tokenExpiration: { $gte: new Date() }})
-    .then(sendResponse)
-    .catch(responder.handleError(res));
-
-  function sendResponse(user) {
-    if (!user) { responder.handleError(res, 401, 'Token not found or expired.')(); }
-    else { responder.handleResponse(res, null, ['email', 'token', 'createdAt'])(user); }
-  }
+  responder.handleResponse(res, null, ['email', 'token', 'createdAt'])(req.user);
 }
 
 function forgotPassword(req, res) {
