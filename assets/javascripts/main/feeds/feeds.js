@@ -4,27 +4,33 @@
     definitions;
 
   definitions = [
+    '$rootScope',
     '$http',
     '_',
     'user',
+    'userFeeds',
+    'USER_EVENT',
     feedsFactory
   ];
 
   angular.module('nl.Feeds')
     .factory('feeds', definitions);
 
-  function feedsFactory($http, _, user) {
-
+  function feedsFactory($rootScope, $http, _, user, userFeeds, USER_EVENT) {
     var
       self = {},
-      feedsStore = {};
+      feeds = [];
+
+    $rootScope.$on(USER_EVENT.LOGOUT, clear);
 
     self.init = init;
+    self.create = create;
+    self.all = all;
 
     return self;
 
     function init() {
-      if (_.isEmpty(feedsStore)) {
+      if (!_.isEmpty(feeds)) {
         return self;
       }
       else {
@@ -33,11 +39,33 @@
       }
     }
 
+    function create(url) {
+      return $http.post('/api/feeds', { url: url }, { headers: { token: user.token() }})
+        .then(setFeedsFromResponse);
+    }
+
     function setFeedsFromResponse(res) {
-      if (res.data && angular.isObject(res.data)) {
-        _.extend(feedsStore, res.data);
+      var
+        feedsRes = res.data;
+
+      if (feedsRes && angular.isObject(feedsRes)) {
+        feedsRes = angular.isArray(feedsRes) ? feedsRes : [feedsRes];
+        _.each(feedsRes, setFeed);
       }
       return self;
+
+      function setFeed(feedItem) {
+        feedItem.added = userFeeds.includes(feedItem);
+        feeds.push(feedItem);
+      }
+    }
+
+    function all() {
+      return feeds;
+    }
+
+    function clear() {
+      feeds = [];
     }
 
   }

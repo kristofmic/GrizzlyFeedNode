@@ -1,0 +1,86 @@
+#new-form-feeds-container {
+  height: 43px;
+  padding-top: 3px;
+  overflow: hidden;
+
+  .new-forms {
+    -webkit-transition: margin-top 200ms ease-out;
+    -moz-transition: margin-top 200ms ease-out;
+    -o-transition: margin-top 200ms ease-out;
+    transition: margin-top 200ms ease-out;
+
+    &.toggle {
+      margin-top: -50px;
+    }
+
+    .new-form-toggle {
+      float: left;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
+
+.new-feeds {
+  .new-feed {
+    .panel {
+      height: 147px;
+
+      .panel-heading {
+        background-color: #fff;
+        margin: 0 10px;
+        padding: 10px;
+        position: relative;
+
+        .panel-title {
+          margin-right: 20px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          padding-bottom: 2px;
+          font-size: 14px;
+        }
+
+        i {
+          position: absolute;
+          padding: 10px;
+          right: 0;
+          top: 0;
+          cursor: pointer;
+
+          &.fa-check-square {
+            color: green;
+          }
+        }
+      }
+
+      .panel-body {
+        padding: 10px;
+
+        ul {
+          li {
+            padding-top: 5px;
+            padding-bottom: 5px;
+
+            &:first-child {
+              padding-top: 0;
+            }
+
+            a {
+              padding: 0;
+              width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              text-align: left;
+            }
+          }
+        }
+      }
+    }
+  }
+}

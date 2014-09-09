@@ -62,10 +62,10 @@ function update(req, res) {
   var
     password = req.body.password,
     newPassword = req.body.newPassword,
-    updateParams = _.omit(req.body, ['token', 'tokenExpiration', 'isActive', 'isVerified', 'passwordResetToken', 'passwordResetTokenExpiration', 'password', 'newPassword']);
+    updateParams = _.omit(req.body, ['token', 'tokenExpiration', 'isActive', 'isVerified', 'passwordResetToken', 'passwordResetTokenExpiration', 'password', 'newPassword', 'feeds']);
 
   updateUser(req.user)
-    .then(responder.handleResponse(res, 201, ['email', 'token', 'createdAt']))
+    .then(responder.handleResponse(res, 201, ['email', 'token', 'createdAt', 'feeds']))
     .catch(responder.handleError(res));
 
   function updateUser(user) {

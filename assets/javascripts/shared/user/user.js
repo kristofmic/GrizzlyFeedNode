@@ -11,13 +11,14 @@
     'authService',
     '$modal',
     '_',
+    'USER_EVENT',
     userFactory
   ];
 
   angular.module('nl.User')
     .factory('user', definitions);
 
-  function userFactory($window, $rootScope, $http, $auth, authService, $modal, _) {
+  function userFactory($window, $rootScope, $http, $auth, authService, $modal, _, USER_EVENT) {
     var
       self = {},
       userStore = {};
@@ -30,7 +31,7 @@
     self.login = login;
     self.logout = logout;
     self.resetPassword = resetPassword;
-    self.token = getToken();
+    self.token = getToken;
     self.props = {
       get: getProp,
       set: setProp
@@ -82,7 +83,7 @@
       if (token) {
         $http.delete('/api/sessions', { headers: { token: token }});
       }
-
+      $rootScope.$broadcast(USER_EVENT.LOGOUT);
       clear();
       $auth.logout();
     }

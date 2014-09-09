@@ -10,6 +10,9 @@
     'nl.Vendor.LoDash'
   ];
 
-  angular.module('nl.User', dependencies);
+  angular.module('nl.User', dependencies)
+    .constant('USER_EVENT', {
+      LOGOUT: 'USER:LOGOUT'
+    });
 
 })(angular);

@@ -20,7 +20,8 @@ schema = {
   tokenExpiration: Date,
   emailVerificationToken: { type: String, sparse: true, unique: true },
   passwordResetToken: { type: String, sparse: true, unique: true },
-  passwordResetTokenExpiration: Date
+  passwordResetTokenExpiration: Date,
+  feeds: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Feed' }]
 };
 schemaKeys = _.keys(schema).concat('createdAt');
 userSchema = mongoose.Schema(schema);

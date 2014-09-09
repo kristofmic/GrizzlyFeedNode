@@ -8,21 +8,21 @@
       <form class="form-horizontal" name="searchForm" role="form" novalidate>
         <div class="form-group">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search feeds">
+            <input type="text" class="form-control" placeholder="Search feeds" ng-model="search">
             <span class="input-group-btn">
-              <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+              <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
             </span>
           </div><!-- /input-group -->
         </div>
       </form>
 
       <i class="fa fa-search new-form-toggle" ng-click="toggle = !toggle"></i>
-      <form class="form-horizontal" name="addForm" role="form" novalidate>
+      <form class="form-horizontal" name="addForm" role="form" novalidate ng-submit="addFeed(feedUrl)">
         <div class="form-group">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Add a feed URL">
+            <input type="text" class="form-control" placeholder="Add a feed URL" ng-model="feedUrl">
             <span class="input-group-btn">
-              <button class="btn btn-default" type="button"><i class="fa fa-link"></i></button>
+              <button class="btn btn-default" type="submit"><i class="fa fa-link"></i></button>
             </span>
           </div><!-- /input-group -->
         </div>
@@ -32,3 +32,35 @@
 </div>
 
 <div class="divider"></div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <ul class="list-unstyled new-feeds">
+      <li class="new-feed col-sm-3" ng-repeat="feed in feeds() | orderBy:'title'">
+        <div class="panel panel-default" >
+          <div class="panel-heading">
+            <h5 class="panel-title"><a ng-href="{{feed.url}}" target="_blank">{{feed.title}}</a></h5>
+            <span ng-switch="feed.added">
+              <i class="fa fa-check-square pull-right" ng-switch-when="true" ng-click="removeUserFeed(feed)"></i>
+              <i class="fa fa-plus-square pull-right" ng-switch-when="false" ng-click="addUserFeed(feed)"></i>
+            </span>
+          </div>
+          <div class="panel-body">
+            <ul class="list-unstyled">
+              <li>
+                <!-- TODO: Figure out the # of subscribers -->
+                <small>0 subscribers</small>
+              </li>
+              <li>
+                <small>Last updated {{feed.date | date:"EEE MMM d, y 'at' h:mm a"}}</small>
+              </li>
+              <li>
+                <a class="btn btn-link" ng-href="{{feed.feed_url}}" target="_blank"><small>{{feed.xmlurl}}</small></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
