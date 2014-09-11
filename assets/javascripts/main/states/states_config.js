@@ -79,7 +79,12 @@
       .state('main.private.feeds', {
         url: '/feeds',
         templateUrl: 'feeds.html',
-        controller: 'feedsController'
+        controller: 'feedsController',
+        resolve: {
+          userFeedsInit: ['userFeeds', function initUserFeeds(userFeeds) {
+            return userFeeds.init();
+          }]
+        }
       })
       .state('main.private.addFeeds', {
         url: '/add',

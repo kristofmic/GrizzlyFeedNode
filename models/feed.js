@@ -27,8 +27,7 @@ schema = {
   favicon: String,
   copyright: String,
   generator: String,
-  categories: [String],
-  entries: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Entry' }]
+  categories: [String]
 };
 schemaKeys = _.keys(schema);
 feedSchema = mongoose.Schema(schema);
@@ -37,6 +36,7 @@ Feed = mongoose.model('Feed', feedSchema);
 Feed.findBy = findBy;
 Feed.findAll = findAll;
 Feed.createOne = createOne;
+Feed.updateOne = updateOne;
 
 module.exports = Feed;
 
@@ -81,17 +81,9 @@ function createOne(url) {
 
     function saveFeed(meta) {
       var
-        deferredPromise = new Promise(defer);
+        newFeed = new Feed();
 
-      return deferredPromise;
-
-      function defer(resolve, reject) {
-        var
-          feedParams = paramFilter(schemaKeys, meta),
-          newFeed = new Feed(feedParams);
-
-        newFeed.save(handleDeferred(resolve, reject));
-      }
+      return updateOne(newFeed, meta);
     }
 
     function saveEntries(feed) {
@@ -109,7 +101,20 @@ function createOne(url) {
   }
 }
 
+function updateOne(feed, feedParams) {
+  var
+    deferredPromise = new Promise(defer);
 
+  feedParams = paramFilter(schemaKeys, feedParams);
+
+  return deferredPromise;
+
+  function defer(resolve, reject) {
+    _.extend(feed, feedParams);
+
+    feed.save(handleDeferred(resolve, reject));
+  }
+}
 
 
 

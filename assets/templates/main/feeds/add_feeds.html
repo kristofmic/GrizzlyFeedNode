@@ -39,7 +39,7 @@
       <li class="new-feed col-sm-3" ng-repeat="feed in feeds() | orderBy:'title'">
         <div class="panel panel-default" >
           <div class="panel-heading">
-            <h5 class="panel-title"><a ng-href="{{feed.url}}" target="_blank">{{feed.title}}</a></h5>
+            <h5 class="panel-title"><a ng-href="{{feed.link}}" target="_blank">{{feed.title}}</a></h5>
             <span ng-switch="feed.added">
               <i class="fa fa-check-square pull-right" ng-switch-when="true" ng-click="removeUserFeed(feed)"></i>
               <i class="fa fa-plus-square pull-right" ng-switch-when="false" ng-click="addUserFeed(feed)"></i>

@@ -6,6 +6,8 @@ var
   handleDeferred = require('../lib/responder').handleDeferred,
   paramFilter = require('../lib/param_filter'),
   token = require('../lib/token'),
+  Feed = require('./feed'),
+  Entry = require('./entry'),
   schema,
   schemaKeys,
   userSchema,
@@ -51,6 +53,7 @@ function findBy(params) {
     function defer(resolve, reject) {
       User.findOne()
         .where(params)
+        .populate({ path: 'feeds' })
         .exec(handleDeferred(resolve, reject));
     }
   }

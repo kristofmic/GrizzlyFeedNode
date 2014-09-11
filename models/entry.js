@@ -35,13 +35,14 @@ schema = {
     type: String,
     length: String
   }],
-  _feed : { type: mongoose.SchemaTypes.ObjectId, ref: 'Feed' },
+  _feed : { type: mongoose.SchemaTypes.ObjectId, ref: 'Feed', index: true },
 };
 schemaKeys = _.keys(schema);
 entrySchema = mongoose.Schema(schema);
 Entry = mongoose.model('Entry', entrySchema);
 
 Entry.createOne = createOne;
+Entry.findNBy = findNBy;
 
 module.exports = Entry;
 
@@ -59,6 +60,26 @@ function createOne(feed, entry) {
     newEntry._feed = feed._id;
 
     newEntry.save(handleDeferred(resolve, reject));
+  }
+}
+
+function findNBy(limit, params) {
+  return findNByPromise(params);
+
+  function findNByPromise(params) {
+    var
+      deferredPromise = new Promise(defer);
+
+    params = paramFilter(schemaKeys, params);
+
+    return deferredPromise;
+
+    function defer(resolve, reject) {
+      Entry.find()
+        .where(params)
+        .limit(limit)
+        .exec(handleDeferred(resolve, reject));
+    }
   }
 }
 

@@ -22,6 +22,8 @@ router.delete('/sessions', userHelper.authorize, sessions.destroy);
 router.get('/feeds', userHelper.authorize, feeds.index);
 router.post('/feeds', userHelper.authorize, feeds.create);
 
+router.get('/user_feeds/:feedId', userHelper.authorize, feedHelper.authorize, userFeeds.show);
+router.get('/user_feeds', userHelper.authorize, userFeeds.index);
 router.post('/user_feeds', userHelper.authorize, feedHelper.authorize, userFeeds.create);
 router.delete('/user_feeds/:feedId', userHelper.authorize, feedHelper.authorize, userFeeds.destroy);
 

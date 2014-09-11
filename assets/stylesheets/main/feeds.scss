@@ -1,0 +1,47 @@
+#user-feeds {
+  .panel {
+    .panel-heading {
+      background-color: #fff;
+      margin: 0 10px;
+      padding: 10px;
+      position: relative;
+
+      .panel-title {
+
+      }
+      .feed-icons {
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        .feed-icon {
+          padding: 11px 5px;
+          float: right;
+          display: block;
+
+          &.handle {
+            width: 18px;
+
+            &:hover {
+              cursor: move;
+            }
+
+            .handlebar {
+              height: 2px;
+              width: 2px;
+              border-radius: 1px;
+              background-color: #111;
+              float: left;
+              margin: 1px;
+            }
+          }
+        }
+      }
+    }
+
+    .panel-body {
+
+    }
+  }
+}
+

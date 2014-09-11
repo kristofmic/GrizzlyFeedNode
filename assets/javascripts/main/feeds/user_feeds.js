@@ -18,11 +18,22 @@
     var
       self = {};
 
+    self.init = init;
     self.create = create;
     self.destroy = destroy;
     self.includes = includes;
 
     return self;
+
+    function init() {
+      if (!_.isEmpty(user.props.get('feeds'))) {
+        return self;
+      }
+      else {
+        return $http.get('/api/user_feeds', { headers: { token: user.token() }})
+          .then(setUserFeedsFromResponse);
+      }
+    }
 
     function create(feed) {
       return $http.post('/api/user_feeds', { feedId: feed._id }, { headers: { token: user.token() }})
@@ -35,12 +46,12 @@
     }
 
     function includes(feed) {
-      return _.contains(user.props.get('feeds'), feed._id);
+      return !!_.find(user.props.get('feeds'), { _id: feed._id });
     }
 
     function setUserFeedsFromResponse(res) {
       if (res.data && angular.isObject(res.data)) {
-        user.props.set('feeds', res.data);
+        user.props.set('feeds', res.data.feeds || res.data);
       }
     }
 
