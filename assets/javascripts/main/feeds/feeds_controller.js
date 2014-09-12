@@ -15,6 +15,12 @@
 
   function feedsController($scope, user, snackbar) {
     $scope.user = user.props;
+
+    $scope.expand = expandEntry;
+
+    function expandEntry(entry) {
+      entry.expand = !entry.expand;
+    }
   }
 
 })(angular);

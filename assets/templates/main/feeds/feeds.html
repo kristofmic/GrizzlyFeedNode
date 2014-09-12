@@ -24,7 +24,23 @@
           <div class="panel-body">
             <ol class="list-unstyled" >
               <li ng-repeat="entry in feed.entries">
-                <a ng-href="{{entry.link}}" target="_blank">{{entry.title}}</a>
+                <i class="fa fa-play" ng-class="{'fa-rotate-90':entry.expand}" ng-click="expand(entry)"></i>
+                <i class="fa fa-eye-slash"></i>
+                <div class="entry-snapshot">
+                  <a ng-href="{{entry.link}}" target="_blank">{{entry.title}}</a>
+                  <p class="entry-meta">
+                    <small>
+                      {{entry.pubdate | date:"EEE MMM d, y 'at' h:mm a"}}
+                      <span ng-if="entry.author"> | {{entry.author}}</span>
+                      <span class="entry-feed"> | via <a ng-href="{{feed.link}}">{{feed.title}}</a></span>
+                    </small>
+                  </p>
+                  <p class="entry-meta">
+                    <!--<small class="entry-categories-separator" ng-if="entry.categories.length"> | </small>-->
+                    <small class="entry-category" ng-repeat="category in entry.categories | limitTo:5"><em>#{{category}}</em></small>
+                  </p>
+                </div>
+                <p class="entry-summary clearfix" ng-show="entry.expand" ng-bind-html="entry.summary"></p>
               </li>
             </ol>
           </div>

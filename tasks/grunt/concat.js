@@ -3,6 +3,7 @@ module.exports = {
     src: [
       '<%= componentsPath %>/angular/angular.js',
       '<%= componentsPath %>/angular-touch/angular-touch.js',
+      '<%= componentsPath %>/angular-sanitize/angular-sanitize.js',
       '<%= componentsPath %>/angular-ui-router/release/angular-ui-router.js',
       '<%= componentsPath %>/angular-http-auth/src/http-auth-interceptor.js',
       '<%= componentsPath %>/satellizer/satellizer.js',
