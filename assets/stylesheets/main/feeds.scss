@@ -39,15 +39,24 @@
       .panel-title {
 
       }
+
       .feed-icons {
         position: absolute;
-        right: 0;
+        right: 5px;
         top: 0;
 
         .feed-icon {
           padding: 11px 5px;
           float: right;
           display: block;
+          cursor: pointer;
+          line-height: 16px;
+          visibility: hidden;
+          opacity: 0.2;
+
+          &:hover {
+            opacity: 1;
+          }
 
           &.handle {
             width: 18px;
@@ -67,10 +76,83 @@
           }
         }
       }
+
+      &:hover {
+        .feed-icons {
+          .feed-icon {
+            visibility: visible;
+          }
+        }
+      }
     }
 
     .panel-body {
+      padding: 0;
 
+      ol {
+        li {
+          padding: 10px 15px;
+          border-bottom: 1px dotted #e3e3e3;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &:hover {
+            .entry-read-icons {
+              visibility: visible;
+            }
+          }
+          .entry-read-icons {
+            float: left;
+            margin-left: -12px;
+            padding: 1px;
+            visibility: hidden;
+
+            i {
+              font-size: 11px;
+              padding: 5px 6px;
+              cursor: pointer;
+              display: block;
+              opacity: 0.2;
+              -webkit-transition: transform 100ms ease-out;
+              -moz-transition: transform 100ms ease-out;
+              -o-transition: transform 100ms ease-out;
+              transition: transform 100ms ease-out;
+
+              &:hover {
+                opacity: 1;
+              }
+            }
+          }
+
+          .entry-snapshot {
+            padding: 0 0 0 15px;
+
+            a.visited, a:visited {
+              color: #551a8b;
+            }
+
+            .entry-meta {
+              margin: 0;
+
+              .entry-category {
+                margin-right: 3px;
+              }
+            }
+          }
+
+          .entry-summary {
+            padding-top: 10px;
+
+            img {
+              max-width: 100%;
+              margin-bottom: 10px;
+              box-shadow: 0 2px 6px #ccc;
+            }
+          }
+        }
+      }
     }
   }
 }

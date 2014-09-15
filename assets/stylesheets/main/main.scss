@@ -9,3 +9,7 @@
 .page-heading {
   margin-top: 0px;
 }
+
+body {
+  -webkit-backface-visibility: hidden;
+}

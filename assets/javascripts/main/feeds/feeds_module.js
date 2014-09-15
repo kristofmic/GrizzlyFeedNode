@@ -7,6 +7,7 @@
     'nl.Vendor.LoDash',
     'ch.Snackbar',
     'ui.sortable',
+    'ui.bootstrap',
     'nl.User'
   ];
 

@@ -12,27 +12,28 @@
         <span class="handlebar"></span>
         <span class="handlebar"></span>
       </span>
-      <i class="fa fa-cog feed-icon" ng-click="edit_feed(feed)"></i>
-
+      <i class="fa fa-cog feed-icon" ng-click="editFeed(userFeed)"></i>
     </div>
   </div>
   <div class="panel-body">
     <ol class="list-unstyled" >
       <li ng-repeat="entry in userFeed.feed.entries">
-        <i class="fa fa-play" ng-class="{'fa-rotate-90':entry.expand}" ng-click="expand(entry)"></i>
-        <i class="fa fa-eye-slash"></i>
+        <div class="entry-read-icons">
+          <i class="fa fa-play" ng-class="{'fa-rotate-90':entry.expand}" ng-click="expand(entry)"></i>
+          <i class="fa fa-eye-slash"></i>
+        </div>
         <div class="entry-snapshot">
           <a ng-href="{{entry.link}}" target="_blank">{{entry.title}}</a>
           <p class="entry-meta">
             <small>
               {{entry.pubdate | date:"EEE MMM d, y 'at' h:mm a"}}
               <span ng-if="entry.author"> | {{entry.author}}</span>
-              <span class="entry-feed"> | via <a ng-href="{{userFeed.feed.link}}">{{userFeed.feed.title}}</a></span>
+              <!--<span class="entry-feed"> | via <a ng-href="{{userFeed.feed.link}}">{{userFeed.feed.title}}</a></span>-->
             </small>
           </p>
           <p class="entry-meta">
             <!--<small class="entry-categories-separator" ng-if="entry.categories.length"> | </small>-->
-            <small class="entry-category" ng-repeat="category in entry.categories | limitTo:5"><em>#{{category}}</em></small>
+            <small class="entry-category" ng-repeat="category in entry.categories | limitTo:3">#{{category}}</small>
           </p>
         </div>
         <p class="entry-summary clearfix" ng-show="entry.expand" ng-bind-html="entry.description || entry.summary"></p>

@@ -135,7 +135,7 @@ function show(req, res) {
 }
 
 function getEntries(userFeedItem) {
-  return Entry.findNBy(5, { _feed: userFeedItem.feed._id })
+  return Entry.findNBy(userFeedItem.userFeed.entries, { _feed: userFeedItem.feed._id })
     .then(addEntriesToFeed);
 
   function addEntriesToFeed(entries) {

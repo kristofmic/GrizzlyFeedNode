@@ -26,7 +26,8 @@ schema = {
   feeds: [{
     userFeed: {
       col: Number,
-      row: Number
+      row: Number,
+      entries: { type: Number, default: 5 }
     },
     feed: { type: mongoose.SchemaTypes.ObjectId, ref: 'Feed' }
   }]
