@@ -23,7 +23,13 @@ schema = {
   emailVerificationToken: { type: String, sparse: true, unique: true },
   passwordResetToken: { type: String, sparse: true, unique: true },
   passwordResetTokenExpiration: Date,
-  feeds: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Feed' }]
+  feeds: [{
+    userFeed: {
+      col: Number,
+      row: Number
+    },
+    feed: { type: mongoose.SchemaTypes.ObjectId, ref: 'Feed' }
+  }]
 };
 schemaKeys = _.keys(schema).concat('createdAt');
 userSchema = mongoose.Schema(schema);
@@ -53,7 +59,7 @@ function findBy(params) {
     function defer(resolve, reject) {
       User.findOne()
         .where(params)
-        .populate({ path: 'feeds' })
+        .populate({ path: 'feeds.feed' })
         .exec(handleDeferred(resolve, reject));
     }
   }

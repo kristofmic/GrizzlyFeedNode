@@ -31,7 +31,7 @@
     $authProvider.loginOnSignup = false;
 
     $authProvider.loginUrl = '/api/sessions';
-    $authProvider.loginRedirect = '/account';
+    $authProvider.loginRedirect = '/feeds';
 
     $authProvider.logoutRedirect = null;
 

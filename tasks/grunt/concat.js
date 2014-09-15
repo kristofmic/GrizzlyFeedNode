@@ -8,6 +8,7 @@ module.exports = {
       '<%= componentsPath %>/angular-http-auth/src/http-auth-interceptor.js',
       '<%= componentsPath %>/satellizer/satellizer.js',
       '<%= componentsPath %>/angular-bootstrap/ui-bootstrap-tpls.js',
+      '<%= componentsPath %>/ng-sortable/dist/ng-sortable.js',
       '<%= componentsPath %>/lodash/dist/lodash.js',
       '<%= componentsPath %>/chSnackbar/dist/chSnackbar.js',
       '<%= componentsPath %>/chValidator/dist/chValidator.js'

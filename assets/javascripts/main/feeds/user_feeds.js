@@ -20,23 +20,24 @@
 
     self.init = init;
     self.create = create;
+    self.update = update;
     self.destroy = destroy;
     self.includes = includes;
 
     return self;
 
     function init() {
-      if (!_.isEmpty(user.props.get('feeds'))) {
-        return self;
-      }
-      else {
-        return $http.get('/api/user_feeds', { headers: { token: user.token() }})
-          .then(setUserFeedsFromResponse);
-      }
+      return $http.get('/api/user_feeds', { headers: { token: user.token() }})
+        .then(setUserFeedsFromResponse);
     }
 
     function create(feed) {
       return $http.post('/api/user_feeds', { feedId: feed._id }, { headers: { token: user.token() }})
+        .then(setUserFeedsFromResponse);
+    }
+
+    function update(feeds) {
+      return $http.put('/api/user_feeds', { feeds: feeds }, { headers: { token: user.token() }})
         .then(setUserFeedsFromResponse);
     }
 
@@ -45,8 +46,8 @@
         .then(setUserFeedsFromResponse);
     }
 
-    function includes(feed) {
-      return !!_.find(user.props.get('feeds'), { _id: feed._id });
+    function includes(feedItem) {
+      return !!_.find(user.props.get('feeds'), { feed: { _id: feedItem._id }});
     }
 
     function setUserFeedsFromResponse(res) {

@@ -6,6 +6,7 @@
   dependencies = [
     'nl.Vendor.LoDash',
     'ch.Snackbar',
+    'ui.sortable',
     'nl.User'
   ];
 

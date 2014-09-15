@@ -3,11 +3,13 @@ var
   Feed = require('../../models/feed'),
   User = require('../../models/user'),
   Entry = require('../../models/entry'),
+  userHelper = require('../../lib/user_helper'),
   _ = require('lodash'),
   responder = require('../../lib/responder');
 
 module.exports = {
   create: create,
+  update: update,
   destroy: destroy,
   index: index,
   show: show
@@ -30,15 +32,45 @@ function create(req, res) {
       return feed;
     }
 
-    function compareUserFeed(userFeedEntry) {
-      return userFeedEntry._id.equals(feed._id);
+    function compareUserFeed(userFeedItem) {
+      return userFeedItem.feed._id.equals(feed._id);
     }
   }
 
   function addFeedToUser(feed) {
-    user.feeds.push(feed);
+    var
+      next = userHelper.findNextFeedPosition(user);
+
+    user.feeds.push({
+      userFeed: {
+        row: next.row,
+        col: next.col
+      },
+      feed: feed
+    });
+
     return User.updateOne(user);
   }
+}
+
+function update(req, res) {
+  var
+    user = req.user;
+    feeds = req.body.feeds;
+
+  user.feeds = _.map(feeds, mapUserFeed);
+
+  return User.updateOne(user)
+    .then(responder.handleResponse(res, 200, ['feeds']))
+    .catch(responder.handleError(res));
+
+  function mapUserFeed(userFeedItem) {
+    return {
+      userFeed: userFeedItem.userFeed,
+      feed: userFeedItem.feed
+    };
+  }
+
 }
 
 function destroy(req, res) {
@@ -47,7 +79,7 @@ function destroy(req, res) {
     user = req.user;
 
   removeFeedFromUser(verifyUserFeed(feed))
-    .then(responder.handleResponse(res, 201, ['feeds']))
+    .then(responder.handleResponse(res, 200, ['feeds']))
     .catch(responder.handleError(res));
 
   function verifyUserFeed(feed) {
@@ -61,14 +93,26 @@ function destroy(req, res) {
       return index;
     }
 
-    function compareUserFeed(userFeedEntry) {
-      return userFeedEntry._id.equals(feed._id);
+    function compareUserFeed(userFeedItem) {
+      return userFeedItem.feed._id.equals(feed._id);
     }
   }
 
   function removeFeedFromUser(index) {
+    var
+      feedToRemove = user.feeds[index];
+
     user.feeds.splice(index, 1);
+
+    _.each(user.feeds, updatePositions);
+
     return User.updateOne(user);
+
+    function updatePositions(userFeedItem) {
+      if (userFeedItem.col === feedToRemove.col && userFeedItem.row > feedToRemove.row) {
+        userFeedItem.row -= 1;
+      }
+    }
   }
 }
 
@@ -76,7 +120,7 @@ function index(req, res) {
   var
     feeds = req.user.feeds;
 
-  Promise.map(feeds, getEntry)
+  Promise.map(feeds, getEntries)
     .then(responder.handleResponse(res))
     .catch(responder.handleError(res));
 }
@@ -85,18 +129,18 @@ function show(req, res) {
   var
     feed = req.feed;
 
-  getEntry(feed)
+  getEntries(feed)
     .then(responder.handleResponse(res))
     .catch(responder.handleError(res));
 }
 
-function getEntry(feed) {
-  return Entry.findNBy(5, { _feed: feed._id })
+function getEntries(userFeedItem) {
+  return Entry.findNBy(5, { _feed: userFeedItem.feed._id })
     .then(addEntriesToFeed);
 
   function addEntriesToFeed(entries) {
-    feed = feed.toObject();
-    feed.entries = entries;
-    return feed;
+    userFeedItem = userFeedItem.toObject();
+    userFeedItem.feed.entries = entries;
+    return userFeedItem;
   }
 }
