@@ -3,42 +3,42 @@
 </div>
 <div class="modal-body">
   <div class="row">
-    <div class='col-sm-3'>
+    <div class="col-sm-3">
       <h5><strong>Entries to Display</strong></h5>
     </div>
-    <div class='col-sm-9'>
+    <div class="col-sm-9">
       <div class="form-group">
-        <label for="display-entries" class='sr-only'>Entries to display</label>
+        <label for="display-entries" class="sr-only">Entries to display</label>
         <select id="display-entries" class="form-control" ng-model="feedToEdit.userFeed.entries">
-          <option value='1'>1</option>
-          <option value='2'>2</option>
-          <option value='3'>3</option>
-          <option value='4'>4</option>
-          <option value='5'>5</option>
-          <option value='6'>6</option>
-          <option value='7'>7</option>
-          <option value='8'>8</option>
-          <option value='9'>9</option>
-          <option value='10'>10</option>
-          <option value='15'>15</option>
-          <option value='20'>20</option>
-          <option value='30'>30</option>
-          <option value='50'>50</option>
-          <option value='100'>100</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
         </select>
       </div>
     </div>
   </div>
   <div class="row">
-    <div class='col-sm-3'>
+    <div class="col-sm-3">
       <h5><strong>Remove Feed</strong></h5>
     </div>
-    <div class='col-sm-9'>
-      <div class='checkbox'>
+    <div class="col-sm-9">
+      <div class="checkbox">
         <label>
-          <input type='checkbox'> Remove feed
+          <input type="checkbox" ng-model="removeUserFeed"> Remove feed
         </label>
-        <p class='text-danger' ng-show='removeFeed'>
+        <p class="text-danger" ng-show="removeUserFeed">
           <small>This feed will be removed from you feeds page. If you change your mind, you can add it back later.</small>
         </p>
       </div>
@@ -47,5 +47,5 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" ng-click="dismiss()">Close</button>
-  <button type="button" class="btn btn-success">Save changes</button>
+  <button type="button" class="btn btn-success" ng-click="save(removeUserFeed)">Save changes</button>
 </div>

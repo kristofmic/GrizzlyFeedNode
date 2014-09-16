@@ -8,7 +8,6 @@
     '$http',
     '_',
     'user',
-    'userFeeds',
     'USER_EVENT',
     feedsFactory
   ];
@@ -16,7 +15,7 @@
   angular.module('nl.Feeds')
     .factory('feeds', definitions);
 
-  function feedsFactory($rootScope, $http, _, user, userFeeds, USER_EVENT) {
+  function feedsFactory($rootScope, $http, _, user, USER_EVENT) {
     var
       self = {},
       feeds = [];
@@ -30,35 +29,42 @@
     return self;
 
     function init() {
-      if (!_.isEmpty(feeds)) {
+      return $http.get('/api/feeds', { headers: { token: user.token() }})
+        .then(setFeedsFromResponse);
+
+      function setFeedsFromResponse(res) {
+        var
+          feedsRes = res.data,
+          userFeedItems = user.props.get('feeds');
+
+        if (feedsRes && angular.isObject(feedsRes)) {
+          feedsRes = angular.isArray(feedsRes) ? feedsRes : [feedsRes];
+          feeds = _.map(feedsRes, mapFeed);
+        }
         return self;
-      }
-      else {
-        return $http.get('/api/feeds', { headers: { token: user.token() }})
-          .then(setFeedsFromResponse);
+
+        function mapFeed(feedItem) {
+          feedItem.added = !!_.find(userFeedItems, { feed: feedItem._id });
+          return feedItem;
+        }
       }
     }
 
     function create(url) {
       return $http.post('/api/feeds', { url: url }, { headers: { token: user.token() }})
-        .then(setFeedsFromResponse);
-    }
+        .then(addFeed);
 
-    function setFeedsFromResponse(res) {
-      var
-        feedsRes = res.data;
+      function addFeed(res) {
+        var
+          feed = res.data;
 
-      if (feedsRes && angular.isObject(feedsRes)) {
-        feedsRes = angular.isArray(feedsRes) ? feedsRes : [feedsRes];
-        _.each(feedsRes, setFeed);
-      }
-      return self;
-
-      function setFeed(feedItem) {
-        feedItem.added = userFeeds.includes(feedItem);
-        feeds.push(feedItem);
+        if (feed && angular.isObject(feed)) {
+          feeds.push(feed);
+        }
+        return feed;
       }
     }
+
 
     function all() {
       return feeds;

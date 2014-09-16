@@ -29,10 +29,7 @@
         .then(handleSuccess)
         ['catch'](handleError);
 
-      function addAsUserFeed(feeds) {
-        var
-          feed = _.last(feeds.all());
-
+      function addAsUserFeed(feed) {
         return userFeeds.create(feed)
           .then(function() { feed.added = true; });
       }

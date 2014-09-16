@@ -9,10 +9,9 @@ var
 
 module.exports = {
   create: create,
-  update: update,
+  updatePositions: updatePositions,
   destroy: destroy,
-  index: index,
-  show: show
+  index: index
 };
 
 function create(req, res) {
@@ -21,7 +20,7 @@ function create(req, res) {
     user = req.user;
 
   addFeedToUser(verifyUserFeed(feed))
-    .then(responder.handleResponse(res, 201, ['feeds']))
+    .then(responder.handleResponse(res, 201, 'Success'))
     .catch(responder.handleError(res));
 
   function verifyUserFeed(feed) {
@@ -33,7 +32,7 @@ function create(req, res) {
     }
 
     function compareUserFeed(userFeedItem) {
-      return userFeedItem.feed._id.equals(feed._id);
+      return userFeedItem.feed.equals(feed._id);
     }
   }
 
@@ -53,24 +52,24 @@ function create(req, res) {
   }
 }
 
-function update(req, res) {
+function updatePositions(req, res) {
   var
     user = req.user;
     feeds = req.body.feeds;
 
   user.feeds = _.map(feeds, mapUserFeed);
 
+  console.log(user.feeds);
   return User.updateOne(user)
-    .then(responder.handleResponse(res, 200, ['feeds']))
+    .then(responder.handleResponse(res, 200, 'Success'))
     .catch(responder.handleError(res));
 
   function mapUserFeed(userFeedItem) {
     return {
       userFeed: userFeedItem.userFeed,
-      feed: userFeedItem.feed
+      feed: userFeedItem.feed._id
     };
   }
-
 }
 
 function destroy(req, res) {
@@ -79,7 +78,7 @@ function destroy(req, res) {
     user = req.user;
 
   removeFeedFromUser(verifyUserFeed(feed))
-    .then(responder.handleResponse(res, 200, ['feeds']))
+    .then(responder.handleResponse(res, 200, 'Success'))
     .catch(responder.handleError(res));
 
   function verifyUserFeed(feed) {
@@ -94,7 +93,7 @@ function destroy(req, res) {
     }
 
     function compareUserFeed(userFeedItem) {
-      return userFeedItem.feed._id.equals(feed._id);
+      return userFeedItem.feed.equals(feed._id);
     }
   }
 
@@ -120,26 +119,28 @@ function index(req, res) {
   var
     feeds = req.user.feeds;
 
-  Promise.map(feeds, getEntries)
+  Promise.map(feeds, populateFeeds)
+    .map(populateFeedEntries)
     .then(responder.handleResponse(res))
     .catch(responder.handleError(res));
 }
 
-function show(req, res) {
-  var
-    feed = req.feed;
+function populateFeeds(userFeedItem) {
+  return Feed.findBy({ _id: userFeedItem.feed })
+    .then(addFeedToUserFeed);
 
-  getEntries(feed)
-    .then(responder.handleResponse(res))
-    .catch(responder.handleError(res));
+  function addFeedToUserFeed(feed) {
+    userFeedItem = userFeedItem.toObject();
+    userFeedItem.feed = feed.toObject();
+    return userFeedItem;
+  }
 }
 
-function getEntries(userFeedItem) {
+function populateFeedEntries(userFeedItem) {
   return Entry.findNBy(userFeedItem.userFeed.entries, { _feed: userFeedItem.feed._id })
     .then(addEntriesToFeed);
 
   function addEntriesToFeed(entries) {
-    userFeedItem = userFeedItem.toObject();
     userFeedItem.feed.entries = entries;
     return userFeedItem;
   }

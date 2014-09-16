@@ -60,7 +60,6 @@ function findBy(params) {
     function defer(resolve, reject) {
       User.findOne()
         .where(params)
-        .populate({ path: 'feeds.feed' })
         .exec(handleDeferred(resolve, reject));
     }
   }

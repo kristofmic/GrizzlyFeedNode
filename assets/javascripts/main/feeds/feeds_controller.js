@@ -7,7 +7,6 @@
     '$scope',
     '$modal',
     '_',
-    'user',
     'userFeeds',
     'snackbar',
     feedsController
@@ -16,17 +15,8 @@
   angular.module('nl.Feeds')
     .controller('feedsController', definitions);
 
-  function feedsController($scope, $modal, _, user, userFeeds, snackbar) {
-    var
-      userFeedItems = user.props.get('feeds');
-
-    $scope.feeds = _.groupBy(userFeedItems, groupFeeds);
-    $scope.feeds[0] = $scope.feeds[0] || [];
-    $scope.feeds[1] = $scope.feeds[1] || [];
-    $scope.feeds[2] = $scope.feeds[2] || [];
-    $scope.feeds[0].col = 0;
-    $scope.feeds[1].col = 1;
-    $scope.feeds[2].col = 2;
+  function feedsController($scope, $modal, _, userFeeds, snackbar) {
+    $scope.feeds = initFeeds();
 
     $scope.sortableConfig = {
       itemMoved: handleItemMoved,
@@ -35,11 +25,25 @@
     };
 
     $scope.expand = expandEntry;
-
     $scope.editFeed = editFeed;
 
-    function groupFeeds(userFeedItem) {
-      return userFeedItem.userFeed.col;
+    function initFeeds() {
+      var
+        userFeedItems = userFeeds.all(),
+        feeds = _.groupBy(userFeedItems, groupFeeds);
+
+      feeds[0] = feeds[0] || [];
+      feeds[1] = feeds[1] || [];
+      feeds[2] = feeds[2] || [];
+      feeds[0].col = 0;
+      feeds[1].col = 1;
+      feeds[2].col = 2;
+
+      return feeds;
+
+      function groupFeeds(userFeedItem) {
+        return userFeedItem.userFeed.col;
+      }
     }
 
     function handleItemMoved(e) {
@@ -84,7 +88,7 @@
 
       userFeedsToUpdate = _.map($scope.feeds[0].concat($scope.feeds[1]).concat($scope.feeds[2]), mapUserFeed);
 
-      userFeeds.update(userFeedsToUpdate);
+      userFeeds.updatePositions(userFeedsToUpdate);
 
       function mapUserFeed(userFeedItem) {
         return {
@@ -114,7 +118,7 @@
         scope: $scope
       };
 
-      $modal.open(modalConfig);
+      $modal.open(modalConfig)
     }
   }
 
