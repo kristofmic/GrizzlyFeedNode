@@ -8,6 +8,7 @@
     '$http',
     'snackbar',
     '$modalInstance',
+    '_',
     'userFeeds',
     editFeedModalController
   ];
@@ -15,21 +16,50 @@
   angular.module('nl.Feeds')
     .controller('editFeedModalController', definitions);
 
-  function editFeedModalController($scope, $http, snackbar, modal, userFeeds) {
+  function editFeedModalController($scope, $http, snackbar, modal, _, userFeeds) {
     $scope.save = save;
     $scope.dismiss = modal.dismiss;
 
 
-    function save(remove) {
+    function save(remove, entries) {
+      snackbar.loading('Processing. Please wait.');
+
       if (remove) {
         return userFeeds.destroy($scope.feedToEdit.feed)
-          .then(handleSuccess)
+          .then(removeFeed)
+          .then(clearFeedToEdit)
           .then(modal.close)
+          .then(handleSuccess('The feed was successfully removed.'))
+          ['catch'](handleError);
+      }
+      else {
+        return userFeeds.updateEntries($scope.feedToEdit)
+          .then(setFeedEntries)
+          .then(clearFeedToEdit)
+          .then(modal.close)
+          .then(handleSuccess('The feed was successfully updated.'))
           ['catch'](handleError);
       }
 
-      function handleSuccess() {
-        snackbar.success('The feed was successfully removed.');
+      function removeFeed() {
+        var
+          col = $scope.feedToEdit.userFeed.col;
+
+        _.remove($scope.feeds[col], $scope.feedToEdit);
+      }
+
+      function setFeedEntries(res) {
+        $scope.feedToEdit.feed.entries = res.data.feed.entries;
+      }
+
+      function clearFeedToEdit() {
+        $scope.feedToEdit = undefined;
+      }
+
+      function handleSuccess(message) {
+        return function() {
+          snackbar.success(message);
+        };
       }
 
       function handleError(err) {

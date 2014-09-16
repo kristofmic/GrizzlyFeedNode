@@ -10,6 +10,7 @@ var
 module.exports = {
   create: create,
   updatePositions: updatePositions,
+  updateEntries: updateEntries,
   destroy: destroy,
   index: index
 };
@@ -20,7 +21,7 @@ function create(req, res) {
     user = req.user;
 
   addFeedToUser(verifyUserFeed(feed))
-    .then(responder.handleResponse(res, 201, 'Success'))
+    .then(responder.handleResponse(res, 201, ['feeds']))
     .catch(responder.handleError(res));
 
   function verifyUserFeed(feed) {
@@ -59,7 +60,6 @@ function updatePositions(req, res) {
 
   user.feeds = _.map(feeds, mapUserFeed);
 
-  console.log(user.feeds);
   return User.updateOne(user)
     .then(responder.handleResponse(res, 200, 'Success'))
     .catch(responder.handleError(res));
@@ -72,13 +72,37 @@ function updatePositions(req, res) {
   }
 }
 
+function updateEntries(req, res) {
+  var
+    user = req.user,
+    feed = req.feed,
+    entries = req.body.entries,
+    feedIndex = _.findIndex(user.feeds, { feed: feed._id });
+
+  user.feeds[feedIndex].userFeed.entries = entries;
+
+  return User.updateOne(user)
+    .then(getNewEntries)
+    .then(responder.handleResponse(res))
+    .catch(responder.handleError(res));
+
+  function getNewEntries() {
+    var
+      userFeedItem = user.feeds[feedIndex];
+    userFeedItem = userFeedItem.toObject();
+    userFeedItem.feed = feed.toObject();
+
+    return populateFeedEntries(userFeedItem);
+  }
+}
+
 function destroy(req, res) {
   var
     feed = req.feed,
     user = req.user;
 
   removeFeedFromUser(verifyUserFeed(feed))
-    .then(responder.handleResponse(res, 200, 'Success'))
+    .then(responder.handleResponse(res, 200, ['feeds']))
     .catch(responder.handleError(res));
 
   function verifyUserFeed(feed) {
@@ -103,11 +127,11 @@ function destroy(req, res) {
 
     user.feeds.splice(index, 1);
 
-    _.each(user.feeds, updatePositions);
+    _.each(user.feeds, updatePosition);
 
     return User.updateOne(user);
 
-    function updatePositions(userFeedItem) {
+    function updatePosition(userFeedItem) {
       if (userFeedItem.col === feedToRemove.col && userFeedItem.row > feedToRemove.row) {
         userFeedItem.row -= 1;
       }

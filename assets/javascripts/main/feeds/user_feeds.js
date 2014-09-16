@@ -29,6 +29,7 @@
     self.init = init;
     self.create = create;
     self.updatePositions = updatePositions;
+    self.updateEntries = updateEntries;
     self.destroy = destroy;
     self.all = all;
 
@@ -43,7 +44,7 @@
           userFeedsRes = res.data;
 
         if (userFeedsRes && angular.isObject(userFeedsRes)) {
-          userFeeds = userFeedsRes.feeds || userFeedsRes;
+          userFeeds = userFeedsRes;
         }
 
         return self;
@@ -51,15 +52,32 @@
     }
 
     function create(feed) {
-      return $http.post('/api/user_feeds', { feedId: feed._id }, { headers: { token: user.token() }});
+      return $http.post('/api/user_feeds', { feedId: feed._id }, { headers: { token: user.token() }})
+        .then(setUserFromResponse);
     }
 
     function updatePositions(feeds) {
       return $http.put('/api/user_feeds/positions', { feeds: feeds }, { headers: { token: user.token() }});
     }
 
+    function updateEntries(userFeedItem) {
+      return $http.put('/api/user_feeds/entries', { feedId: userFeedItem.feed._id, entries: userFeedItem.userFeed.entries }, { headers: { token: user.token() }});
+    }
+
     function destroy(feed) {
-      return $http.delete('/api/user_feeds/' + feed._id, { headers: { token: user.token() }});
+      return $http.delete('/api/user_feeds/' + feed._id, { headers: { token: user.token() }})
+        .then(setUserFromResponse);
+    }
+
+    function setUserFromResponse(res) {
+      var
+        feedsRes = res.data;
+
+      if (feedsRes && angular.isObject(feedsRes)) {
+        user.props.set('feeds', feedsRes.feeds);
+      }
+
+      return self;
     }
 
     function all() {
