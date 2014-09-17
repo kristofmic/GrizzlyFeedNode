@@ -1,6 +1,3 @@
-// TODO: Move UserFeeds (position, entries, feed info) to this servier
-// User should only know of what feeds it is subscribed to, not full feed information
-
 (function(angular) {
 
   var
@@ -31,6 +28,7 @@
     self.updatePositions = updatePositions;
     self.updateEntries = updateEntries;
     self.destroy = destroy;
+    self.visitEntry = visitEntry;
     self.all = all;
 
     return self;
@@ -67,6 +65,10 @@
     function destroy(feed) {
       return $http.delete('/api/user_feeds/' + feed._id, { headers: { token: user.token() }})
         .then(setUserFromResponse);
+    }
+
+    function visitEntry(entry) {
+      return $http.post('/api/user_feed_entries/', { entryId: entry._id }, { headers: { token: user.token() }});
     }
 
     function setUserFromResponse(res) {

@@ -16,6 +16,7 @@
     .controller('feedsController', definitions);
 
   function feedsController($scope, $modal, _, userFeeds, snackbar) {
+    $scope.userFeeds = userFeeds.all();
     $scope.feeds = initFeeds();
 
     $scope.sortableConfig = {
@@ -25,12 +26,13 @@
     };
 
     $scope.expand = expandEntry;
+    $scope.markAsVisited = visitEntry;
+    $scope.isVisited = entryVisited;
     $scope.editFeed = editFeed;
 
     function initFeeds() {
       var
-        userFeedItems = userFeeds.all(),
-        feeds = _.groupBy(userFeedItems, groupFeeds);
+        feeds = _.groupBy($scope.userFeeds.feeds, groupFeeds);
 
       feeds[0] = feeds[0] || [];
       feeds[1] = feeds[1] || [];
@@ -101,7 +103,19 @@
     }
 
     function expandEntry(entry) {
+      visitEntry(entry);
       entry.expand = !entry.expand;
+    }
+
+    function visitEntry(entry) {
+      if (!entryVisited(entry._id)) {
+        userFeeds.visitEntry(entry);
+        $scope.userFeeds.userFeedEntries[entry._id] = true;
+      }
+    }
+
+    function entryVisited(entry) {
+      return !!$scope.userFeeds.userFeedEntries[entry._id];
     }
 
     function editFeed(userFeed) {
@@ -118,7 +132,7 @@
         scope: $scope
       };
 
-      $modal.open(modalConfig)
+      $modal.open(modalConfig);
     }
   }
 

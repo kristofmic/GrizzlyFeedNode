@@ -43,6 +43,7 @@ Entry = mongoose.model('Entry', entrySchema);
 
 Entry.createOne = createOne;
 Entry.findNBy = findNBy;
+Entry.findBy = findBy;
 
 module.exports = Entry;
 
@@ -78,6 +79,25 @@ function findNBy(limit, params) {
       Entry.find()
         .where(params)
         .limit(limit)
+        .exec(handleDeferred(resolve, reject));
+    }
+  }
+}
+
+function findBy(params) {
+  return findByPromise(params);
+
+  function findByPromise(params) {
+    var
+      deferredPromise = new Promise(defer);
+
+    params = paramFilter(schemaKeys, params);
+
+    return deferredPromise;
+
+    function defer(resolve, reject) {
+      Entry.findOne()
+        .where(params)
         .exec(handleDeferred(resolve, reject));
     }
   }

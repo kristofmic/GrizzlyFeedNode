@@ -30,7 +30,8 @@ schema = {
       entries: { type: Number, default: 5 }
     },
     feed: { type: mongoose.SchemaTypes.ObjectId, ref: 'Feed' }
-  }]
+  }],
+  entries: { type: mongoose.SchemaTypes.Mixed, default: {}}
 };
 schemaKeys = _.keys(schema).concat('createdAt');
 userSchema = mongoose.Schema(schema);

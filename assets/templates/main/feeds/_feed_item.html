@@ -20,10 +20,10 @@
       <li ng-repeat="entry in userFeed.feed.entries">
         <div class="entry-read-icons">
           <i class="fa fa-play" ng-class="{'fa-rotate-90':entry.expand}" ng-click="expand(entry)"></i>
-          <i class="fa fa-eye-slash"></i>
+          <i class="fa fa-eye-slash" ng-click="markAsVisited(entry)"></i>
         </div>
         <div class="entry-snapshot">
-          <a ng-href="{{entry.link}}" target="_blank">{{entry.title}}</a>
+          <a ng-href="{{entry.link}}" ng-class="{visited: isVisited(entry)}" target="_blank" ng-click="markAsVisited(entry)">{{entry.title}}</a>
           <p class="entry-meta">
             <small>
               {{entry.pubdate | date:"EEE MMM d, y 'at' h:mm a"}}

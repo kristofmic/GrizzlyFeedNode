@@ -141,12 +141,21 @@ function destroy(req, res) {
 
 function index(req, res) {
   var
-    feeds = req.user.feeds;
+    user = req.user,
+    feeds = user.feeds;
 
   Promise.map(feeds, populateFeeds)
     .map(populateFeedEntries)
+    .then(resolveUserFeedEntries)
     .then(responder.handleResponse(res))
     .catch(responder.handleError(res));
+
+  function resolveUserFeedEntries(userFeeds) {
+    return {
+      feeds: userFeeds,
+      userFeedEntries: user.entries
+    };
+  }
 }
 
 function populateFeeds(userFeedItem) {

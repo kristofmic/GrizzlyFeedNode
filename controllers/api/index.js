@@ -5,8 +5,10 @@ var
   sessions = require('./sessions'),
   feeds = require('./feeds'),
   userFeeds = require('./user_feeds'),
-  userHelper = require('../../lib/user_helper');
-  feedHelper = require('../../lib/feed_helper');
+  userFeedEntries = require('./user_feed_entries'),
+  userHelper = require('../../lib/user_helper'),
+  feedHelper = require('../../lib/feed_helper'),
+  entryHelper = require('../../lib/entry_helper');
 
 router.post('/users', users.create);
 router.put('/users', userHelper.authorize, users.update);
@@ -27,6 +29,8 @@ router.post('/user_feeds', userHelper.authorize, feedHelper.authorize, userFeeds
 router.put('/user_feeds/positions', userHelper.authorize, userFeeds.updatePositions);
 router.put('/user_feeds/entries', userHelper.authorize, feedHelper.authorize, userFeeds.updateEntries);
 router.delete('/user_feeds/:feedId', userHelper.authorize, feedHelper.authorize, userFeeds.destroy);
+
+router.post('/user_feed_entries', userHelper.authorize, entryHelper.authorize, userFeedEntries.create);
 
 module.exports = router;
 
