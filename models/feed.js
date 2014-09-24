@@ -37,6 +37,7 @@ Feed.findBy = findBy;
 Feed.findAll = findAll;
 Feed.createOne = createOne;
 Feed.updateOne = updateOne;
+Feed.refreshOne = refreshOne;
 
 module.exports = Feed;
 
@@ -96,6 +97,31 @@ function createOne(url) {
 
       function resolveFeed() {
         return feed;
+      }
+    }
+  }
+}
+
+function refreshOne(feed) {
+  return reader(feed.xmlurl)
+    .then(saveEntries);
+
+  function saveEntries(entries) {
+    return Promise.map(entries, saveEntry)
+      .filter(filterNullEntries);
+
+    function filterNullEntries(entry) {
+      return !!entry;
+    }
+
+    function saveEntry(entry) {
+      return Entry.findBy({ guid: entry.guid })
+        .then(verifyNewEntry);
+
+      function verifyNewEntry(existingEntry) {
+        if (!existingEntry) {
+          return Entry.createOne(feed, entry);
+        }
       }
     }
   }

@@ -18,7 +18,6 @@
   function userFeedsFactory($rootScope, $http, _, user, USER_EVENT) {
 
     var
-      userFeeds = [],
       self = {};
 
     $rootScope.$on(USER_EVENT.LOGOUT, clear);
@@ -29,7 +28,8 @@
     self.updateEntries = updateEntries;
     self.destroy = destroy;
     self.visitEntry = visitEntry;
-    self.all = all;
+    self.refresh = refresh;
+    self.model = [];
 
     return self;
 
@@ -42,10 +42,22 @@
           userFeedsRes = res.data;
 
         if (userFeedsRes && angular.isObject(userFeedsRes)) {
-          userFeeds = userFeedsRes;
+          self.model = userFeedsRes;
+          self.model.feeds = _.groupBy(self.model.feeds, groupFeeds);
+
+          self.model.feeds[0] = self.model.feeds[0] || [];
+          self.model.feeds[1] = self.model.feeds[1] || [];
+          self.model.feeds[2] = self.model.feeds[2] || [];
+          self.model.feeds[0].col = 0;
+          self.model.feeds[1].col = 1;
+          self.model.feeds[2].col = 2;
         }
 
         return self;
+
+        function groupFeeds(userFeedItem) {
+          return userFeedItem.userFeed.col;
+        }
       }
     }
 
@@ -62,6 +74,30 @@
       return $http.put('/api/user_feeds/entries', { feedId: userFeedItem.feed._id, entries: userFeedItem.userFeed.entries }, { headers: { token: user.token() }});
     }
 
+    function refresh() {
+      return $http.get('/api/user_feeds/refresh', { headers: { token: user.token() }})
+        .then(setNewEntries);
+
+      function setNewEntries(res) {
+        var
+          newEntries = res.data;
+
+        _.each(newEntries, setNewFeedEntries);
+
+        function setNewFeedEntries(newFeedEntries, feedId) {
+          var
+            userFeedItemToUpdate = findFeed(feedId);
+
+          _.eachRight(newFeedEntries, setNewFeedEntry);
+
+          function setNewFeedEntry(newEntry) {
+            userFeedItemToUpdate.feed.entries.pop();
+            userFeedItemToUpdate.feed.entries.unshift(newEntry);
+          }
+        }
+      }
+    }
+
     function destroy(feed) {
       return $http.delete('/api/user_feeds/' + feed._id, { headers: { token: user.token() }})
         .then(setUserFromResponse);
@@ -69,6 +105,25 @@
 
     function visitEntry(entry) {
       return $http.post('/api/user_feed_entries/', { entryId: entry._id }, { headers: { token: user.token() }});
+    }
+
+    function findFeed(feedId) {
+      var
+        foundFeed;
+
+      _.each(self.model.feeds, searchColumns);
+
+      return foundFeed;
+
+      function searchColumns(colFeeds, col) {
+        foundFeed = _.find(colFeeds, searchColumn);
+
+        if (foundFeed) { return false; }
+
+        function searchColumn(colFeed) {
+          return colFeed.feed._id === feedId;
+        }
+      }
     }
 
     function setUserFromResponse(res) {
@@ -82,12 +137,8 @@
       return self;
     }
 
-    function all() {
-      return userFeeds;
-    }
-
     function clear() {
-      userFeeds = [];
+      self.model = [];
     }
 
   }

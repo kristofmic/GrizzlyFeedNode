@@ -25,6 +25,7 @@ router.get('/feeds', userHelper.authorize, feeds.index);
 router.post('/feeds', userHelper.authorize, feeds.create);
 
 router.get('/user_feeds', userHelper.authorize, userFeeds.index);
+router.get('/user_feeds/refresh', userHelper.authorize, userFeeds.refresh);
 router.post('/user_feeds', userHelper.authorize, feedHelper.authorize, userFeeds.create);
 router.put('/user_feeds/positions', userHelper.authorize, userFeeds.updatePositions);
 router.put('/user_feeds/entries', userHelper.authorize, feedHelper.authorize, userFeeds.updateEntries);

@@ -19,7 +19,7 @@ schema = {
   date: Date,
   pubdate: Date,
   author: String,
-  guid: String,
+  guid: { type: String, index: true, unique: true },
   comments: String,
   image: {
     url: String,
@@ -79,6 +79,7 @@ function findNBy(limit, params) {
       Entry.find()
         .where(params)
         .limit(limit)
+        .sort({ pubdate: -1 })
         .exec(handleDeferred(resolve, reject));
     }
   }

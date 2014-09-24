@@ -16,8 +16,7 @@
     .controller('feedsController', definitions);
 
   function feedsController($scope, $modal, _, userFeeds, snackbar) {
-    $scope.userFeeds = userFeeds.all();
-    $scope.feeds = initFeeds();
+    $scope.feeds = userFeeds.model.feeds;
 
     $scope.sortableConfig = {
       itemMoved: handleItemMoved,
@@ -29,24 +28,7 @@
     $scope.markAsVisited = visitEntry;
     $scope.isVisited = entryVisited;
     $scope.editFeed = editFeed;
-
-    function initFeeds() {
-      var
-        feeds = _.groupBy($scope.userFeeds.feeds, groupFeeds);
-
-      feeds[0] = feeds[0] || [];
-      feeds[1] = feeds[1] || [];
-      feeds[2] = feeds[2] || [];
-      feeds[0].col = 0;
-      feeds[1].col = 1;
-      feeds[2].col = 2;
-
-      return feeds;
-
-      function groupFeeds(userFeedItem) {
-        return userFeedItem.userFeed.col;
-      }
-    }
+    $scope.refreshFeeds = refreshUserFeeds;
 
     function handleItemMoved(e) {
       var
@@ -110,12 +92,12 @@
     function visitEntry(entry) {
       if (!entryVisited(entry._id)) {
         userFeeds.visitEntry(entry);
-        $scope.userFeeds.userFeedEntries[entry._id] = true;
+        userFeeds.model.userFeedEntries[entry._id] = true;
       }
     }
 
     function entryVisited(entry) {
-      return !!$scope.userFeeds.userFeedEntries[entry._id];
+      return !!userFeeds.model.userFeedEntries[entry._id];
     }
 
     function editFeed(userFeed) {
@@ -134,6 +116,25 @@
 
       $modal.open(modalConfig);
     }
+
+    function refreshUserFeeds() {
+      snackbar.loading('Updating. Please wait.');
+
+      userFeeds.refresh()
+        .then(handleSuccess('Feeds are up to date.'))
+        ['catch'](handleError);
+    }
+
+    function handleSuccess(message) {
+      return function() {
+        snackbar.success(message);
+      };
+    }
+
+    function handleError(err) {
+      snackbar.error(angular.fromJson(err.data));
+    }
+
   }
 
 })(angular);

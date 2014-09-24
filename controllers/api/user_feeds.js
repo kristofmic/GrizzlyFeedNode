@@ -11,6 +11,7 @@ module.exports = {
   create: create,
   updatePositions: updatePositions,
   updateEntries: updateEntries,
+  refresh: refresh,
   destroy: destroy,
   index: index
 };
@@ -155,6 +156,38 @@ function index(req, res) {
       feeds: userFeeds,
       userFeedEntries: user.entries
     };
+  }
+}
+
+function refresh(req, res) {
+  var
+    feeds = req.user.feeds,
+    newEntries = {};
+
+  Promise.map(feeds, populateFeeds)
+    .map(refreshUserFeedItem)
+    .each(transformFeedEntries)
+    .then(responder.handleResponse(res, null, newEntries))
+    .catch(responder.handleError(res));
+
+  function transformFeedEntries(feedEntries) {
+    _.chain(feedEntries)
+      .sortBy('pubdate')
+      .each(transformFeedEntry);
+
+    function transformFeedEntry(feedEntry) {
+      newEntries[feedEntry._feed] = newEntries[feedEntry._feed] || [];
+      newEntries[feedEntry._feed].push(feedEntry);
+    }
+  }
+
+  function refreshUserFeedItem(userFeedItem) {
+    return Feed.refreshOne(userFeedItem.feed)
+      .then(limitEntries);
+
+    function limitEntries(entries) {
+      return _.first(entries, userFeedItem.userFeed.entries);
+    }
   }
 }
 
