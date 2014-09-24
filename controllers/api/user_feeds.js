@@ -173,6 +173,7 @@ function refresh(req, res) {
   function transformFeedEntries(feedEntries) {
     _.chain(feedEntries)
       .sortBy('pubdate')
+      .reverse()
       .each(transformFeedEntry);
 
     function transformFeedEntry(feedEntry) {
