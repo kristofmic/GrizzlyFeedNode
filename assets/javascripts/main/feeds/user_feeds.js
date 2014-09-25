@@ -29,7 +29,7 @@
     self.destroy = destroy;
     self.visitEntry = visitEntry;
     self.refresh = refresh;
-    self.model = [];
+    self.model = {};
 
     return self;
 
@@ -43,6 +43,7 @@
 
         if (userFeedsRes && angular.isObject(userFeedsRes)) {
           self.model = userFeedsRes;
+          self.model.lastUpdated = new Date();
           self.model.feeds = _.groupBy(self.model.feeds, groupFeeds);
 
           self.model.feeds[0] = self.model.feeds[0] || [];
@@ -56,6 +57,13 @@
         return self;
 
         function groupFeeds(userFeedItem) {
+          var
+            feedUpdated = new Date(userFeedItem.feed.updatedAt);
+
+          if (feedUpdated < self.model.lastUpdated) {
+            self.model.lastUpdated = feedUpdated;
+          }
+
           return userFeedItem.userFeed.col;
         }
       }
@@ -138,7 +146,7 @@
     }
 
     function clear() {
-      self.model = [];
+      self.model = {};
     }
 
   }

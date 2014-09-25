@@ -1,9 +1,11 @@
 
 <div id="feed-container">
   <div class="row">
-    <div class="col-sm-2 col-sm-offset-10">
-      Update
-      <i class="fa fa-refresh" ng-click="refreshFeeds()"></i>
+    <div class="col-sm-4 col-sm-offset-8">
+      <button type="button" id="refresh" class="btn btn-default pull-right" ng-click="refreshFeeds()" ng-disabled="refreshing">
+        <i class="fa fa-refresh"></i>
+      </button>
+      <small class="refresh-text pull-right">Last updated: {{ userFeeds.lastUpdated | date:"EEE MMM d, y 'at' h:mm a" }}</small>
     </div>
   </div>
   <div class="row">

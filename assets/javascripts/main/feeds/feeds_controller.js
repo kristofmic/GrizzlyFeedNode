@@ -16,6 +16,7 @@
     .controller('feedsController', definitions);
 
   function feedsController($scope, $modal, _, userFeeds, snackbar) {
+    $scope.userFeeds = userFeeds.model;
     $scope.feeds = userFeeds.model.feeds;
 
     $scope.sortableConfig = {
@@ -119,10 +120,21 @@
 
     function refreshUserFeeds() {
       snackbar.loading('Updating. Please wait.');
+      $scope.refreshing = true;
 
       userFeeds.refresh()
+        .then(updateTimestamp)
         .then(handleSuccess('Feeds are up to date.'))
-        ['catch'](handleError);
+        ['catch'](handleError)
+        ['finally'](finishRefresh);
+
+      function updateTimestamp() {
+        $scope.userFeeds.lastUpdated = new Date();
+      }
+
+      function finishRefresh() {
+        $scope.refreshing = false;
+      }
     }
 
     function handleSuccess(message) {

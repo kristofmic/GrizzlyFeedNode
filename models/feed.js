@@ -27,7 +27,8 @@ schema = {
   favicon: String,
   copyright: String,
   generator: String,
-  categories: [String]
+  categories: [String],
+  updatedAt: Date
 };
 schemaKeys = _.keys(schema);
 feedSchema = mongoose.Schema(schema);
@@ -104,7 +105,8 @@ function createOne(url) {
 
 function refreshOne(feed) {
   return reader(feed.xmlurl)
-    .then(saveEntries);
+    .then(saveEntries)
+    .then(updateFeedTimestamp);
 
   function saveEntries(entries) {
     return Promise.map(entries, saveEntry)
@@ -125,6 +127,11 @@ function refreshOne(feed) {
       }
     }
   }
+
+  function updateFeedTimestamp(entries) {
+    Feed.update({ _id: feed._id }, { $set: { updatedAt: Date.now()}}, function() {});
+    return entries;
+  }
 }
 
 function updateOne(feed, feedParams) {
@@ -137,6 +144,7 @@ function updateOne(feed, feedParams) {
 
   function defer(resolve, reject) {
     _.extend(feed, feedParams);
+    feed.updatedAt = Date.now();
 
     feed.save(handleDeferred(resolve, reject));
   }
