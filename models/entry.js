@@ -4,6 +4,7 @@ var
   _ = require('lodash'),
   handleDeferred = require('../lib/responder').handleDeferred,
   paramFilter = require('../lib/param_filter'),
+  sanitizer = require('../lib/sanitizer'),
   schema,
   schemaKeys,
   entrySchema,
@@ -59,6 +60,10 @@ function createOne(feed, entry) {
       newEntry = new Entry(entryParams);
 
     newEntry._feed = feed._id;
+    newEntry.author = sanitizer.sanitizeText(newEntry.author);
+    newEntry.title = sanitizer.sanitizeText(newEntry.title);
+    newEntry.summary = sanitizer.sanitizeHtml(newEntry.summary);
+    newEntry.description = sanitizer.sanitizeHtml(newEntry.description);
 
     newEntry.save(handleDeferred(resolve, reject));
   }

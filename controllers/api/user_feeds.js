@@ -93,7 +93,7 @@ function updateEntries(req, res) {
     userFeedItem = userFeedItem.toObject();
     userFeedItem.feed = feed.toObject();
 
-    return populateFeedEntries(userFeedItem);
+    return populateFeedEntries(userFeedItem, user.entries);
   }
 }
 
@@ -146,21 +146,12 @@ function index(req, res) {
     feeds = user.feeds;
 
   Promise.map(feeds, populateFeeds)
-    .map(populateFeedEntries)
     .map(resolveUserFeedEntries)
     .then(responder.handleResponse(res))
     .catch(responder.handleError(res));
 
   function resolveUserFeedEntries(userFeedItem) {
-    userFeedItem.feed.entries = _.map(userFeedItem.feed.entries, resolveUserFeedEntry);
-
-    return userFeedItem;
-
-    function resolveUserFeedEntry(entry) {
-      entry = entry.toObject();
-      entry.visited = !!user.entries[entry._id];
-      return entry;
-    }
+    return populateFeedEntries(userFeedItem, user.entries);
   }
 }
 
@@ -208,12 +199,18 @@ function populateFeeds(userFeedItem) {
   }
 }
 
-function populateFeedEntries(userFeedItem) {
+function populateFeedEntries(userFeedItem, userEntries) {
   return Entry.findNBy(userFeedItem.userFeed.entries, { _feed: userFeedItem.feed._id })
     .then(addEntriesToFeed);
 
   function addEntriesToFeed(entries) {
-    userFeedItem.feed.entries = entries;
+    userFeedItem.feed.entries = _.map(entries, resolveUserFeedEntry);
     return userFeedItem;
+
+    function resolveUserFeedEntry(entry) {
+      entry = entry.toObject();
+      entry.visited = !!userEntries[entry._id];
+      return entry;
+    }
   }
 }
