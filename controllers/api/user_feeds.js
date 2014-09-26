@@ -147,15 +147,20 @@ function index(req, res) {
 
   Promise.map(feeds, populateFeeds)
     .map(populateFeedEntries)
-    .then(resolveUserFeedEntries)
+    .map(resolveUserFeedEntries)
     .then(responder.handleResponse(res))
     .catch(responder.handleError(res));
 
-  function resolveUserFeedEntries(userFeeds) {
-    return {
-      feeds: userFeeds,
-      userFeedEntries: user.entries
-    };
+  function resolveUserFeedEntries(userFeedItem) {
+    userFeedItem.feed.entries = _.map(userFeedItem.feed.entries, resolveUserFeedEntry);
+
+    return userFeedItem;
+
+    function resolveUserFeedEntry(entry) {
+      entry = entry.toObject();
+      entry.visited = !!user.entries[entry._id];
+      return entry;
+    }
   }
 }
 

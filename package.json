@@ -6,7 +6,6 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "RESTAPI": "git+ssh://git@github.com:kristofmic/RESTAPI.git",
     "bcrypt": "^0.8.0",
     "bluebird": "~2.3.0",
     "body-parser": "~1.0.0",

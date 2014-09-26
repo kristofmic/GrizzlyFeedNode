@@ -42,7 +42,7 @@
           userFeedsRes = res.data;
 
         if (userFeedsRes && angular.isObject(userFeedsRes)) {
-          self.model = userFeedsRes;
+          self.model.feeds = userFeedsRes;
           self.model.lastUpdated = new Date();
           self.model.feeds = _.groupBy(self.model.feeds, groupFeeds);
 

@@ -27,7 +27,6 @@
 
     $scope.expand = expandEntry;
     $scope.markAsVisited = visitEntry;
-    $scope.isVisited = entryVisited;
     $scope.editFeed = editFeed;
     $scope.refreshFeeds = refreshUserFeeds;
 
@@ -91,14 +90,10 @@
     }
 
     function visitEntry(entry) {
-      if (!entryVisited(entry._id)) {
+      if (!entry.visited) {
         userFeeds.visitEntry(entry);
-        userFeeds.model.userFeedEntries[entry._id] = true;
+        entry.visited = true;
       }
-    }
-
-    function entryVisited(entry) {
-      return !!userFeeds.model.userFeedEntries[entry._id];
     }
 
     function editFeed(userFeed) {
