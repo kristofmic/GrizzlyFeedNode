@@ -100,8 +100,8 @@
     .panel-body {
       padding: 0;
 
-      ol {
-        li {
+      .feed-entries {
+        .feed-entry {
           padding: 10px 15px;
           border-bottom: 1px dotted #e3e3e3;
 
@@ -154,12 +154,18 @@
           }
 
           .entry-summary {
+            margin: 0;
             padding-top: 10px;
 
             img {
               max-width: 100%;
-              margin-bottom: 10px;
+              margin: 10px auto;
               box-shadow: 0 2px 6px #ccc;
+            }
+
+            ul, ol {
+              margin-bottom: 10px;
+              padding: 0 0 0 16px;
             }
           }
         }

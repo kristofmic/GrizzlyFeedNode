@@ -16,8 +16,8 @@
     </div>
   </div>
   <div class="panel-body">
-    <ol class="list-unstyled" >
-      <li ng-repeat="entry in userFeed.feed.entries">
+    <ol class="list-unstyled feed-entries" >
+      <li ng-repeat="entry in userFeed.feed.entries" class="feed-entry">
         <div class="entry-read-icons">
           <i class="fa fa-play" ng-class="{'fa-rotate-90':entry.expand}" ng-click="expand(entry)"></i>
           <i class="fa fa-eye-slash" ng-click="markAsVisited(entry)"></i>

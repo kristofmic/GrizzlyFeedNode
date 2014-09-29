@@ -42,7 +42,11 @@ function create(req, res) {
 }
 
 function destroy(req, res) {
-  destroyToken(req.user)
+  var
+    token = req.header('token');
+
+  User.findBy({ token: token, tokenExpiration: { $gte: new Date() }})
+    .then(destroyToken)
     .then(responder.handleResponse(res, null, 'Success'))
     .catch(responder.handleError(res));
 
@@ -50,12 +54,14 @@ function destroy(req, res) {
     var
       userParams;
 
-    userParams = {
-      token: null,
-      tokenExpiration: null
-    };
+    if (user) {
+      userParams = {
+        token: null,
+        tokenExpiration: null
+      };
 
-    return User.updateOne(user, userParams);
+      return User.updateOne(user, userParams);
+    }
   }
 }
 

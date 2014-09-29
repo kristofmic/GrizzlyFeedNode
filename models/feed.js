@@ -85,6 +85,8 @@ function createOne(url) {
       var
         newFeed = new Feed();
 
+      meta.xmlurl = meta.xmlurl || url;
+
       return updateOne(newFeed, meta);
     }
 

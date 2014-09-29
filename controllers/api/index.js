@@ -19,7 +19,7 @@ router.get('/session', userHelper.authorize, sessions.show);
 router.post('/sessions/forgot_password', sessions.forgotPassword);
 router.get('/sessions/forgot_password/:token', sessions.forgotPassword);
 router.post('/sessions', sessions.create);
-router.delete('/sessions', userHelper.authorize, sessions.destroy);
+router.delete('/sessions', sessions.destroy);
 
 router.get('/feeds', userHelper.authorize, feeds.index);
 router.post('/feeds', userHelper.authorize, feeds.create);
