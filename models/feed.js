@@ -15,7 +15,7 @@ schema = {
   title: String,
   description: String,
   link: String,
-  xmlurl: String,
+  xmlurl: { type: String, index: true, unique: true },
   date: Date,
   pubdate: Date,
   author: String,
@@ -39,6 +39,7 @@ Feed.findAll = findAll;
 Feed.createOne = createOne;
 Feed.updateOne = updateOne;
 Feed.refreshOne = refreshOne;
+Feed.refreshAll = refreshAll;
 
 module.exports = Feed;
 
@@ -134,6 +135,11 @@ function refreshOne(feed) {
     Feed.update({ _id: feed._id }, { $set: { updatedAt: Date.now()}}, function() {});
     return entries;
   }
+}
+
+function refreshAll() {
+  return findAll()
+    .each(refreshOne);
 }
 
 function updateOne(feed, feedParams) {

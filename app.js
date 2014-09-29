@@ -9,6 +9,8 @@ var
   bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
 
+  jobs = require('./lib/jobs'),
+
   controllers = require('./controllers'),
   errors = require('./lib/errors'),
 
