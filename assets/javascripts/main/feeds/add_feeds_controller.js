@@ -16,7 +16,12 @@
     .controller('addFeedsController', definitions);
 
   function addFeedsController($scope, _, feeds, userFeeds, snackbar) {
-    $scope.feeds = feeds.all;
+    feeds.init()
+      .then(function(feeds) {
+        $scope.finishedLoading = true;
+        $scope.feeds = feeds.model;
+      });
+
     $scope.addFeed = addFeed;
     $scope.addUserFeed = addUserFeed;
     $scope.removeUserFeed = removeUserFeed;

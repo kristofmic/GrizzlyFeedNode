@@ -17,8 +17,12 @@
     .controller('feedsController', definitions);
 
   function feedsController($scope, $modal, _, user, userFeeds, snackbar) {
+    userFeeds.init()
+      .then(function(userFeeds) {
+        $scope.finishedLoading = true;
+      });
+
     $scope.userFeeds = userFeeds.model;
-    $scope.feeds = userFeeds.model.feeds;
     $scope.layout = user.model.layout;
 
     $scope.sortableConfig = {
@@ -46,12 +50,12 @@
       item.userFeed.col = destCol;
       item.userFeed.row = e.dest.index + 1;
 
-      for (i = item.userFeed.row, len = $scope.feeds[destCol].length; i < len; i++) {
-        $scope.feeds[destCol][i].userFeed.row += 1;
+      for (i = item.userFeed.row, len = $scope.userFeeds.feeds[destCol].length; i < len; i++) {
+        $scope.userFeeds.feeds[destCol][i].userFeed.row += 1;
       }
 
-      for (i = srcRow - 1, len = $scope.feeds[srcCol].length; i < len; i++) {
-        $scope.feeds[srcCol][i].userFeed.row -= 1;
+      for (i = srcRow - 1, len = $scope.userFeeds.feeds[srcCol].length; i < len; i++) {
+        $scope.userFeeds.feeds[srcCol][i].userFeed.row -= 1;
       }
 
       updateUserFeeds();
@@ -62,8 +66,8 @@
         destCol = e.dest.sortableScope.modelValue.col,
         userFeedsToUpdate;
 
-      for (var i = 0, len = $scope.feeds[destCol].length; i < len; i++) {
-        $scope.feeds[destCol][i].userFeed.row = i + 1;
+      for (var i = 0, len = $scope.userFeeds.feeds[destCol].length; i < len; i++) {
+        $scope.userFeeds.feeds[destCol][i].userFeed.row = i + 1;
       }
 
       updateUserFeeds();
@@ -73,7 +77,7 @@
       var
         userFeedsToupdate;
 
-      userFeedsToUpdate = _.map($scope.feeds[0].concat($scope.feeds[1]).concat($scope.feeds[2]), mapUserFeed);
+      userFeedsToUpdate = _.map($scope.userFeeds.feeds[0].concat($scope.userFeeds.feeds[1]).concat($scope.userFeeds.feeds[2]), mapUserFeed);
 
       userFeeds.updatePositions(userFeedsToUpdate);
 

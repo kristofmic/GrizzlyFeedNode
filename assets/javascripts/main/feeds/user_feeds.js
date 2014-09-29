@@ -34,6 +34,8 @@
     return self;
 
     function init() {
+      clear();
+
       return $http.get('/api/user_feeds', { headers: { token: user.token() }})
         .then(setUserFeedsFromResponse);
 

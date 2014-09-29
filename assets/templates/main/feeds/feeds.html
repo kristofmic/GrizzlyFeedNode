@@ -1,4 +1,3 @@
-
 <div id="feed-container">
   <div class="row">
     <div class="col-sm-4">
@@ -13,24 +12,29 @@
       <small class="refresh-text pull-right">Last updated: {{ userFeeds.lastUpdated | date:"EEE MMM d, y 'at' h:mm a" }}</small>
     </div>
   </div>
+
+  <div class="row" ng-if="!finishedLoading">
+    <div ng-include="'_loading.html'"></div>
+  </div>
+
   <div class="row">
     <div class="col-sm-4 user-feed-column layout-{{layout}}">
-      <ul class="user-feeds list-unstyled" data-sortable="sortableConfig" ng-model="feeds[0]">
-        <li ng-repeat="userFeed in feeds[0]" ng-include="'_feed_item.html'" sortable-item class="{{layout}}-view">
+      <ul class="user-feeds list-unstyled" data-sortable="sortableConfig" ng-model="userFeeds.feeds[0]">
+        <li ng-repeat="userFeed in userFeeds.feeds[0]" ng-include="'_feed_item.html'" sortable-item class="{{layout}}-view">
         </li>
       </ul>
     </div>
 
     <div class="col-sm-4 user-feed-column layout-{{layout}}">
-      <ul class="user-feeds list-unstyled" data-sortable="sortableConfig" ng-model="feeds[1]">
-        <li ng-repeat="userFeed in feeds[1]" ng-include="'_feed_item.html'" sortable-item class="{{layout}}-view">
+      <ul class="user-feeds list-unstyled" data-sortable="sortableConfig" ng-model="userFeeds.feeds[1]">
+        <li ng-repeat="userFeed in userFeeds.feeds[1]" ng-include="'_feed_item.html'" sortable-item class="{{layout}}-view">
         </li>
       </ul>
     </div>
 
     <div class="col-sm-4 user-feed-column layout-{{layout}}">
-      <ul class="user-feeds list-unstyled" data-sortable="sortableConfig" ng-model="feeds[2]">
-        <li ng-repeat="userFeed in feeds[2]" ng-include="'_feed_item.html'" sortable-item class="{{layout}}-view">
+      <ul class="user-feeds list-unstyled" data-sortable="sortableConfig" ng-model="userFeeds.feeds[2]">
+        <li ng-repeat="userFeed in userFeeds.feeds[2]" ng-include="'_feed_item.html'" sortable-item class="{{layout}}-view">
         </li>
       </ul>
     </div>

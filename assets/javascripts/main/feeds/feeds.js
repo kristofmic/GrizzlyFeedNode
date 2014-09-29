@@ -17,18 +17,19 @@
 
   function feedsFactory($rootScope, $http, _, user, USER_EVENT) {
     var
-      self = {},
-      feeds = [];
+      self = {};
 
     $rootScope.$on(USER_EVENT.LOGOUT, clear);
 
     self.init = init;
     self.create = create;
-    self.all = all;
+    self.model = [];
 
     return self;
 
     function init() {
+      clear();
+
       return $http.get('/api/feeds', { headers: { token: user.token() }})
         .then(setFeedsFromResponse);
 
@@ -39,13 +40,13 @@
 
         if (feedsRes && angular.isObject(feedsRes)) {
           feedsRes = angular.isArray(feedsRes) ? feedsRes : [feedsRes];
-          feeds = _.map(feedsRes, mapFeed);
+          _.each(feedsRes, mapFeed);
         }
         return self;
 
         function mapFeed(feedItem) {
           feedItem.added = !!_.find(userFeedItems, { feed: feedItem._id });
-          return feedItem;
+          self.model.push(feedItem);
         }
       }
     }
@@ -65,13 +66,8 @@
       }
     }
 
-
-    function all() {
-      return feeds;
-    }
-
     function clear() {
-      feeds = [];
+      self.model = [];
     }
 
   }

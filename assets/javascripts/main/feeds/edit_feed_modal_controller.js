@@ -45,7 +45,7 @@
         var
           col = $scope.feedToEdit.userFeed.col;
 
-        _.remove($scope.feeds[col], $scope.feedToEdit);
+        _.remove($scope.userFeeds.feeds[col], $scope.feedToEdit);
       }
 
       function setFeedEntries(res) {
