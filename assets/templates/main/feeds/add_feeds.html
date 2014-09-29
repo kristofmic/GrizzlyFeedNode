@@ -36,7 +36,7 @@
 <div class="row">
   <div class="col-sm-12">
     <ul class="list-unstyled new-feeds">
-      <li class="new-feed col-sm-3" ng-repeat="feed in feeds() | orderBy:'title'">
+      <li class="new-feed col-sm-3" ng-repeat="feed in feeds() | orderBy:'title' | filter:search">
         <div class="panel panel-default" >
           <div class="panel-heading">
             <h5 class="panel-title"><a ng-href="{{feed.link}}" target="_blank">{{feed.title}}</a></h5>

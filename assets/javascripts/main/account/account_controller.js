@@ -15,7 +15,7 @@
     .controller('accountController', definitions);
 
   function accountController($scope, user, VALIDATION_EVENT, snackbar) {
-    $scope.user = user.props;
+    $scope.user = user.model;
     $scope.credentials = {};
     $scope.submit = submit;
 

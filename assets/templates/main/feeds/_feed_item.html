@@ -19,20 +19,20 @@
     <ol class="list-unstyled feed-entries" >
       <li ng-repeat="entry in userFeed.feed.entries" class="feed-entry">
         <div class="entry-read-icons">
-          <i class="fa fa-play" ng-class="{'fa-rotate-90':entry.expand}" ng-click="expand(entry)"></i>
-          <i class="fa fa-eye-slash" ng-click="markAsVisited(entry)"></i>
+          <i class="fa fa-play expand" ng-class="{'fa-rotate-90':entry.expand}" ng-click="expand(entry)"></i>
+          <i class="fa fa-eye-slash read" ng-click="markAsVisited(entry)"></i>
         </div>
         <div class="entry-snapshot">
-          <a ng-href="{{entry.link}}" ng-class="{visited: entry.visited}" target="_blank" ng-click="markAsVisited(entry)">{{entry.title}}</a>
+          <a ng-href="{{entry.link}}" class="entry-title" ng-class="{visited: entry.visited}" target="_blank" ng-click="markAsVisited(entry)">{{entry.title}}</a>
           <p class="entry-meta">
             <small>
               {{entry.pubdate | date:"EEE MMM d, y 'at' h:mm a"}}
               <span ng-if="entry.author"> | {{entry.author}}</span>
-              <!--<span class="entry-feed"> | via <a ng-href="{{userFeed.feed.link}}">{{userFeed.feed.title}}</a></span>-->
+              <span class="entry-feed-title"> | via <a ng-href="{{userFeed.feed.link}}">{{userFeed.feed.title}}</a></span>
             </small>
           </p>
           <p class="entry-meta">
-            <!--<small class="entry-categories-separator" ng-if="entry.categories.length"> | </small>-->
+            <small class="entry-categories-separator" ng-if="entry.categories.length"> | </small>
             <small class="entry-category" ng-repeat="category in entry.categories | limitTo:3">#{{category}}</small>
           </p>
         </div>

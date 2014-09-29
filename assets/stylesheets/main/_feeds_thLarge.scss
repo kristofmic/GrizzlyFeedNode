@@ -1,0 +1,51 @@
+
+.user-feed-column.layout-thLarge {
+
+}
+
+.thLarge-view {
+  .panel {
+    border: none;
+    background-color: transparent;
+
+    .panel-heading { display: none; }
+
+    .panel-body .feed-entries .feed-entry {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+
+      &:last-child {
+        margin-bottom: 0px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .entry-read-icons{
+        .expand { display: none; }
+      }
+
+      .entry-snapshot {
+        .entry-title {
+          font-size: 20px;
+        }
+
+        .entry-meta {
+          .entry-feed-title {
+            display: inline;
+          }
+        }
+      }
+
+      .entry-summary {
+        display: block !important;
+
+        img {
+          margin-left: 0;
+          max-width: 100%;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}
+
+

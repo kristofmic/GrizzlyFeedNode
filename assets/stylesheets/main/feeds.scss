@@ -37,6 +37,16 @@
   }
 }
 
+.feed-layout-option {
+  padding: 4px;
+  cursor: pointer;
+  margin: 1px;
+
+  &.active {
+    border-bottom: 1px solid #000;
+  }
+}
+
 .user-feeds {
   min-height: 60px;
 
@@ -146,6 +156,10 @@
 
             .entry-meta {
               margin: 0;
+
+              .entry-feed-title, .entry-categories-separator {
+                display: none;
+              }
 
               .entry-category {
                 margin-right: 3px;

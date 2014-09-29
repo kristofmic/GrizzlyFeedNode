@@ -7,6 +7,7 @@
     '$scope',
     '$modal',
     '_',
+    'user',
     'userFeeds',
     'snackbar',
     feedsController
@@ -15,9 +16,10 @@
   angular.module('nl.Feeds')
     .controller('feedsController', definitions);
 
-  function feedsController($scope, $modal, _, userFeeds, snackbar) {
+  function feedsController($scope, $modal, _, user, userFeeds, snackbar) {
     $scope.userFeeds = userFeeds.model;
     $scope.feeds = userFeeds.model.feeds;
+    $scope.layout = user.model.layout;
 
     $scope.sortableConfig = {
       itemMoved: handleItemMoved,
@@ -29,6 +31,7 @@
     $scope.markAsVisited = visitEntry;
     $scope.editFeed = editFeed;
     $scope.refreshFeeds = refreshUserFeeds;
+    $scope.updateLayout = updateLayout;
 
     function handleItemMoved(e) {
       var
@@ -129,6 +132,13 @@
 
       function finishRefresh() {
         $scope.refreshing = false;
+      }
+    }
+
+    function updateLayout(newLayout) {
+      if ($scope.layout !== newLayout) {
+        user.update({ layout: newLayout });
+        $scope.layout = newLayout;
       }
     }
 

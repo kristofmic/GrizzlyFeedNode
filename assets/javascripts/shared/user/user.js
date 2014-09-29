@@ -20,8 +20,7 @@
 
   function userFactory($window, $rootScope, $http, $auth, authService, $modal, _, USER_EVENT) {
     var
-      self = {},
-      userStore = {};
+      self = {};
 
     $rootScope.$on('event:auth-loginRequired', verifyLogin);
 
@@ -32,10 +31,7 @@
     self.logout = logout;
     self.resetPassword = resetPassword;
     self.token = getToken;
-    self.props = {
-      get: getProp,
-      set: setProp
-    };
+    self.model = {};
 
     return self;
 
@@ -115,23 +111,15 @@
       }
     }
 
-    function getProp(prop) {
-      return userStore[prop];
-    }
-
-    function setProp(prop, val) {
-      userStore[prop] = val;
-    }
-
     function setUserFromResponse(res) {
       if (res.data && angular.isObject(res.data)) {
-        _.extend(userStore, res.data);
+        _.extend(self.model, res.data);
       }
       return self;
     }
 
     function clear() {
-      userStore = {};
+      self.model = {};
     }
 
     function getToken() {

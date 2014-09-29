@@ -65,7 +65,7 @@ function update(req, res) {
     updateParams = _.omit(req.body, ['token', 'tokenExpiration', 'isActive', 'isVerified', 'passwordResetToken', 'passwordResetTokenExpiration', 'password', 'newPassword', 'feeds']);
 
   updateUser(req.user)
-    .then(responder.handleResponse(res, 201, ['email', 'token', 'createdAt', 'feeds']))
+    .then(responder.handleResponse(res, 201, ['email', 'token', 'createdAt', 'feeds', 'layout']))
     .catch(responder.handleError(res));
 
   function updateUser(user) {

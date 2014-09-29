@@ -24,7 +24,7 @@ function create(req, res) {
     .then(verifyPassword)
     .then(tokens.createSessionToken)
     .then(User.updateOne)
-    .then(responder.handleResponse(res, 201, ['email', 'token', 'createdAt', 'feeds']))
+    .then(responder.handleResponse(res, 201, ['email', 'token', 'createdAt', 'feeds', 'layout']))
     .catch(responder.handleError(res));
 
   function verifyUser(user) {
@@ -66,7 +66,7 @@ function destroy(req, res) {
 }
 
 function show(req, res) {
-  responder.handleResponse(res, null, ['email', 'token', 'createdAt', 'feeds'])(req.user);
+  responder.handleResponse(res, null, ['email', 'token', 'createdAt', 'feeds', 'layout'])(req.user);
 }
 
 function forgotPassword(req, res) {

@@ -1,0 +1,34 @@
+
+.user-feed-column.layout-list {
+  float: none;
+  width: 100%;
+}
+
+.list-view {
+  .panel .panel-body .feed-entries .feed-entry {
+    .entry-snapshot {
+      .entry-title {
+        display: block;
+      }
+
+      .entry-meta {
+        display: inline;
+
+        .entry-categories-separator {
+          display: inline;
+        }
+      }
+    }
+
+    .entry-summary {
+
+      img {
+        max-width: 33%;
+        margin-left: 0;
+        display: block;
+      }
+    }
+  }
+}
+
+

@@ -139,7 +139,7 @@
         feedsRes = res.data;
 
       if (feedsRes && angular.isObject(feedsRes)) {
-        user.props.set('feeds', feedsRes.feeds);
+        user.model.feeds = feedsRes.feeds;
       }
 
       return self;

@@ -1,7 +1,12 @@
 
 <div id="feed-container">
   <div class="row">
-    <div class="col-sm-4 col-sm-offset-8">
+    <div class="col-sm-4">
+      <i class="fa fa-th feed-layout-option" ng-class="{active:layout === 'th'}" ng-click="updateLayout('th')"></i>
+      <i class="fa fa-th-large feed-layout-option" ng-class="{active:layout === 'thLarge'}" ng-click="updateLayout('thLarge')"></i>
+      <i class="fa fa-list feed-layout-option" ng-class="{active:layout === 'list'}" ng-click="updateLayout('list')"></i>
+    </div>
+    <div class="col-sm-4 col-sm-offset-4">
       <button type="button" id="refresh" class="btn btn-default pull-right" ng-click="refreshFeeds()" ng-disabled="refreshing">
         <i class="fa fa-refresh"></i>
       </button>
@@ -9,23 +14,23 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-4 user-feed-column layout-{{layout}}">
       <ul class="user-feeds list-unstyled" data-sortable="sortableConfig" ng-model="feeds[0]">
-        <li ng-repeat="userFeed in feeds[0]" ng-include="'_feed_item.html'" sortable-item>
+        <li ng-repeat="userFeed in feeds[0]" ng-include="'_feed_item.html'" sortable-item class="{{layout}}-view">
         </li>
       </ul>
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-4 user-feed-column layout-{{layout}}">
       <ul class="user-feeds list-unstyled" data-sortable="sortableConfig" ng-model="feeds[1]">
-        <li ng-repeat="userFeed in feeds[1]" ng-include="'_feed_item.html'" sortable-item>
+        <li ng-repeat="userFeed in feeds[1]" ng-include="'_feed_item.html'" sortable-item class="{{layout}}-view">
         </li>
       </ul>
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-4 user-feed-column layout-{{layout}}">
       <ul class="user-feeds list-unstyled" data-sortable="sortableConfig" ng-model="feeds[2]">
-        <li ng-repeat="userFeed in feeds[2]" ng-include="'_feed_item.html'" sortable-item>
+        <li ng-repeat="userFeed in feeds[2]" ng-include="'_feed_item.html'" sortable-item class="{{layout}}-view">
         </li>
       </ul>
     </div>

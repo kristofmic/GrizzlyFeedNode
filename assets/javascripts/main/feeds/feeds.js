@@ -35,7 +35,7 @@
       function setFeedsFromResponse(res) {
         var
           feedsRes = res.data,
-          userFeedItems = user.props.get('feeds');
+          userFeedItems = user.model.feeds;
 
         if (feedsRes && angular.isObject(feedsRes)) {
           feedsRes = angular.isArray(feedsRes) ? feedsRes : [feedsRes];

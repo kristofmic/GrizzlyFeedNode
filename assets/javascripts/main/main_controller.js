@@ -15,7 +15,7 @@
 
   function mainController($scope, $auth, user) {
     $scope.isAuthenticated = $auth.isAuthenticated;
-    $scope.user = user.props;
+    $scope.user = user.model;
   }
 
 })(angular);
