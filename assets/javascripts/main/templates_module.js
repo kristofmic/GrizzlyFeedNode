@@ -47,7 +47,7 @@ angular.module('nl.Templates', []).run(['$templateCache', function($templateCach
 
 
   $templateCache.put('_loading.html',
-    "<div class=\"loading-spinner\"><div class=\"loading-spinner-container loading-spinner-container1\"><div class=\"loading-spinner-circle1\"></div><div class=\"loading-spinner-circle2\"></div><div class=\"loading-spinner-circle3\"></div><div class=\"loading-spinner-circle4\"></div></div><div class=\"loading-spinner-container loading-spinner-container2\"><div class=\"loading-spinner-circle1\"></div><div class=\"loading-spinner-circle2\"></div><div class=\"loading-spinner-circle3\"></div><div class=\"loading-spinner-circle4\"></div></div><div class=\"loading-spinner-container loading-spinner-container3\"><div class=\"loading-spinner-circle1\"></div><div class=\"loading-spinner-circle2\"></div><div class=\"loading-spinner-circle3\"></div><div class=\"loading-spinner-circle4\"></div></div></div>"
+    "<div class=\"loading-spinner\"><div class=\"loading-spinner-container loading-spinner-container1\"><div class=\"loading-spinner-circle1\"></div><div class=\"loading-spinner-circle2\"></div><div class=\"loading-spinner-circle3\"></div><div class=\"loading-spinner-circle4\"></div></div><div class=\"loading-spinner-container loading-spinner-container2\"><div class=\"loading-spinner-circle1\"></div><div class=\"loading-spinner-circle2\"></div><div class=\"loading-spinner-circle3\"></div><div class=\"loading-spinner-circle4\"></div></div></div>"
   );
 
 
