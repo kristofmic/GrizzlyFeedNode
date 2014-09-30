@@ -4,7 +4,7 @@
 [![Build Status](http://img.shields.io/travis/sahat/satellizer.svg?style=flat)](https://travis-ci.org/sahat/satellizer) 
 [![Code Climate](http://img.shields.io/codeclimate/github/sahat/satellizer.svg?style=flat)](https://codeclimate.com/github/sahat/satellizer) 
 [![Test Coverage](http://img.shields.io/codeclimate/coverage/github/sahat/satellizer.svg?style=flat)](https://codeclimate.com/github/sahat/satellizer)
-[![Version](http://img.shields.io/badge/version-0.6.1-orange.svg?style=flat)](https://www.npmjs.org/package/satellizer)
+[![Version](http://img.shields.io/badge/version-0.6.2-orange.svg?style=flat)](https://www.npmjs.org/package/satellizer)
 
 **:space_invader: Live Demo:** [https://satellizer.herokuapp.com](https://satellizer.herokuapp.com)
 
@@ -45,7 +45,7 @@ npm install satellizer --save
 or use the CDN:
 
 ```html
-<script src="//cdn.jsdelivr.net/satellizer/0.6.1/satellizer.min.js"></script>
+<script src="//cdn.jsdelivr.net/satellizer/0.6.2/satellizer.min.js"></script>
 ```
 
 ## Usage
@@ -124,9 +124,9 @@ $authProvider.loginUrl = '/auth/login';
 $authProvider.signupUrl = '/auth/signup';
 $authProvider.loginRoute = '/login';
 $authProvider.signupRoute = '/signup';
-$authProvider.tokenName: 'token';
-$authProvider.tokenPrefix: 'satellizer';
-$authProvider.unlinkUrl: '/auth/unlink/';
+$authProvider.tokenName = 'token';
+$authProvider.tokenPrefix = 'satellizer';
+$authProvider.unlinkUrl = '/auth/unlink/';
 
 // Facebook
 $authProvider.facebook({
@@ -382,7 +382,13 @@ of the languages on the *TODO* list.
 
 ## Credits
 
-TODO.
+Special thanks goes to [Alice Chen](https://github.com/chena) for all your hard work
+on the [Dropwizard](dropwizard.github.io) implementation and
+[Jesús Rodríguez](https://github.com/Foxandxss) for being so proactive and actively
+reporting bugs.
+
+Additionally, I would like to thank all other contributors who have submitted
+issues and/or pull requests!
 
 ## License
 

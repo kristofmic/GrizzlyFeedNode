@@ -45,8 +45,8 @@
           <div class="panel-heading">
             <h5 class="panel-title"><a ng-href="{{feed.link}}" target="_blank">{{feed.title}}</a></h5>
             <span ng-switch="feed.added">
-              <i class="fa fa-check-square pull-right" ng-switch-when="true" ng-click="removeUserFeed(feed)"></i>
-              <i class="fa fa-plus-square pull-right" ng-switch-when="false" ng-click="addUserFeed(feed)"></i>
+              <i class="fa fa-check pull-right" ng-switch-when="true" ng-click="removeUserFeed(feed)" ng-mouseenter="toggleRemove($event, true)" ng-mouseleave="toggleRemove($event, false)"></i>
+              <i class="fa fa-plus pull-right" ng-switch-when="false" ng-click="addUserFeed(feed)"></i>
             </span>
           </div>
           <div class="panel-body">
@@ -56,10 +56,10 @@
                 <small>0 subscribers</small>
               </li>
               <li>
-                <small>Last updated {{feed.date | date:"EEE MMM d, y 'at' h:mm a"}}</small>
+                <small>Last updated {{feed.updatedAt | date:"EEE MMM d, y 'at' h:mm a"}}</small>
               </li>
               <li>
-                <a class="btn btn-link" ng-href="{{feed.feed_url}}" target="_blank"><small>{{feed.xmlurl}}</small></a>
+                <a ng-href="{{feed.xmlurl}}" target="_blank"><small>{{feed.xmlurl}}</small></a>
               </li>
             </ul>
           </div>

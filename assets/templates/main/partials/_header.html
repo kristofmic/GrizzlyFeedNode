@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
 
     <div class="navbar-header">
@@ -14,17 +14,17 @@
 
     <div class="collapse navbar-collapse" id="nav-links">
       <ul class="nav navbar-nav navbar-right" ng-switch="isAuthenticated()">
-        <li ng-switch-when="true">
+        <li ng-switch-when="true" nl-active-nav="main.private.feeds">
           <a ui-sref="main.private.feeds">
             <i class="fa fa-newspaper-o fa-lg"></i>
           </a>
         </li>
-        <li ng-switch-when="true">
+        <li ng-switch-when="true" nl-active-nav="main.private.addFeeds">
           <a ui-sref="main.private.addFeeds">
             <i class="fa fa-search-plus fa-lg"></i>
           </a>
         </li>
-        <li ng-switch-when="true">
+        <li ng-switch-when="true" nl-active-nav="main.private.account">
           <a ui-sref="main.private.account">
             <i class="fa fa-user fa-lg"></i>
           </a>
@@ -37,12 +37,12 @@
         <li ng-switch-when="true">
           <p class="navbar-text">{{user.email}}</p>
         </li>
-        <li ng-switch-when="false">
+        <li ng-switch-when="false" nl-active-nav="main.public.signup">
           <a ui-sref="main.public.signup">
-            Signup
+            Sign up
           </a>
         </li>
-        <li ng-switch-when="false">
+        <li ng-switch-when="false" nl-active-nav="main.public.login">
           <a ui-sref="main.public.login">
             Login
           </a>

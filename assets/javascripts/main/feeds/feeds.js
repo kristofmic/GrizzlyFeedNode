@@ -30,7 +30,11 @@
     function init() {
       clear();
 
-      return $http.get('/api/feeds', { headers: { token: user.token() }})
+      return $http.get('/api/feeds', {
+          headers: {
+            token: user.token()
+          }
+        })
         .then(setFeedsFromResponse);
 
       function setFeedsFromResponse(res) {
@@ -45,14 +49,22 @@
         return self;
 
         function mapFeed(feedItem) {
-          feedItem.added = !!_.find(userFeedItems, { feed: feedItem._id });
+          feedItem.added = !!_.find(userFeedItems, {
+            feed: feedItem._id
+          });
           self.model.push(feedItem);
         }
       }
     }
 
     function create(url) {
-      return $http.post('/api/feeds', { url: url }, { headers: { token: user.token() }})
+      return $http.post('/api/feeds', {
+          url: url
+        }, {
+          headers: {
+            token: user.token()
+          }
+        })
         .then(addFeed);
 
       function addFeed(res) {
@@ -60,7 +72,7 @@
           feed = res.data;
 
         if (feed && angular.isObject(feed)) {
-          feeds.push(feed);
+          self.model.push(feed);
         }
         return feed;
       }

@@ -25,18 +25,20 @@
     $scope.addFeed = addFeed;
     $scope.addUserFeed = addUserFeed;
     $scope.removeUserFeed = removeUserFeed;
+    $scope.toggleRemove = toggleRemoveIcon;
 
     function addFeed(feedUrl) {
       snackbar.loading('Processing. Please wait.');
 
       feeds.create(feedUrl)
         .then(addAsUserFeed)
-        .then(handleSuccess)
-        ['catch'](handleError);
+        .then(handleSuccess)['catch'](handleError);
 
       function addAsUserFeed(feed) {
         return userFeeds.create(feed)
-          .then(function() { feed.added = true; });
+          .then(function() {
+            feed.added = true;
+          });
       }
 
       function handleSuccess() {
@@ -47,8 +49,7 @@
 
     function addUserFeed(feed) {
       userFeeds.create(feed)
-        .then(handleSuccess)
-        ['catch'](handleError);
+        .then(handleSuccess)['catch'](handleError);
 
       function handleSuccess() {
         feed.added = true;
@@ -58,12 +59,19 @@
 
     function removeUserFeed(feed) {
       userFeeds.destroy(feed)
-        .then(handleSuccess)
-        ['catch'](handleError);
+        .then(handleSuccess)['catch'](handleError);
 
       function handleSuccess() {
         feed.added = false;
         snackbar.success('The feed was successfully removed.');
+      }
+    }
+
+    function toggleRemoveIcon($e, enter) {
+      if (enter) {
+        angular.element($e.target).addClass('fa-times').removeClass('fa-check');
+      } else {
+        angular.element($e.target).addClass('fa-check').removeClass('fa-times');
       }
     }
 

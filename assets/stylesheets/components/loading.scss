@@ -8,7 +8,7 @@
 .loading-spinner-container1 > div, .loading-spinner-container2 > div, .loading-spinner-container3 > div {
   width: 6px;
   height: 6px;
-  background-color: #333;
+  background-color: $gray54;
 
   border-radius: 100%;
   position: absolute;

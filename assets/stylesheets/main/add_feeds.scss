@@ -28,6 +28,9 @@
 
 .new-feeds {
   .new-feed {
+    padding-left: 7px;
+    padding-right: 7px;
+
     .panel {
       height: 147px;
 
@@ -53,8 +56,20 @@
           top: 0;
           cursor: pointer;
 
-          &.fa-check-square {
-            color: green;
+          &.fa-plus {
+            color: $gray26;
+
+            &:hover {
+              color: $success;
+            }
+          }
+
+          &.fa-check {
+            color: $primary;
+          }
+
+          &.fa-times {
+            color: $danger;
           }
         }
       }
@@ -65,18 +80,22 @@
         ul {
           li {
             padding-top: 5px;
-            padding-bottom: 5px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
 
             &:first-child {
               padding-top: 0;
             }
 
             a {
-              padding: 0;
-              width: 100%;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              text-align: left;
+              &:hover {
+                text-decoration: none;
+
+                small {
+                  color: $gray87;
+                }
+              }
             }
           }
         }

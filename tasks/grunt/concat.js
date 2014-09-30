@@ -1,6 +1,8 @@
 module.exports = {
   components: {
     src: [
+      '<%= componentsPath %>/jquery/dist/jquery.js',
+      '<%= componentsPath %>/bootstrap/dist/js/bootstrap.js',
       '<%= componentsPath %>/angular/angular.js',
       '<%= componentsPath %>/angular-touch/angular-touch.js',
       '<%= componentsPath %>/angular-sanitize/angular-sanitize.js',
@@ -25,6 +27,8 @@ module.exports = {
       '<%= jsPath %>/vendor/**/*.js',
       '<%= jsPath %>/shared/user/user_module.js',
       '<%= jsPath %>/shared/user/*.js',
+      '<%= jsPath %>/shared/active_nav/active_nav_module.js',
+      '<%= jsPath %>/shared/active_nav/*.js',
       '<%= jsPath %>/main/home/home_module.js',
       '<%= jsPath %>/main/home/*.js',
       '<%= jsPath %>/main/session/session_module.js',

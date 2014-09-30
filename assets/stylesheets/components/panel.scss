@@ -1,0 +1,35 @@
+.panel.panel-default {
+  border-radius: 2px;
+  border-color: $gray12;
+  box-shadow: 0 1px 1px $gray12;
+
+  .panel-heading {
+    background-color: $white;
+    border-color: $gray12;
+    margin: 0 10px;
+    padding: 10px;
+    position: relative;
+
+    .panel-title {
+      color: $gray54;
+      font-size: 14px;
+
+      a {
+        &:visited {
+          color: $gray54;
+        }
+
+        &:hover, &:active, &:focus {
+          color: $gray87;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  .panel-body {
+    form {
+      margin-top: 15px;
+    }
+  }
+}

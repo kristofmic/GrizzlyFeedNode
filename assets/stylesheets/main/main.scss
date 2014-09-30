@@ -1,18 +1,25 @@
+@import '../components/colors';
+@import '../components/typography';
+@import '../components/buttons';
+@import '../components/inputs';
 @import '../components/divider';
+@import '../components/loading';
+@import '../components/navbar';
+@import '../components/panel';
+@import '../components/modal';
+@import '../components/snackbar';
 @import 'feeds';
 @import 'feeds_list';
 @import 'feeds_thLarge';
 @import 'add_feeds';
-@import '_loading';
-
-.snackbar {
-  border-radius: 4px;
-}
+@import 'account';
 
 .page-heading {
   margin-top: 0px;
 }
 
 body {
+  padding-top: 70px;
   -webkit-backface-visibility: hidden;
+  background-color: $gray06;
 }

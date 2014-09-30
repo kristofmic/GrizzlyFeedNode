@@ -1,0 +1,94 @@
+.btn, button, button.btn{
+  border-radius: 2px;
+  outline: none;
+
+  &:hover {
+    box-shadow: 0 1px 1px $gray26;
+  }
+
+  &:active, &:focus, &:active:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.btn.btn-link {
+  color: $gray54;
+
+  &:hover {
+    color: $gray54;
+    box-shadow: none;
+  }
+}
+
+.input-group-btn .btn.btn-default {
+  border-color: $gray12;
+  &:hover {
+    box-shadow: none;
+  }
+}
+
+.btn.btn-default {
+  color: $gray54;
+  border-color: transparent;
+
+  &:hover {
+    color: $gray54;
+    background-color: $gray06;
+    border-color: transparent;
+  }
+
+  &:active, &:focus {
+    color: $gray54;
+    background-color: $gray12;
+    border-color: transparent;
+  }
+}
+
+.btn.btn-primary {
+  color: $white;
+  background-color: $primary;
+  border-color: darken($primary, 7%);
+
+  &:hover {
+    background-color: $primary;
+    border-color: darken($primary, 7%);
+  }
+
+  &:active, &:focus {
+    background-color: $primary-dark;
+    border-color: darken($primary-dark, 7%);
+  }
+}
+
+.btn.btn-danger {
+  color: $white;
+  background-color: $danger;
+  border-color: darken($danger, 7%);
+
+  &:hover {
+    background-color: $danger;
+    border-color: darken($danger, 7%);
+  }
+
+  &:active, &:focus {
+    background-color: $danger-dark;
+    border-color: darken($danger-dark, 7%);
+  }
+}
+
+.btn.btn-success {
+  color: $white;
+  background-color: $success;
+  border-color: darken($success, 7%);
+
+  &:hover {
+    background-color: $success;
+    border-color: darken($success, 7%);
+  }
+
+  &:active, &:focus {
+    background-color: $success-dark;
+    border-color: darken($success-dark, 7%);
+  }
+}

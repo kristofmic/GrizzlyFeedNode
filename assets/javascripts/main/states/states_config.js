@@ -31,17 +31,21 @@
         templateUrl: 'main.html',
         controller: 'mainController',
         resolve: {
-          userInit: ['user', function initUser(user) {
-            return user.init();
-          }]
+          userInit: ['user',
+            function initUser(user) {
+              return user.init();
+            }
+          ]
         }
       })
 
-      .state('main.public', {
-        abstract: true,
-        template: '<div ui-view></div>',
-        data: { auth: false }
-      })
+    .state('main.public', {
+      abstract: true,
+      template: '<div ui-view></div>',
+      data: {
+        auth: false
+      }
+    })
       .state('main.public.home', {
         url: '/home',
         templateUrl: 'home.html',
@@ -67,11 +71,13 @@
         controller: 'emailVerificationController'
       })
 
-      .state('main.private', {
-        abstract: true,
-        template: '<div ui-view></div>',
-        data: { auth: true }
-      })
+    .state('main.private', {
+      abstract: true,
+      template: '<div ui-view></div>',
+      data: {
+        auth: true
+      }
+    })
       .state('main.private.logout', {
         url: '/logout',
         controller: 'logoutController'
@@ -99,7 +105,9 @@
     function authorizeState(e, toState) {
       if (toState.data.auth && !$auth.isAuthenticated()) {
         e.preventDefault();
-        $state.go('main.public.login', null, { location: 'replace' });
+        $state.go('main.public.login', null, {
+          location: 'replace'
+        });
       }
     }
   }

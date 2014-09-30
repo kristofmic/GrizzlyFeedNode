@@ -1,6 +1,6 @@
 {
   "name": "chSnackbar",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "angular module for snackbar notifications",
   "main": "chSnackbar.min.js",
   "authors": [

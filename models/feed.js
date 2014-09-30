@@ -15,7 +15,11 @@ schema = {
   title: String,
   description: String,
   link: String,
-  xmlurl: { type: String, index: true, unique: true },
+  xmlurl: {
+    type: String,
+    index: true,
+    unique: true
+  },
   date: Date,
   pubdate: Date,
   author: String,
@@ -120,7 +124,9 @@ function refreshOne(feed) {
     }
 
     function saveEntry(entry) {
-      return Entry.findBy({ guid: entry.guid })
+      return Entry.findBy({
+          guid: entry.guid
+        })
         .then(verifyNewEntry);
 
       function verifyNewEntry(existingEntry) {
@@ -132,7 +138,13 @@ function refreshOne(feed) {
   }
 
   function updateFeedTimestamp(entries) {
-    Feed.update({ _id: feed._id }, { $set: { updatedAt: Date.now()}}, function() {});
+    Feed.update({
+      _id: feed._id
+    }, {
+      $set: {
+        updatedAt: Date.now()
+      }
+    }, function() {});
     return entries;
   }
 }
@@ -157,6 +169,3 @@ function updateOne(feed, feedParams) {
     feed.save(handleDeferred(resolve, reject));
   }
 }
-
-
-

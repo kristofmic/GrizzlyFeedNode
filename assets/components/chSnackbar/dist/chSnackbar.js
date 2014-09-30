@@ -68,6 +68,7 @@ angular.module('ch.Snackbar.Templates', []).run(['$templateCache', function($tem
       colors.success = config.success || colors.success;
       colors.error = config.error || colors.error;
       colors.notice = config.notice || colors.notice;
+      colors.loading = config.loading || colors.loading;
     }
 
     function snackbarFactory($document, $rootScope, $templateCache, $compile, $timeout, $animate, POSITIONS) {
@@ -212,7 +213,7 @@ angular.module('ch.Snackbar.Templates', []).run(['$templateCache', function($tem
 
       function clear() {
         if (stack.length) {
-          for(var i = 0, len = stack.length; i < len; i++) {
+          for (var i = 0, len = stack.length; i < len; i++) {
             clearSnackbar(stack[i], i);
           }
         }
