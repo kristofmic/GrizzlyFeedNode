@@ -1,1 +1,21 @@
-<h1>I'm home!</h1>
+<div class="row" ng-if="!finishedLoading">
+  <div ng-include="'_loading.html'"></div>
+</div>
+
+<div class="row">
+  <div class="col-sm-4">
+    <ul class="home-entries list-unstyled">
+      <li ng-repeat="entry in entries[0]" ng-include="'_entry_item.html'"></li>
+    </ul>
+  </div>
+  <div class="col-sm-4">
+    <ul class="home-entries list-unstyled">
+      <li ng-repeat="entry in entries[1]" ng-include="'_entry_item.html'"></li>
+    </ul>
+  </div>
+  <div class="col-sm-4">
+    <ul class="home-entries list-unstyled">
+      <li ng-repeat="entry in entries[2]" ng-include="'_entry_item.html'"></li>
+    </ul>
+  </div>
+</div>

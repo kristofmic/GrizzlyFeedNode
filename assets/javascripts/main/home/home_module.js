@@ -4,6 +4,7 @@
     dependencies;
 
   dependencies = [
+    'nl.Entries'
   ];
 
   angular.module('nl.Home', dependencies);

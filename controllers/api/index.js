@@ -6,6 +6,7 @@ var
   feeds = require('./feeds'),
   userFeeds = require('./user_feeds'),
   userFeedEntries = require('./user_feed_entries'),
+  entries = require('./entries'),
   userHelper = require('../../lib/user_helper'),
   feedHelper = require('../../lib/feed_helper'),
   entryHelper = require('../../lib/entry_helper');
@@ -33,6 +34,6 @@ router.delete('/user_feeds/:feedId', userHelper.authorize, feedHelper.authorize,
 
 router.post('/user_feed_entries', userHelper.authorize, entryHelper.authorize, userFeedEntries.create);
 
+router.get('/entries', entries.index);
+
 module.exports = router;
-
-
