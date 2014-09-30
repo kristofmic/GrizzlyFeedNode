@@ -28,8 +28,9 @@ function create(req, res) {
   function verifyUserFeed(feed) {
     if (_.find(user.feeds, compareUserFeed)) {
       responder.handleError(res, 400, 'Feed already added to the user\'s feeds.')();
-    }
-    else {
+    } else {
+      feed.subscribers += 1;
+      Feed.updateOne(feed);
       return feed;
     }
 
@@ -57,7 +58,7 @@ function create(req, res) {
 function updatePositions(req, res) {
   var
     user = req.user;
-    feeds = req.body.feeds;
+  feeds = req.body.feeds;
 
   user.feeds = _.map(feeds, mapUserFeed);
 
@@ -78,7 +79,9 @@ function updateEntries(req, res) {
     user = req.user,
     feed = req.feed,
     entries = req.body.entries,
-    feedIndex = _.findIndex(user.feeds, { feed: feed._id });
+    feedIndex = _.findIndex(user.feeds, {
+      feed: feed._id
+    });
 
   user.feeds[feedIndex].userFeed.entries = entries;
 
@@ -112,8 +115,9 @@ function destroy(req, res) {
 
     if (index === -1) {
       responder.handleError(res, 400, 'Feed is not part of the user\'s feeds.')();
-    }
-    else {
+    } else {
+      feed.subscribers -= 1;
+      Feed.updateOne(feed);
       return index;
     }
 
@@ -129,6 +133,8 @@ function destroy(req, res) {
     user.feeds.splice(index, 1);
 
     _.each(user.feeds, updatePosition);
+
+
 
     return User.updateOne(user);
 
@@ -189,7 +195,9 @@ function refresh(req, res) {
 }
 
 function populateFeeds(userFeedItem) {
-  return Feed.findBy({ _id: userFeedItem.feed })
+  return Feed.findBy({
+      _id: userFeedItem.feed
+    })
     .then(addFeedToUserFeed);
 
   function addFeedToUserFeed(feed) {
@@ -200,7 +208,9 @@ function populateFeeds(userFeedItem) {
 }
 
 function populateFeedEntries(userFeedItem, userEntries) {
-  return Entry.findNBy(userFeedItem.userFeed.entries, { _feed: userFeedItem.feed._id })
+  return Entry.findNBy(userFeedItem.userFeed.entries, {
+      _feed: userFeedItem.feed._id
+    })
     .then(addEntriesToFeed);
 
   function addEntriesToFeed(entries) {

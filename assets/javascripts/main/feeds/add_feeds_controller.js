@@ -53,6 +53,7 @@
 
       function handleSuccess() {
         feed.added = true;
+        feed.subscribers += 1;
         snackbar.success('The feed was successfully added.');
       }
     }
@@ -63,6 +64,7 @@
 
       function handleSuccess() {
         feed.added = false;
+        feed.subscribers -= 1;
         snackbar.success('The feed was successfully removed.');
       }
     }

@@ -17,9 +17,15 @@ function create(req, res) {
     email = req.body.email,
     password = req.body.password;
 
-  if (!email && !password) { res.json(400, 'Invalid email or password. Please try again.' ); }
+  if (!email && !password) {
+    res.json(400, 'Invalid email or password. Please try again.');
+  }
 
-  User.findBy({ email: email, isVerified: true, isActive: true })
+  User.findBy({
+    email: email,
+    isVerified: true,
+    isActive: true
+  })
     .then(verifyUser)
     .then(verifyPassword)
     .then(tokens.createSessionToken)
@@ -45,7 +51,12 @@ function destroy(req, res) {
   var
     token = req.header('token');
 
-  User.findBy({ token: token, tokenExpiration: { $gte: new Date() }})
+  User.findBy({
+    token: token,
+    tokenExpiration: {
+      $gte: new Date()
+    }
+  })
     .then(destroyToken)
     .then(responder.handleResponse(res, null, 'Success'))
     .catch(responder.handleError(res));
@@ -56,7 +67,7 @@ function destroy(req, res) {
 
     if (user) {
       userParams = {
-        token: null,
+        token: undefined,
         tokenExpiration: null
       };
 
@@ -73,7 +84,11 @@ function forgotPassword(req, res) {
   var
     email = req.body.email;
 
-  User.findBy({ email: email, isVerified: true, isActive: true })
+  User.findBy({
+    email: email,
+    isVerified: true,
+    isActive: true
+  })
     .then(verifyUser)
     .then(tokens.createPasswordResetToken)
     .then(User.updateOne)
@@ -82,8 +97,11 @@ function forgotPassword(req, res) {
     .catch(responder.handleError(res));
 
   function verifyUser(user) {
-    if (!user) { responder.handleResponse(res, null, 'Success')(); }
-    else { return user; }
+    if (!user) {
+      responder.handleResponse(res, null, 'Success')();
+    } else {
+      return user;
+    }
   }
 
   function sendReset(user) {
@@ -95,11 +113,11 @@ function forgotPassword(req, res) {
       to: email,
       subject: 'Grizzly Feed - Forgot Password',
       html: '<p>To reset your password, click <a href="http://localhost:3000/#/forgot_password/' +
-            user.passwordResetToken +
-            '">this link</a></p>' +
-            '<br />' +
-            '<p>If clicking the link does not work, you may copy and paste it directly into the browser window: ' +
-            'http://localhost:3000/#/forgot_password/' + user.passwordResetToken + '</p>',
+        user.passwordResetToken +
+        '">this link</a></p>' +
+        '<br />' +
+        '<p>If clicking the link does not work, you may copy and paste it directly into the browser window: ' +
+        'http://localhost:3000/#/forgot_password/' + user.passwordResetToken + '</p>',
       text: 'To reset your password, click the following link: http://localhost:3000/#/forgot_password/' + user.passwordResetToken
     };
 

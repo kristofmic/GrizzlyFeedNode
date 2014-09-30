@@ -52,8 +52,7 @@
           <div class="panel-body">
             <ul class="list-unstyled">
               <li>
-                <!-- TODO: Figure out the # of subscribers -->
-                <small>0 subscribers</small>
+                <small ng-pluralize count="feed.subscribers" when="{'one': '{} subscriber', 'other': '{} subscribers'}"></small>
               </li>
               <li>
                 <small>Last updated {{feed.updatedAt | date:"EEE MMM d, y 'at' h:mm a"}}</small>

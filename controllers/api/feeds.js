@@ -18,18 +18,7 @@ function create(req, res) {
   var
     feedUrl = req.body.url;
 
-  Feed.findBy({
-    xmlurl: feedUrl
-  })
-    .then(createFeed)
+  Feed.createOne(feedUrl)
     .then(responder.handleResponse(res))
     .catch(responder.handleError(res));
-
-  function createFeed(feed) {
-    if (feed) {
-      return Promise.reject('The feed already exists.');
-    }
-
-    return Feed.createOne(feedUrl);
-  }
 }

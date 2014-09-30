@@ -14,25 +14,53 @@ var
   User;
 
 schema = {
-  email: { type: String, index: true, unique: true },
+  email: {
+    type: String,
+    index: true,
+    unique: true
+  },
   password: String,
   isActive: Boolean,
   isVerified: Boolean,
-  token: { type: String, sparse: true, unique: true },
+  token: {
+    type: String,
+    sparse: true,
+    unique: true
+  },
   tokenExpiration: Date,
-  emailVerificationToken: { type: String, sparse: true, unique: true },
-  passwordResetToken: { type: String, sparse: true, unique: true },
+  emailVerificationToken: {
+    type: String,
+    sparse: true,
+    unique: true
+  },
+  passwordResetToken: {
+    type: String,
+    sparse: true,
+    unique: true
+  },
   passwordResetTokenExpiration: Date,
   feeds: [{
     userFeed: {
       col: Number,
       row: Number,
-      entries: { type: Number, default: 5 }
+      entries: {
+        type: Number,
+        default: 5
+      }
     },
-    feed: { type: mongoose.SchemaTypes.ObjectId, ref: 'Feed' }
+    feed: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Feed'
+    }
   }],
-  entries: { type: mongoose.SchemaTypes.Mixed, default: {}},
-  layout: { type: String, default: 'th' }
+  entries: {
+    type: mongoose.SchemaTypes.Mixed,
+    default: {}
+  },
+  layout: {
+    type: String,
+    default: 'th'
+  }
 };
 schemaKeys = _.keys(schema).concat('createdAt');
 userSchema = mongoose.Schema(schema);
@@ -67,7 +95,9 @@ function findBy(params) {
   }
 
   function appendCreatedAt(user) {
-    if (user) { user.createdAt = user._id.getTimestamp(); }
+    if (user) {
+      user.createdAt = user._id.getTimestamp();
+    }
     return user;
   }
 }
@@ -117,9 +147,11 @@ function updatePassword(user, password) {
     .then(updateUser);
 
   function updateUser(passwordHash) {
-    user.passwordResetToken = null;
+    user.passwordResetToken = undefined;
     user.passwordResetTokenExpiration = null;
-    return updateOne(user, { password: passwordHash });
+    return updateOne(user, {
+      password: passwordHash
+    });
   }
 }
 
@@ -133,7 +165,9 @@ function hashPassword(password) {
     bcrypt.genSalt(4, genHash);
 
     function genHash(err, salt) {
-      if (err) { reject(err); }
+      if (err) {
+        reject(err);
+      }
       bcrypt.hash(password, salt, handleDeferred(resolve, reject));
     }
   }
@@ -149,5 +183,3 @@ function isValidPassword(password, hash) {
     bcrypt.compare(password, hash, handleDeferred(resolve, reject));
   }
 }
-
-

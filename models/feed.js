@@ -32,7 +32,11 @@ schema = {
   copyright: String,
   generator: String,
   categories: [String],
-  updatedAt: Date
+  updatedAt: Date,
+  subscribers: {
+    type: Number,
+    default: 0
+  }
 };
 schemaKeys = _.keys(schema);
 feedSchema = mongoose.Schema(schema);
@@ -87,12 +91,23 @@ function createOne(url) {
       .then(saveEntries);
 
     function saveFeed(meta) {
-      var
-        newFeed = new Feed();
+      return findBy({
+          xmlurl: meta.xmlurl || url
+        })
+        .then(verifyNewFeed);
 
-      meta.xmlurl = meta.xmlurl || url;
+      function verifyNewFeed(feed) {
+        var
+          newFeed;
 
-      return updateOne(newFeed, meta);
+        if (feed) {
+          return Promise.reject('The feed already exists.');
+        } else {
+          newFeed = new Feed();
+          meta.xmlurl = meta.xmlurl || url;
+          return updateOne(newFeed, meta);
+        }
+      }
     }
 
     function saveEntries(feed) {

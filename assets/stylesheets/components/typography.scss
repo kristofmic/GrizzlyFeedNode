@@ -13,6 +13,10 @@ small, i, label {
   color: $gray54;
 }
 
+i {
+  text-shadow: 0 1px 0 $gray12;
+}
+
 a {
   color: $primary;
 
