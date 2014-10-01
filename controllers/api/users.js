@@ -48,13 +48,13 @@ function create(req, res) {
       from: 'Grizzly Feed <do-not-reply@grizzlyfeed.com>',
       to: email,
       subject: 'Grizzly Feed - Email Verification',
-      html: '<p>Click <a href="http://localhost:3000/#/email_verification/' +
+      html: '<p>Click <a href="' + process.env.HOSTNAME + '/#/email_verification/' +
         user.emailVerificationToken +
         '">this link</a> to verify your email.</p>' +
         '<br />' +
         '<p>If clicking the link does not work, you may copy and paste it directly into the browser window: ' +
-        'http://localhost:3000/#/email_verification/' + user.emailVerificationToken + '</p>',
-      text: 'To verify your email, click the following link: http://localhost:3000/#/email_verification/' + user.emailVerificationToken
+        process.env.HOSTNAME + '/#/email_verification/' + user.emailVerificationToken + '</p>',
+      text: 'To verify your email, click the following link: ' + process.env.HOSTNAME + '/#/email_verification/' + user.emailVerificationToken
     };
 
     return mailer.send(mailerOptions);

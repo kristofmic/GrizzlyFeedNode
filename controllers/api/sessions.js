@@ -112,13 +112,13 @@ function forgotPassword(req, res) {
       from: 'Grizzly Feed <do-not-reply@grizzlyfeed.com>',
       to: email,
       subject: 'Grizzly Feed - Forgot Password',
-      html: '<p>To reset your password, click <a href="http://localhost:3000/#/forgot_password/' +
+      html: '<p>To reset your password, click <a href="' + process.env.HOSTNAME + '/#/forgot_password/' +
         user.passwordResetToken +
         '">this link</a></p>' +
         '<br />' +
         '<p>If clicking the link does not work, you may copy and paste it directly into the browser window: ' +
-        'http://localhost:3000/#/forgot_password/' + user.passwordResetToken + '</p>',
-      text: 'To reset your password, click the following link: http://localhost:3000/#/forgot_password/' + user.passwordResetToken
+        process.env.HOSTNAME + '/#/forgot_password/' + user.passwordResetToken + '</p>',
+      text: 'To reset your password, click the following link: ' + process.env.HOSTNAME + '/#/forgot_password/' + user.passwordResetToken
     };
 
     return mailer.send(mailerOptions);

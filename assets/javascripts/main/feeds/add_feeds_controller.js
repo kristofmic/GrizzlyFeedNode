@@ -38,6 +38,7 @@
         return userFeeds.create(feed)
           .then(function() {
             feed.added = true;
+            feed.subscribers += 1;
           });
       }
 
