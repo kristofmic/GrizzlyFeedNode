@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 controllers(app);
 errors(app);
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT);
 
 app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + app.get('port'));
