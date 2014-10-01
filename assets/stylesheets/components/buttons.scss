@@ -10,6 +10,10 @@
     outline: none;
     box-shadow: none;
   }
+
+  &:disabled {
+    box-shadow: none;
+  }
 }
 
 .btn.btn-link {

@@ -27,12 +27,12 @@ angular.module('nl.Templates', []).run(['$templateCache', function($templateCach
 
 
   $templateCache.put('_entry_item.html',
-    "<div class=\"panel panel-default\"><div class=\"panel-body\"><div class=\"entry-snapshot\"><a ng-href=\"{{entry.link}}\" class=\"entry-title\" target=\"_blank\">{{entry.title}}</a><p class=\"entry-meta\"><small>{{entry.pubdate | date:\"EEE MMM d, y 'at' h:mm a\"}} <span ng-if=\"entry.author\">| {{entry.author}}</span></small></p><p class=\"entry-meta\"><small ng-if=\"entry.categories.length\">|</small> <small ng-repeat=\"category in entry.categories | limitTo:3\">#{{category}}</small></p></div><p class=\"clearfix\" ng-bind-html=\"entry.summary\"></p></div></div>"
+    "<div class=\"panel panel-default\"><div class=\"panel-body\"><div class=\"entry-snapshot\"><a ng-href=\"{{entry.link}}\" class=\"entry-title\" target=\"_blank\">{{entry.title}}</a><p class=\"entry-meta\"><small>{{entry.pubdate | date:\"EEE MMM d, y 'at' h:mm a\"}} <span ng-if=\"entry.author\">| {{entry.author}}</span></small></p><p class=\"entry-meta\"><small class=\"entry-categories\" ng-repeat=\"category in entry.categories | limitTo:3\">#{{category}}</small></p></div><p class=\"entry-summary\" ng-bind-html=\"entry.summary\"></p></div></div>"
   );
 
 
   $templateCache.put('home.html',
-    "<div class=\"row\" ng-if=\"!finishedLoading\"><div ng-include=\"'_loading.html'\"></div></div><div class=\"row\"><div class=\"col-sm-4\"><ul class=\"home-entries list-unstyled\"><li ng-repeat=\"entry in entries[0]\" ng-include=\"'_entry_item.html'\"></li></ul></div><div class=\"col-sm-4\"><ul class=\"home-entries list-unstyled\"><li ng-repeat=\"entry in entries[1]\" ng-include=\"'_entry_item.html'\"></li></ul></div><div class=\"col-sm-4\"><ul class=\"home-entries list-unstyled\"><li ng-repeat=\"entry in entries[2]\" ng-include=\"'_entry_item.html'\"></li></ul></div></div>"
+    "<div class=\"row\"><div class=\"col-sm-4 home-entries-column\"><ul class=\"home-entries list-unstyled\"><li ng-repeat=\"entry in entries[0]\" ng-include=\"'_entry_item.html'\"></li><div ng-include=\"'_loading.html'\" nl-infinite-scroll></div></ul></div><div class=\"col-sm-4 home-entries-column\"><ul class=\"home-entries list-unstyled\"><li ng-repeat=\"entry in entries[1]\" ng-include=\"'_entry_item.html'\"></li></ul><div ng-include=\"'_loading.html'\" nl-infinite-scroll></div></div><div class=\"col-sm-4 home-entries-column\"><ul class=\"home-entries list-unstyled\"><li ng-repeat=\"entry in entries[2]\" ng-include=\"'_entry_item.html'\"></li></ul><div ng-include=\"'_loading.html'\" nl-infinite-scroll></div></div></div>"
   );
 
 

@@ -4,7 +4,8 @@
     dependencies;
 
   dependencies = [
-    'nl.Entries'
+    'nl.Entries',
+    'nl.InfiniteScroll'
   ];
 
   angular.module('nl.Home', dependencies);

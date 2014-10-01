@@ -1,0 +1,38 @@
+.home-entries-column {
+  padding-left: 7px;
+  padding-right: 7px;
+
+  .panel {
+
+    .panel-heading { display: none; }
+
+    .panel-body {
+
+      .entry-snapshot {
+        .entry-title {
+          font-size: 20px;
+          display: block;
+        }
+
+        .entry-meta {
+          margin: 0;
+
+          .entry-categories {
+            margin-right: 3px;
+          }
+        }
+      }
+
+      .entry-summary {
+        margin: 0;
+        padding-top: 10px;
+
+        img {
+          margin: 10px auto;
+          max-width: 100%;
+          box-shadow: 0 1px 1px $gray12;
+        }
+      }
+    }
+  }
+}

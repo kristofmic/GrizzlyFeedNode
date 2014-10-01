@@ -20,7 +20,11 @@ schema = {
   date: Date,
   pubdate: Date,
   author: String,
-  guid: { type: String, index: true, unique: true },
+  guid: {
+    type: String,
+    index: true,
+    unique: true
+  },
   comments: String,
   image: {
     url: String,
@@ -36,7 +40,11 @@ schema = {
     type: String,
     length: String
   }],
-  _feed : { type: mongoose.SchemaTypes.ObjectId, ref: 'Feed', index: true },
+  _feed: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Feed',
+    index: true
+  },
 };
 schemaKeys = _.keys(schema);
 entrySchema = mongoose.Schema(schema);
@@ -69,7 +77,7 @@ function createOne(feed, entry) {
   }
 }
 
-function findNBy(limit, params) {
+function findNBy(limit, params, skip) {
   return findNByPromise(params);
 
   function findNByPromise(params) {
@@ -81,10 +89,16 @@ function findNBy(limit, params) {
     return deferredPromise;
 
     function defer(resolve, reject) {
+      params = params || {};
+      skip = skip || 0;
+
       Entry.find()
         .where(params)
+        .skip(skip)
         .limit(limit)
-        .sort({ pubdate: -1 })
+        .sort({
+          pubdate: -1
+        })
         .exec(handleDeferred(resolve, reject));
     }
   }
@@ -108,8 +122,3 @@ function findBy(params) {
     }
   }
 }
-
-
-
-
-

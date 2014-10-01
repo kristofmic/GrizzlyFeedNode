@@ -18,6 +18,7 @@
 			column = 0;
 
 		self.init = init;
+		self.get = get;
 		self.model = [
 			[],
 			[],
@@ -31,21 +32,26 @@
 
 			return $http.get('/api/entries')
 				.then(setEntriesFromResponse);
-
-			function setEntriesFromResponse(res) {
-				if (res && res.data) {
-					_.each(res.data, breakIntoColumns);
-				}
-
-				return self;
-			}
 		}
 
-		function breakIntoColumns(entry) {
-			self.model[column].push(entry);
+		function get(offset) {
+			return $http.get('/api/entries?offset=' + offset)
+				.then(setEntriesFromResponse);
+		}
 
-			if ((column += 1) === 3) {
-				column = 0;
+		function setEntriesFromResponse(res) {
+			if (res && res.data) {
+				_.each(res.data, breakIntoColumns);
+			}
+
+			return self;
+
+			function breakIntoColumns(entry) {
+				self.model[column].push(entry);
+
+				if ((column += 1) === 3) {
+					column = 0;
+				}
 			}
 		}
 

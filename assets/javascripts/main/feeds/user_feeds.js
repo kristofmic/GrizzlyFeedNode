@@ -36,7 +36,11 @@
     function init() {
       clear();
 
-      return $http.get('/api/user_feeds', { headers: { token: user.token() }})
+      return $http.get('/api/user_feeds', {
+          headers: {
+            token: user.token()
+          }
+        })
         .then(setUserFeedsFromResponse);
 
       function setUserFeedsFromResponse(res) {
@@ -72,20 +76,43 @@
     }
 
     function create(feed) {
-      return $http.post('/api/user_feeds', { feedId: feed._id }, { headers: { token: user.token() }})
+      return $http.post('/api/user_feeds', {
+          feedId: feed._id
+        }, {
+          headers: {
+            token: user.token()
+          }
+        })
         .then(setUserFromResponse);
     }
 
     function updatePositions(feeds) {
-      return $http.put('/api/user_feeds/positions', { feeds: feeds }, { headers: { token: user.token() }});
+      return $http.put('/api/user_feeds/positions', {
+        feeds: feeds
+      }, {
+        headers: {
+          token: user.token()
+        }
+      });
     }
 
     function updateEntries(userFeedItem) {
-      return $http.put('/api/user_feeds/entries', { feedId: userFeedItem.feed._id, entries: userFeedItem.userFeed.entries }, { headers: { token: user.token() }});
+      return $http.put('/api/user_feeds/entries', {
+        feedId: userFeedItem.feed._id,
+        entries: userFeedItem.userFeed.entries
+      }, {
+        headers: {
+          token: user.token()
+        }
+      });
     }
 
     function refresh() {
-      return $http.get('/api/user_feeds/refresh', { headers: { token: user.token() }})
+      return $http.get('/api/user_feeds/refresh', {
+          headers: {
+            token: user.token()
+          }
+        })
         .then(setNewEntries);
 
       function setNewEntries(res) {
@@ -109,12 +136,22 @@
     }
 
     function destroy(feed) {
-      return $http.delete('/api/user_feeds/' + feed._id, { headers: { token: user.token() }})
+      return $http.delete('/api/user_feeds/' + feed._id, {
+          headers: {
+            token: user.token()
+          }
+        })
         .then(setUserFromResponse);
     }
 
     function visitEntry(entry) {
-      return $http.post('/api/user_feed_entries/', { entryId: entry._id }, { headers: { token: user.token() }});
+      return $http.post('/api/user_feed_entries/', {
+        entryId: entry._id
+      }, {
+        headers: {
+          token: user.token()
+        }
+      });
     }
 
     function findFeed(feedId) {
@@ -128,7 +165,9 @@
       function searchColumns(colFeeds, col) {
         foundFeed = _.find(colFeeds, searchColumn);
 
-        if (foundFeed) { return false; }
+        if (foundFeed) {
+          return false;
+        }
 
         function searchColumn(colFeed) {
           return colFeed.feed._id === feedId;
