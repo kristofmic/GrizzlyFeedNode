@@ -1,5 +1,5 @@
 module.exports = {
   server: {
-    cmd: 'nodemon app'
+    cmd: 'NODE_ENV=\'development\' nodemon app'
   }
 };

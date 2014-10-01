@@ -1,5 +1,4 @@
 var
-  env = require('./config/env'),
   express = require('express'),
   path = require('path'),
   favicon = require('static-favicon'),
@@ -15,6 +14,10 @@ var
   errors = require('./lib/errors'),
 
   app = express();
+
+if (process.env.NODE_ENV === 'development') {
+  require('./config/env');
+}
 
 // db setup
 mongoose.connect(process.env.DB_CONNECTION);
