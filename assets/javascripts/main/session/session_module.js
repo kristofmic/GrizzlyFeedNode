@@ -8,6 +8,7 @@
     'ui.bootstrap',
     'ch.Validator',
     'ch.Snackbar',
+    'nl.Messenger',
     'nl.User'
   ];
 

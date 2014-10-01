@@ -10,13 +10,14 @@
     '$modalInstance',
     '_',
     'userFeeds',
+    'messenger',
     editFeedModalController
   ];
 
   angular.module('nl.Feeds')
     .controller('editFeedModalController', definitions);
 
-  function editFeedModalController($scope, $http, snackbar, modal, _, userFeeds) {
+  function editFeedModalController($scope, $http, snackbar, modal, _, userFeeds, messenger) {
     $scope.save = save;
     $scope.dismiss = modal.dismiss;
 
@@ -30,15 +31,14 @@
           .then(clearFeedToEdit)
           .then(modal.close)
           .then(handleSuccess('The feed was successfully removed.'))
-          ['catch'](handleError);
-      }
-      else {
+          ['catch'](messenger.handleError);
+      } else {
         return userFeeds.updateEntries($scope.feedToEdit)
           .then(setFeedEntries)
           .then(clearFeedToEdit)
           .then(modal.close)
           .then(handleSuccess('The feed was successfully updated.'))
-          ['catch'](handleError);
+          ['catch'](messenger.handleError);
       }
 
       function removeFeed() {
@@ -60,10 +60,6 @@
         return function() {
           snackbar.success(message);
         };
-      }
-
-      function handleError(err) {
-        snackbar.error(angular.fromJson(err.data));
       }
     }
 

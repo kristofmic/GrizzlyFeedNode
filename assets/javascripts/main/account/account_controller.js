@@ -8,13 +8,14 @@
     'user',
     'VALIDATION_EVENT',
     'snackbar',
+    'messenger',
     accountController
   ];
 
   angular.module('nl.Account')
     .controller('accountController', definitions);
 
-  function accountController($scope, user, VALIDATION_EVENT, snackbar) {
+  function accountController($scope, user, VALIDATION_EVENT, snackbar, messenger) {
     $scope.user = user.model;
     $scope.credentials = {};
     $scope.submit = submit;
@@ -26,8 +27,7 @@
         snackbar.loading('Processing. Please wait.');
 
         user.update(fields)
-          .then(handleSuccess)
-          ['catch'](handleError);
+          .then(handleSuccess)['catch'](messenger.handleError);
       }
 
       function handleSuccess() {
@@ -37,9 +37,6 @@
         $scope.newPasswordConfirmation = '';
       }
 
-      function handleError(err) {
-        snackbar.error(angular.fromJson(err.data));
-      }
     }
   }
 

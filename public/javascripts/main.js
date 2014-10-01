@@ -284,6 +284,59 @@
 
 })(angular);
 
+// assets/javascripts/shared/messenger/messenger_module.js
+(function(angular) {
+
+  var
+    dependencies;
+
+  dependencies = [
+    'ch.Snackbar'
+  ];
+
+  angular.module('nl.Messenger', dependencies);
+
+})(angular);
+
+// assets/javascripts/shared/messenger/messenger.js
+(function(angular) {
+
+	var
+		definitions;
+
+	definitions = [
+		'snackbar',
+		messengerFactory
+	];
+
+	angular.module('nl.Messenger')
+		.factory('messenger', definitions);
+
+	function messengerFactory(snackbar) {
+		var
+			defaults;
+
+		defaults = {
+			error: 'There was a problem processing your request. Please try again.'
+		};
+
+		return {
+			handleError: handleError
+		};
+
+		function handleError(err) {
+			if (err && err.data) {
+				err = angular.fromJson(err.data);
+			}
+
+			err = typeof err === 'string' ? err : defaults.error;
+			snackbar.error(err);
+
+		}
+	}
+
+})(angular);
+
 // assets/javascripts/main/session/session_module.js
 (function(angular) {
 
@@ -295,6 +348,7 @@
     'ui.bootstrap',
     'ch.Validator',
     'ch.Snackbar',
+    'nl.Messenger',
     'nl.User'
   ];
 
@@ -314,13 +368,14 @@
     '$stateParams',
     '$http',
     'snackbar',
+    'messenger',
     emailVerificationController
   ];
 
   angular.module('nl.Session')
     .controller('emailVerificationController', definitions);
 
-  function emailVerificationController($scope, $state, $stateParams, $http, snackbar) {
+  function emailVerificationController($scope, $state, $stateParams, $http, snackbar, messenger) {
     $http.put('/api/users/verify_email', { verificationToken: $stateParams.verificationToken })
       .then(handleSuccess)
       ['catch'](handleError);
@@ -331,7 +386,7 @@
     }
 
     function handleError(err) {
-      snackbar.error(angular.fromJson(err.data));
+      messenger.handleError(err);
       $state.go('main.public.login', null, { location: 'replace' });
     }
   }
@@ -350,6 +405,7 @@
     '$stateParams',
     'user',
     'snackbar',
+    'messenger',
     'VALIDATION_EVENT',
     forgotPasswordController
   ];
@@ -357,7 +413,7 @@
   angular.module('nl.Session')
     .controller('forgotPasswordController', definitions);
 
-  function forgotPasswordController($scope, $state, $stateParams, user, snackbar, VALIDATION_EVENT) {
+  function forgotPasswordController($scope, $state, $stateParams, user, snackbar, messenger, VALIDATION_EVENT) {
     $scope.submit = submit;
 
     function submit(form, password) {
@@ -371,7 +427,7 @@
           password: password
         })
         .then(handleSuccess)
-        ['catch'](handleError);
+        ['catch'](messenger.handleError);
       }
 
       function handleSuccess(res) {
@@ -379,9 +435,6 @@
         $state.go('main.public.login', null, { location: 'replace' });
       }
 
-      function handleError(err) {
-        snackbar.error(angular.fromJson(err.data));
-      }
     }
   }
 
@@ -398,6 +451,7 @@
     '$state',
     '$http',
     'snackbar',
+    'messenger',
     '$modalInstance',
     forgotPasswordModalController
   ];
@@ -405,7 +459,7 @@
   angular.module('nl.Session')
     .controller('forgotPasswordModalController', definitions);
 
-  function forgotPasswordModalController($scope, $state, $http, snackbar, modal) {
+  function forgotPasswordModalController($scope, $state, $http, snackbar, messenger, modal) {
     $scope.submit = submit;
     $scope.dismiss = modal.dismiss;
 
@@ -416,16 +470,13 @@
         $http.post('/api/sessions/forgot_password', { email: email })
           .then(handleSuccess)
           .then(modal.close)
-          ['catch'](handleError);
+          ['catch'](messenger.handleError);
       }
 
       function handleSuccess(res) {
         snackbar.success('A link to reset your password has been sent to your email.');
       }
 
-      function handleError(err) {
-        snackbar.error(angular.fromJson(err.data));
-      }
     }
   }
 
@@ -443,6 +494,7 @@
     '$modal',
     'user',
     'snackbar',
+    'messenger',
     'VALIDATION_EVENT',
     loginController
   ];
@@ -450,7 +502,7 @@
   angular.module('nl.Session')
     .controller('loginController', definitions);
 
-  function loginController($scope, $state, $modal, user, snackbar, VALIDATION_EVENT) {
+  function loginController($scope, $state, $modal, user, snackbar, messenger, VALIDATION_EVENT) {
     $scope.credentials = {};
     $scope.submit = submit;
     $scope.forgotPassword = forgotPassword;
@@ -460,11 +512,7 @@
 
       if (form.$valid) {
         user.login(fields)
-          ['catch'](handleError);
-      }
-
-      function handleError(err) {
-        snackbar.error(angular.fromJson(err.data));
+          ['catch'](messenger.handleError);
       }
     }
 
@@ -496,6 +544,7 @@
     '$state',
     'user',
     'snackbar',
+    'messenger',
     'VALIDATION_EVENT',
     '$modalInstance',
     loginModalController
@@ -504,7 +553,7 @@
   angular.module('nl.Session')
     .controller('loginModalController', definitions);
 
-  function loginModalController($scope, $state, user, snackbar, VALIDATION_EVENT, modal) {
+  function loginModalController($scope, $state, user, snackbar, messenger, VALIDATION_EVENT, modal) {
     $scope.credentials = {};
     $scope.submit = submit;
     $scope.dismiss = dismiss;
@@ -515,11 +564,7 @@
       if (loginForm.$valid) {
         user.login($scope.credentials)
           .then(modal.close)
-          ['catch'](handleError);
-      }
-
-      function handleError(err) {
-        snackbar.error(angular.fromJson(err.data));
+          ['catch'](messenger.handleError);
       }
     }
 
@@ -587,6 +632,7 @@
     '$state',
     'VALIDATION_EVENT',
     'snackbar',
+    'messenger',
     'user',
     signupController
   ];
@@ -594,7 +640,7 @@
   angular.module('nl.Signup')
     .controller('signupController', definitions);
 
-  function signupController($scope, $state, VALIDATION_EVENT, snackbar, user) {
+  function signupController($scope, $state, VALIDATION_EVENT, snackbar, messenger, user) {
     $scope.credentials = {};
     $scope.submit = submit;
 
@@ -606,15 +652,11 @@
 
         user.create(fields)
         .then(handleSuccess)
-        ['catch'](handleError);
+        ['catch'](messenger.handleError);
       }
 
       function handleSuccess() {
         snackbar.success('An email has been sent to your address for verification. Please verify before logging in.');
-      }
-
-      function handleError(err) {
-        snackbar.error(angular.fromJson(err.data));
       }
     }
   }
@@ -632,6 +674,7 @@
     'ch.Snackbar',
     'ui.sortable',
     'ui.bootstrap',
+    'nl.Messenger',
     'nl.User'
   ];
 
@@ -651,13 +694,14 @@
     'feeds',
     'userFeeds',
     'snackbar',
+    'messenger',
     addFeedsController
   ];
 
   angular.module('nl.Feeds')
     .controller('addFeedsController', definitions);
 
-  function addFeedsController($scope, _, feeds, userFeeds, snackbar) {
+  function addFeedsController($scope, _, feeds, userFeeds, snackbar, messenger) {
     feeds.init()
       .then(function(feeds) {
         $scope.finishedLoading = true;
@@ -674,7 +718,7 @@
 
       feeds.create(feedUrl)
         .then(addAsUserFeed)
-        .then(handleSuccess)['catch'](handleError);
+        .then(handleSuccess)['catch'](messenger.handleError);
 
       function addAsUserFeed(feed) {
         return userFeeds.create(feed)
@@ -692,7 +736,7 @@
 
     function addUserFeed(feed) {
       userFeeds.create(feed)
-        .then(handleSuccess)['catch'](handleError);
+        .then(handleSuccess)['catch'](messenger.handleError);
 
       function handleSuccess() {
         feed.added = true;
@@ -703,7 +747,7 @@
 
     function removeUserFeed(feed) {
       userFeeds.destroy(feed)
-        .then(handleSuccess)['catch'](handleError);
+        .then(handleSuccess)['catch'](messenger.handleError);
 
       function handleSuccess() {
         feed.added = false;
@@ -720,9 +764,6 @@
       }
     }
 
-    function handleError(err) {
-      snackbar.error(angular.fromJson(err.data));
-    }
   }
 
 })(angular);
@@ -740,13 +781,14 @@
     '$modalInstance',
     '_',
     'userFeeds',
+    'messenger',
     editFeedModalController
   ];
 
   angular.module('nl.Feeds')
     .controller('editFeedModalController', definitions);
 
-  function editFeedModalController($scope, $http, snackbar, modal, _, userFeeds) {
+  function editFeedModalController($scope, $http, snackbar, modal, _, userFeeds, messenger) {
     $scope.save = save;
     $scope.dismiss = modal.dismiss;
 
@@ -760,15 +802,14 @@
           .then(clearFeedToEdit)
           .then(modal.close)
           .then(handleSuccess('The feed was successfully removed.'))
-          ['catch'](handleError);
-      }
-      else {
+          ['catch'](messenger.handleError);
+      } else {
         return userFeeds.updateEntries($scope.feedToEdit)
           .then(setFeedEntries)
           .then(clearFeedToEdit)
           .then(modal.close)
           .then(handleSuccess('The feed was successfully updated.'))
-          ['catch'](handleError);
+          ['catch'](messenger.handleError);
       }
 
       function removeFeed() {
@@ -790,10 +831,6 @@
         return function() {
           snackbar.success(message);
         };
-      }
-
-      function handleError(err) {
-        snackbar.error(angular.fromJson(err.data));
       }
     }
 
@@ -903,13 +940,14 @@
     'user',
     'userFeeds',
     'snackbar',
+    'messenger',
     feedsController
   ];
 
   angular.module('nl.Feeds')
     .controller('feedsController', definitions);
 
-  function feedsController($scope, $modal, _, user, userFeeds, snackbar) {
+  function feedsController($scope, $modal, _, user, userFeeds, snackbar, messenger) {
     userFeeds.init()
       .then(function(userFeeds) {
         $scope.finishedLoading = true;
@@ -1020,7 +1058,7 @@
       userFeeds.refresh()
         .then(updateTimestamp)
         .then(handleSuccess('Feeds are up to date.'))
-        ['catch'](handleError)
+        ['catch'](messenger.handleError)
         ['finally'](finishRefresh);
 
       function updateTimestamp() {
@@ -1043,10 +1081,6 @@
       return function() {
         snackbar.success(message);
       };
-    }
-
-    function handleError(err) {
-      snackbar.error(angular.fromJson(err.data));
     }
 
   }
@@ -1342,6 +1376,7 @@
   dependencies = [
     'ch.Validator',
     'ch.Snackbar',
+    'nl.Messenger',
     'nl.User'
   ];
 
@@ -1360,13 +1395,14 @@
     'user',
     'VALIDATION_EVENT',
     'snackbar',
+    'messenger',
     accountController
   ];
 
   angular.module('nl.Account')
     .controller('accountController', definitions);
 
-  function accountController($scope, user, VALIDATION_EVENT, snackbar) {
+  function accountController($scope, user, VALIDATION_EVENT, snackbar, messenger) {
     $scope.user = user.model;
     $scope.credentials = {};
     $scope.submit = submit;
@@ -1378,8 +1414,7 @@
         snackbar.loading('Processing. Please wait.');
 
         user.update(fields)
-          .then(handleSuccess)
-          ['catch'](handleError);
+          .then(handleSuccess)['catch'](messenger.handleError);
       }
 
       function handleSuccess() {
@@ -1389,9 +1424,6 @@
         $scope.newPasswordConfirmation = '';
       }
 
-      function handleError(err) {
-        snackbar.error(angular.fromJson(err.data));
-      }
     }
   }
 

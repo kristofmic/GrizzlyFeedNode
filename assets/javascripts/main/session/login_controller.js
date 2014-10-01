@@ -9,6 +9,7 @@
     '$modal',
     'user',
     'snackbar',
+    'messenger',
     'VALIDATION_EVENT',
     loginController
   ];
@@ -16,7 +17,7 @@
   angular.module('nl.Session')
     .controller('loginController', definitions);
 
-  function loginController($scope, $state, $modal, user, snackbar, VALIDATION_EVENT) {
+  function loginController($scope, $state, $modal, user, snackbar, messenger, VALIDATION_EVENT) {
     $scope.credentials = {};
     $scope.submit = submit;
     $scope.forgotPassword = forgotPassword;
@@ -26,11 +27,7 @@
 
       if (form.$valid) {
         user.login(fields)
-          ['catch'](handleError);
-      }
-
-      function handleError(err) {
-        snackbar.error(angular.fromJson(err.data));
+          ['catch'](messenger.handleError);
       }
     }
 

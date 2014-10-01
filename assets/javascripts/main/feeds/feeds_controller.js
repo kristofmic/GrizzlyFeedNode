@@ -10,13 +10,14 @@
     'user',
     'userFeeds',
     'snackbar',
+    'messenger',
     feedsController
   ];
 
   angular.module('nl.Feeds')
     .controller('feedsController', definitions);
 
-  function feedsController($scope, $modal, _, user, userFeeds, snackbar) {
+  function feedsController($scope, $modal, _, user, userFeeds, snackbar, messenger) {
     userFeeds.init()
       .then(function(userFeeds) {
         $scope.finishedLoading = true;
@@ -127,7 +128,7 @@
       userFeeds.refresh()
         .then(updateTimestamp)
         .then(handleSuccess('Feeds are up to date.'))
-        ['catch'](handleError)
+        ['catch'](messenger.handleError)
         ['finally'](finishRefresh);
 
       function updateTimestamp() {
@@ -150,10 +151,6 @@
       return function() {
         snackbar.success(message);
       };
-    }
-
-    function handleError(err) {
-      snackbar.error(angular.fromJson(err.data));
     }
 
   }

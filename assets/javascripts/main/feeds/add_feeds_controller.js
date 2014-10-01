@@ -9,13 +9,14 @@
     'feeds',
     'userFeeds',
     'snackbar',
+    'messenger',
     addFeedsController
   ];
 
   angular.module('nl.Feeds')
     .controller('addFeedsController', definitions);
 
-  function addFeedsController($scope, _, feeds, userFeeds, snackbar) {
+  function addFeedsController($scope, _, feeds, userFeeds, snackbar, messenger) {
     feeds.init()
       .then(function(feeds) {
         $scope.finishedLoading = true;
@@ -32,7 +33,7 @@
 
       feeds.create(feedUrl)
         .then(addAsUserFeed)
-        .then(handleSuccess)['catch'](handleError);
+        .then(handleSuccess)['catch'](messenger.handleError);
 
       function addAsUserFeed(feed) {
         return userFeeds.create(feed)
@@ -50,7 +51,7 @@
 
     function addUserFeed(feed) {
       userFeeds.create(feed)
-        .then(handleSuccess)['catch'](handleError);
+        .then(handleSuccess)['catch'](messenger.handleError);
 
       function handleSuccess() {
         feed.added = true;
@@ -61,7 +62,7 @@
 
     function removeUserFeed(feed) {
       userFeeds.destroy(feed)
-        .then(handleSuccess)['catch'](handleError);
+        .then(handleSuccess)['catch'](messenger.handleError);
 
       function handleSuccess() {
         feed.added = false;
@@ -78,9 +79,6 @@
       }
     }
 
-    function handleError(err) {
-      snackbar.error(angular.fromJson(err.data));
-    }
   }
 
 })(angular);

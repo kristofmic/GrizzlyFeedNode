@@ -317,7 +317,7 @@ div.divider {
   border-radius: 2px;
 }
 .snackbar .snackbar-message {
-  font-weight: 400;
+  font-weight: 600;
 }
 
 @media (max-width: 768px) {

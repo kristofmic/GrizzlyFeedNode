@@ -1,6 +1,10 @@
-
-    <script src="/javascripts/components.min.js"></script>
-    <script src="/javascripts/main.min.js"></script>
+    <% if (process.env.NODE_ENV === 'development') { %>
+      <script src="/javascripts/components.js"></script>
+      <script src="/javascripts/main.js"></script>
+    <% } else { %>
+      <script src="/javascripts/components.min.js"></script>
+      <script src="/javascripts/main.min.js"></script>
+    <% } %>
 
   </body>
 </html>

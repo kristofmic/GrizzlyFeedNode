@@ -14,7 +14,12 @@
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
     <link rel="stylesheet" href="/stylesheets/snackbar.min.css">
-    <link rel="stylesheet" href="/stylesheets/main.min.css">
+
+    <% if (process.env.NODE_ENV === 'development') { %>
+      <link rel="stylesheet" href="/stylesheets/main.css">
+    <% } else { %>
+      <link rel="stylesheet" href="/stylesheets/main.min.css">
+    <% } %>
 
     <!--
     <link rel="apple-touch-icon" href="touch-icon-iphone-precomposed.png">

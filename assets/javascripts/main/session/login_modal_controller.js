@@ -8,6 +8,7 @@
     '$state',
     'user',
     'snackbar',
+    'messenger',
     'VALIDATION_EVENT',
     '$modalInstance',
     loginModalController
@@ -16,7 +17,7 @@
   angular.module('nl.Session')
     .controller('loginModalController', definitions);
 
-  function loginModalController($scope, $state, user, snackbar, VALIDATION_EVENT, modal) {
+  function loginModalController($scope, $state, user, snackbar, messenger, VALIDATION_EVENT, modal) {
     $scope.credentials = {};
     $scope.submit = submit;
     $scope.dismiss = dismiss;
@@ -27,11 +28,7 @@
       if (loginForm.$valid) {
         user.login($scope.credentials)
           .then(modal.close)
-          ['catch'](handleError);
-      }
-
-      function handleError(err) {
-        snackbar.error(angular.fromJson(err.data));
+          ['catch'](messenger.handleError);
       }
     }
 

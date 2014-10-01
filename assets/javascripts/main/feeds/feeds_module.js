@@ -8,6 +8,7 @@
     'ch.Snackbar',
     'ui.sortable',
     'ui.bootstrap',
+    'nl.Messenger',
     'nl.User'
   ];
 

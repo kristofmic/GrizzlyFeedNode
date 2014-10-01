@@ -9,13 +9,14 @@
     '$stateParams',
     '$http',
     'snackbar',
+    'messenger',
     emailVerificationController
   ];
 
   angular.module('nl.Session')
     .controller('emailVerificationController', definitions);
 
-  function emailVerificationController($scope, $state, $stateParams, $http, snackbar) {
+  function emailVerificationController($scope, $state, $stateParams, $http, snackbar, messenger) {
     $http.put('/api/users/verify_email', { verificationToken: $stateParams.verificationToken })
       .then(handleSuccess)
       ['catch'](handleError);
@@ -26,7 +27,7 @@
     }
 
     function handleError(err) {
-      snackbar.error(angular.fromJson(err.data));
+      messenger.handleError(err);
       $state.go('main.public.login', null, { location: 'replace' });
     }
   }

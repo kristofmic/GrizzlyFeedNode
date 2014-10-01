@@ -9,6 +9,7 @@
     '$stateParams',
     'user',
     'snackbar',
+    'messenger',
     'VALIDATION_EVENT',
     forgotPasswordController
   ];
@@ -16,7 +17,7 @@
   angular.module('nl.Session')
     .controller('forgotPasswordController', definitions);
 
-  function forgotPasswordController($scope, $state, $stateParams, user, snackbar, VALIDATION_EVENT) {
+  function forgotPasswordController($scope, $state, $stateParams, user, snackbar, messenger, VALIDATION_EVENT) {
     $scope.submit = submit;
 
     function submit(form, password) {
@@ -30,7 +31,7 @@
           password: password
         })
         .then(handleSuccess)
-        ['catch'](handleError);
+        ['catch'](messenger.handleError);
       }
 
       function handleSuccess(res) {
@@ -38,9 +39,6 @@
         $state.go('main.public.login', null, { location: 'replace' });
       }
 
-      function handleError(err) {
-        snackbar.error(angular.fromJson(err.data));
-      }
     }
   }
 
