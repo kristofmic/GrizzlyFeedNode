@@ -7,6 +7,5 @@ log/
 *.swp
 log/
 tmp/
-public/*
 config/env.js
 .elasticbeanstalk/
