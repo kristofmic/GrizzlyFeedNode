@@ -35,7 +35,7 @@
           </a>
         </li>
         <li ng-switch-when="true">
-          <p class="navbar-text">{{user.email}}</p>
+          <p class="navbar-text">{{user.model.email}}</p>
         </li>
         <li ng-switch-when="false" nl-active-nav="main.public.signup">
           <a ui-sref="main.public.signup">
