@@ -3,5 +3,9 @@
 var
   Feed = require('../models/feed');
 
-Feed.refreshAll();
-process.exit();
+Feed.refreshAll()
+  .then(function() { console.log('All feeds refreshed.'); })
+  .catch(function(err) { console.error('There was an error refreshing...', err || 'No error data.'); })
+  .finally(function() {
+    process.exit();
+  });
