@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('./config/env');
+}
+
 var
   express = require('express'),
   path = require('path'),
@@ -8,16 +12,10 @@ var
   bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
 
-  jobs = require('./lib/jobs'),
-
   controllers = require('./controllers'),
   errors = require('./lib/errors'),
 
   app = express();
-
-if (process.env.NODE_ENV !== 'production') {
-  require('./config/env');
-}
 
 // db setup
 mongoose.connect(process.env.DB_CONNECTION);
@@ -26,7 +24,7 @@ mongoose.connect(process.env.DB_CONNECTION);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(favicon());
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 app.use(logger('dev'));
 
