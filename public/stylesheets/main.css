@@ -1,4 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+@import url(http://fonts.googleapis.com/css?family=Fauna+One);
 body {
   font-family: 'Lato', sans-serif;
   font-weight: 400;
@@ -262,6 +263,19 @@ div.divider {
 .navbar {
   background-color: #fff;
   border-color: rgba(0, 0, 0, 0.12);
+}
+.navbar .navbar-header .navbar-brand {
+  font-family: 'Fauna One', serif;
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 17px;
+}
+.navbar .navbar-header .navbar-brand:hover {
+  color: rgba(0, 0, 0, 0.87);
+}
+.navbar .navbar-header .navbar-brand img {
+  max-height: 90%;
+  margin-top: -3px;
+  margin-left: 3px;
 }
 .navbar.navbar-default .navbar-nav > li > a {
   padding-bottom: 13px;

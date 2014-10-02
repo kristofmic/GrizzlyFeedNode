@@ -2,6 +2,22 @@
   background-color: $white;
   border-color: $gray12;
 
+  .navbar-header .navbar-brand {
+    font-family: 'Fauna One', serif;
+    color: $gray54;
+    font-size: 17px;
+
+    &:hover {
+      color: $gray87;
+    }
+
+    img {
+      max-height: 90%;
+      margin-top: -3px;
+      margin-left: 3px;
+    }
+  }
+
   &.navbar-default .navbar-nav {
     > li > a {
       padding-bottom: 13px;
