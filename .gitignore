@@ -1,7 +1,7 @@
 node_modules/
 .DS_Store
 .sass-cache/
-spec/reports/
+specs/reports/
 tmp/
 log/
 *.swp
