@@ -176,7 +176,9 @@
 	var
 		dependencies;
 
-	dependencies = [];
+	dependencies = [
+    'ui.router'
+  ];
 
 	angular.module('nl.ActiveNav', dependencies);
 
@@ -189,13 +191,14 @@
 		definitions;
 
 	definitions = [
+		'$state',
 		activeNavDirective
 	];
 
 	angular.module('nl.ActiveNav')
 		.directive('nlActiveNav', definitions);
 
-	function activeNavDirective() {
+	function activeNavDirective($state) {
 
 		return {
 			restrict: 'AC',
@@ -207,6 +210,8 @@
 
 		function link(scope, elem, attrs) {
 			scope.$on('$stateChangeSuccess', handleStateChange);
+
+			handleStateChange(null, $state.current, null, {});
 
 			function handleStateChange(e, toState, toParams, fromState) {
 				if (toState.name === scope.targetState) {
