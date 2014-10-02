@@ -3,7 +3,9 @@
 	var
 		dependencies;
 
-	dependencies = [];
+	dependencies = [
+    'ui.router'
+  ];
 
 	angular.module('nl.ActiveNav', dependencies);
 
