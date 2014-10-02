@@ -15,7 +15,7 @@ var
 
   app = express();
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'production') {
   require('./config/env');
 }
 
