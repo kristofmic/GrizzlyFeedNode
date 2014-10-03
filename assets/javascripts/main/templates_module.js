@@ -27,7 +27,7 @@ angular.module('nl.Templates', []).run(['$templateCache', function($templateCach
 
 
   $templateCache.put('_entry_item.html',
-    "<div class=\"panel panel-default\"><div class=\"panel-body\"><div class=\"entry-snapshot\"><a ng-href=\"{{entry.link}}\" class=\"entry-title\" target=\"_blank\">{{entry.title}}</a><p class=\"entry-meta\"><small>{{entry.pubdate | date:\"EEE MMM d, y 'at' h:mm a\"}} <span ng-if=\"entry.author\">| {{entry.author}}</span></small></p><p class=\"entry-meta\"><small class=\"entry-categories\" ng-repeat=\"category in entry.categories | limitTo:3\">#{{category}}</small></p></div><p class=\"entry-summary\" ng-bind-html=\"entry.summary\"></p></div></div>"
+    "<div class=\"panel panel-default\"><div class=\"panel-body\"><div class=\"entry-snapshot\"><a ng-href=\"{{entry.link}}\" class=\"entry-title\" target=\"_blank\">{{entry.title}}</a><p class=\"entry-meta\"><small>{{entry.pubdate | date:\"EEE MMM d, y 'at' h:mm a\"}} <span ng-if=\"entry.author\">| {{entry.author}}</span></small></p><p class=\"entry-meta\"><small class=\"entry-categories\" ng-repeat=\"category in entry.categories | limitTo:3\">#{{category}}</small></p></div><p class=\"entry-summary\" ng-bind-html=\"entry.summary || entry.description\"></p></div></div>"
   );
 
 

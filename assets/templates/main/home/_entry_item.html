@@ -12,6 +12,6 @@
         <small class="entry-categories" ng-repeat="category in entry.categories | limitTo:3">#{{category}}</small>
       </p>
     </div>
-    <p class="entry-summary" ng-bind-html="entry.summary"></p>
+    <p class="entry-summary" ng-bind-html="entry.summary || entry.description"></p>
   </div>
 </div>
