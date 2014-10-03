@@ -1,1 +1,1 @@
-web: npm start
+web: bundle exec passenger start -p $PORT --environment production --max-pool-size
