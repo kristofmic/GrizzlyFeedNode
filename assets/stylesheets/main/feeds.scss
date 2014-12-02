@@ -172,10 +172,10 @@
               cursor: pointer;
               display: block;
               color: $gray12;
-              -webkit-transition: transform 100ms ease-out;
-              -moz-transition: transform 100ms ease-out;
-              -o-transition: transform 100ms ease-out;
-              transition: transform 100ms ease-out;
+              -webkit-transition: transform 50ms ease-out;
+              -moz-transition: transform 50ms ease-out;
+              -o-transition: transform 50ms ease-out;
+              transition: transform 50ms ease-out;
 
               &:hover {
                 color: $gray54;
@@ -185,6 +185,7 @@
 
           .entry-snapshot {
             padding: 0 0 0 15px;
+            min-height: 42px;
 
             .entry-meta {
               margin: 0;

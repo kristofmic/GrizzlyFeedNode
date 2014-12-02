@@ -4,6 +4,7 @@ module.exports = {
       '<%= componentsPath %>/jquery/dist/jquery.js',
       '<%= componentsPath %>/bootstrap/dist/js/bootstrap.js',
       '<%= componentsPath %>/angular/angular.js',
+      '<%= componentsPath %>/angular-animate/angular-animate.js',
       '<%= componentsPath %>/angular-touch/angular-touch.js',
       '<%= componentsPath %>/angular-sanitize/angular-sanitize.js',
       '<%= componentsPath %>/angular-ui-router/release/angular-ui-router.js',

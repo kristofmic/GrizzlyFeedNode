@@ -26,7 +26,7 @@
           <a ng-href="{{entry.link}}" class="entry-title" ng-class="{visited: entry.visited}" target="_blank" ng-click="markAsVisited(entry)">{{entry.title}}</a>
           <p class="entry-meta">
             <small>
-              {{entry.pubdate | date:"EEE MMM d, y 'at' h:mm a"}}
+              <span ng-if="entry.pubdate"> {{entry.pubdate | date:"EEE MMM d, y 'at' h:mm a"}}</span>
               <span ng-if="entry.author"> | {{entry.author}}</span>
               <span class="entry-feed-title"> | via <a ng-href="{{userFeed.feed.link}}">{{userFeed.feed.title}}</a></span>
             </small>

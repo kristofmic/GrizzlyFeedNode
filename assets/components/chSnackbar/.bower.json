@@ -22,16 +22,18 @@
     "README.md"
   ],
   "dependencies": {
-    "angular": "~1.2.23"
+    "angular": "1.2.26",
+    "angular-animate": "1.2.26"
   },
   "homepage": "https://github.com/kristofmic/chSnackbar",
-  "_release": "bb7cc19087",
+  "_release": "5eef12fe28",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "bb7cc19087736dae784aa572fe75461d5301bb85"
+    "commit": "5eef12fe28f8ca572d1a6cbdf3dd2f833a076f8f"
   },
-  "_source": "git@github.com:kristofmic/chSnackbar.git",
+  "_source": "https://github.com/kristofmic/chSnackbar.git",
   "_target": "*",
-  "_originalSource": "git@github.com:kristofmic/chSnackbar.git"
+  "_originalSource": "https://github.com/kristofmic/chSnackbar.git",
+  "_direct": true
 }

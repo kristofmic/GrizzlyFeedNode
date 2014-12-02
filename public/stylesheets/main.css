@@ -54,6 +54,10 @@ a.visited, a:visited {
   box-shadow: none;
 }
 
+button.dismiss:hover {
+  box-shadow: none;
+}
+
 .btn.btn-link {
   color: rgba(0, 0, 0, 0.54);
 }
@@ -483,16 +487,17 @@ div.divider {
   cursor: pointer;
   display: block;
   color: rgba(0, 0, 0, 0.12);
-  -webkit-transition: transform 100ms ease-out;
-  -moz-transition: transform 100ms ease-out;
-  -o-transition: transform 100ms ease-out;
-  transition: transform 100ms ease-out;
+  -webkit-transition: transform 50ms ease-out;
+  -moz-transition: transform 50ms ease-out;
+  -o-transition: transform 50ms ease-out;
+  transition: transform 50ms ease-out;
 }
 .user-feeds .panel .panel-body .feed-entries .feed-entry .entry-read-icons i:hover {
   color: rgba(0, 0, 0, 0.54);
 }
 .user-feeds .panel .panel-body .feed-entries .feed-entry .entry-snapshot {
   padding: 0 0 0 15px;
+  min-height: 42px;
 }
 .user-feeds .panel .panel-body .feed-entries .feed-entry .entry-snapshot .entry-meta {
   margin: 0;

@@ -1,14 +1,13 @@
+
 // assets/javascripts/templates_module.js
-angular.module('ch.Snackbar.Templates', []).run(['$templateCache',
-  function($templateCache) {
-    'use strict';
+angular.module('ch.Snackbar.Templates', []).run(['$templateCache', function($templateCache) {
+  'use strict';
 
-    $templateCache.put('snackbar.html',
-      "<div class=\"snackbar\" role=\"alert\" ng-style=\"styles.wrapper\" ng-class=\"position\"><div class=\"spinner\" ng-if=\"loading\"><div class=\"bounce1\" ng-style=\"{'background-color':styles.message.color}\"></div><div class=\"bounce2\" ng-style=\"{'background-color':styles.message.color}\"></div><div class=\"bounce3\" ng-style=\"{'background-color':styles.message.color}\"></div></div><p class=\"snackbar-message\" ng-style=\"styles.message\">{{message}}</p></div>"
-    );
+  $templateCache.put('snackbar.html',
+    "<div class=\"snackbar\" role=\"alert\" ng-style=\"styles.wrapper\" ng-class=\"position\"><button type=\"button\" class=\"dismiss\" ng-click=\"dismiss()\"><span aria-hidden=\"true\">&times;</span> <span class=\"sr-only\">Close</span></button><p class=\"snackbar-message\" ng-style=\"styles.message\">{{message}}</p></div>"
+  );
 
-  }
-]);
+}]);
 
 
 // assets/javascripts/snackbar_module.js
@@ -18,6 +17,7 @@ angular.module('ch.Snackbar.Templates', []).run(['$templateCache',
     dependencies;
 
   dependencies = [
+    'ngAnimate',
     'ch.Snackbar.Templates'
   ];
 
@@ -77,11 +77,8 @@ angular.module('ch.Snackbar.Templates', []).run(['$templateCache',
         templateUrl = 'snackbar.html',
         template = $templateCache.get(templateUrl),
         scope = $rootScope.$new(),
-        body = $document.find('body'),
+        body = $document[0].body,
         POP_OUT_TIMEOUT = 4000,
-        REMOVE_TIMEOUT = 200,
-        POP_UP = 'snackbar-pop-up',
-        POP_OUT = 'snackbar-pop-out',
         POSITION_CLASSES,
         stack = [];
 
@@ -91,6 +88,8 @@ angular.module('ch.Snackbar.Templates', []).run(['$templateCache',
         TOP_RIGHT: 'snackbar-top-right',
         BOTTOM_LEFT: 'snackbar-bottom-left'
       };
+
+      scope.dismiss = clear;
 
       return {
         success: success,
@@ -128,8 +127,7 @@ angular.module('ch.Snackbar.Templates', []).run(['$templateCache',
 
         loadingConfig = {
           'background-color': colors.loading,
-          'timeout': false,
-          'loading': true
+          timeout: false
         };
 
         notice(message, pos, loadingConfig);
@@ -152,23 +150,22 @@ angular.module('ch.Snackbar.Templates', []).run(['$templateCache',
           scope.message = message;
           scope.styles = styles;
           scope.position = position;
-          scope.loading = config.loading;
 
           snackbar = $compile(template)(scope);
 
           clear();
 
           insertSnackbar();
+
           if (timeout) {
             snackbar.timeout = {
-              pop_out: $timeout(snackbarPopOut, timeout),
-              remove: $timeout(removeSnackbar, timeout + REMOVE_TIMEOUT)
+              remove: $timeout(removeSnackbar, timeout)
             };
           }
         }
 
         function insertSnackbar() {
-          $animate.enter(snackbar, body, null, snackbarPopIn);
+          $animate.enter(snackbar, body, null);
           stack.push(snackbar);
         }
 
@@ -177,25 +174,13 @@ angular.module('ch.Snackbar.Templates', []).run(['$templateCache',
           stack.shift();
         }
 
-        function snackbarPopIn() {
-          $timeout(function snackbarPopInTimeout() {
-            snackbar.addClass(POP_UP);
-          }, 0);
-        }
-
-        function snackbarPopOut() {
-          snackbar
-            .addClass(POP_OUT)
-            .removeClass(POP_UP);
-        }
-
         function getStyles() {
           return {
             wrapper: {
               'background-color': config['background-color'] || colors.notice,
             },
             message: {
-              'color': config.color || '#FFF'
+              color: config.color || '#FFF'
             }
           };
         }
@@ -220,12 +205,8 @@ angular.module('ch.Snackbar.Templates', []).run(['$templateCache',
         }
 
         function clearSnackbar(item, index) {
-          if (item.timeout) {
-            $timeout.cancel(item.timeout.pop_out);
-            $timeout.cancel(item.timeout.remove);
-          }
-
-          $animate.leave(item);
+          if (item.timeout) $timeout.cancel(item.timeout.remove);
+          item.remove();
           stack.splice(index, 1);
         }
       }

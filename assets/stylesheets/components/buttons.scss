@@ -16,6 +16,10 @@
   }
 }
 
+button.dismiss:hover {
+  box-shadow: none;
+}
+
 .btn.btn-link {
   color: $gray54;
 
