@@ -126,6 +126,7 @@ function createOne(url) {
 }
 
 function refreshOne(feed) {
+  console.log('refreshing feed: ', feed);
   return reader(feed.xmlurl)
     .then(saveEntries)
     .then(updateFeedTimestamp);
@@ -165,6 +166,7 @@ function refreshOne(feed) {
 }
 
 function refreshAll() {
+  console.log('refreshAll');
   return findAll()
     .each(refreshOne);
 }
