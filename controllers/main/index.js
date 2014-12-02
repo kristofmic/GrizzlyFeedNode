@@ -4,6 +4,7 @@ var
 
 router.get('/', get);
 router.get('/health', health);
+router.get('/test', health);
 
 module.exports = router;
 
