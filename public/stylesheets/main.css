@@ -35,6 +35,13 @@ a.visited, a:visited {
   color: #4a148c;
 }
 
+blockquote {
+  font-size: inherit;
+  padding: 10px 15px;
+  border-left: 4px solid rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.68);
+}
+
 .text-danger, .text-danger small {
   color: #e51c23;
 }
