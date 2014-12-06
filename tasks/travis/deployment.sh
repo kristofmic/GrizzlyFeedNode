@@ -19,6 +19,6 @@ then
   rsync -avzhe ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ./tasks/travis/aws.pem ./ ec2-user@$SERVER_HOST:~/$PACKAGE/
   echo "Restarting server..."
   ssh -ti ./tasks/travis/aws.pem ec2-user@$SERVER_HOST 'sudo touch ~/GrizzlyFeedNode/tmp/restart.txt'
-  echo "Complete"
+  echo "Complete."
   exit 0
 fi
