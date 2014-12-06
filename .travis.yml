@@ -5,3 +5,7 @@ env:
 - NODE_ENV=test
 before_script:
   - npm install -g grunt-cli
+before_install:
+ - openssl aes-256-cbc -K $encrypted_db2852c5810c_key -iv $encrypted_db2852c5810c_iv -in ./tasks/travis/aws.pem.enc -out ./tasks/travis/aws.pem -d
+after_success:
+  - "./tasks/travis/deployment.sh"
