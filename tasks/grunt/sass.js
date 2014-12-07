@@ -12,13 +12,12 @@ module.exports = {
       style: 'expanded'
     },
     files: {
-      '<%= pubCssPath %>/vendor.css': '<%= cssPath %>/vendor.scss'
+      '<%= pubCssPath %>/vendor.css': '<%= cssPath %>/vendor/vendor.scss'
     }
   },
   main_dist: {
     options: {
-      style: 'compressed',
-      sourcemap: 'none'
+      style: 'compressed'
     },
     files: {
       '<%= pubCssPath %>/main.min.css': '<%= pubCssPath %>/main.css'
@@ -26,8 +25,7 @@ module.exports = {
   },
   vendor_dist: {
     options: {
-      style: 'compressed',
-      sourcemap: 'none'
+      style: 'compressed'
     },
     files: {
       '<%= pubCssPath %>/vendor.min.css': '<%= pubCssPath %>/vendor.css'

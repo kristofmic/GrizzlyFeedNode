@@ -1,4 +1,19 @@
 module.exports = {
+  cssVendor: {
+    expand: true,
+    src: [
+      '<%= componentsPath %>/bootstrap/dist/css/bootstrap.css',
+      '<%= componentsPath %>/fontawesome/css/font-awesome.css',
+      '<%= componentsPath %>/chSnackbar/dist/snackbar.css'
+    ],
+    dest: '<%= cssPath %>/vendor/',
+    flatten: true,
+    filter: 'isFile',
+    rename: function(dest, src) {
+      console.log(dest, src);
+      return dest + src.replace('.css', '.scss');
+    }
+  },
   images: {
     expand: true,
     src: [
