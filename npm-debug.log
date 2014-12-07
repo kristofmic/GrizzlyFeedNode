@@ -1,0 +1,84 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'grunt-contrib-clen' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.32
+4 verbose readDependencies using package.json deps
+5 verbose cache add [ 'grunt-contrib-clen', null ]
+6 verbose cache add name=undefined spec="grunt-contrib-clen" args=["grunt-contrib-clen",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'grunt-contrib-clen',
+7 verbose parsed url   path: 'grunt-contrib-clen',
+7 verbose parsed url   href: 'grunt-contrib-clen' }
+8 silly lockFile e9b74514-grunt-contrib-clen grunt-contrib-clen
+9 verbose lock grunt-contrib-clen /Users/chourihan/.npm/e9b74514-grunt-contrib-clen.lock
+10 silly lockFile e9b74514-grunt-contrib-clen grunt-contrib-clen
+11 silly lockFile e9b74514-grunt-contrib-clen grunt-contrib-clen
+12 verbose addNamed [ 'grunt-contrib-clen', '' ]
+13 verbose addNamed [ null, '*' ]
+14 silly lockFile 86b7fa44-grunt-contrib-clen grunt-contrib-clen@
+15 verbose lock grunt-contrib-clen@ /Users/chourihan/.npm/86b7fa44-grunt-contrib-clen.lock
+16 silly addNameRange { name: 'grunt-contrib-clen', range: '*', hasData: false }
+17 verbose request where is /grunt-contrib-clen
+18 verbose request registry https://registry.npmjs.org/
+19 verbose request id 5b37134fda8c6c21
+20 verbose url raw /grunt-contrib-clen
+21 verbose url resolving [ 'https://registry.npmjs.org/', './grunt-contrib-clen' ]
+22 verbose url resolved https://registry.npmjs.org/grunt-contrib-clen
+23 verbose request where is https://registry.npmjs.org/grunt-contrib-clen
+24 info trying registry request attempt 1 at 19:21:57
+25 http GET https://registry.npmjs.org/grunt-contrib-clen
+26 http 404 https://registry.npmjs.org/grunt-contrib-clen
+27 verbose headers { date: 'Sun, 07 Dec 2014 00:21:57 GMT',
+27 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+27 verbose headers   'content-type': 'application/json',
+27 verbose headers   'cache-control': 'max-age=0',
+27 verbose headers   'content-length': '52',
+27 verbose headers   'accept-ranges': 'bytes',
+27 verbose headers   via: '1.1 varnish',
+27 verbose headers   age: '0',
+27 verbose headers   'x-served-by': 'cache-atl6233-ATL',
+27 verbose headers   'x-cache': 'MISS',
+27 verbose headers   'x-cache-hits': '0',
+27 verbose headers   'x-timer': 'S1417911717.255655,VS0,VE24',
+27 verbose headers   'keep-alive': 'timeout=10, max=50',
+27 verbose headers   connection: 'Keep-Alive' }
+28 silly registry.get cb [ 404,
+28 silly registry.get   { date: 'Sun, 07 Dec 2014 00:21:57 GMT',
+28 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+28 silly registry.get     'content-type': 'application/json',
+28 silly registry.get     'cache-control': 'max-age=0',
+28 silly registry.get     'content-length': '52',
+28 silly registry.get     'accept-ranges': 'bytes',
+28 silly registry.get     via: '1.1 varnish',
+28 silly registry.get     age: '0',
+28 silly registry.get     'x-served-by': 'cache-atl6233-ATL',
+28 silly registry.get     'x-cache': 'MISS',
+28 silly registry.get     'x-cache-hits': '0',
+28 silly registry.get     'x-timer': 'S1417911717.255655,VS0,VE24',
+28 silly registry.get     'keep-alive': 'timeout=10, max=50',
+28 silly registry.get     connection: 'Keep-Alive' } ]
+29 silly lockFile 86b7fa44-grunt-contrib-clen grunt-contrib-clen@
+30 silly lockFile 86b7fa44-grunt-contrib-clen grunt-contrib-clen@
+31 error 404 404 Not Found: grunt-contrib-clen
+31 error 404
+31 error 404 'grunt-contrib-clen' is not in the npm registry.
+31 error 404 You should bug the author to publish it
+31 error 404 It was specified as a dependency of 'GrizzlyFeed'
+31 error 404
+31 error 404 Note that you can also install from a
+31 error 404 tarball, folder, or http url, or git url.
+32 error System Darwin 14.0.0
+33 error command "node" "/usr/local/bin/npm" "install" "grunt-contrib-clen"
+34 error cwd /Users/chourihan/Code/GrizzlyFeedNode
+35 error node -v v0.10.32
+36 error npm -v 1.4.28
+37 error code E404
+38 verbose exit [ 1, true ]

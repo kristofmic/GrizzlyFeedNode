@@ -3,9 +3,10 @@ module.exports = gruntConfig;
 function gruntConfig(grunt) {
   var
     pkg = grunt.file.readJSON('package.json'),
-    tasks = require('./tasks/grunt');
+    tasks = require('./tasks/grunt'),
+    config;
 
-  grunt.initConfig({
+  config = {
     jsPath: 'assets/javascripts',
     componentsPath: 'assets/components',
     cssPath: 'assets/stylesheets',
@@ -15,24 +16,22 @@ function gruntConfig(grunt) {
     pubCssPath: 'public/stylesheets',
     pubImagePath: 'public/images',
     pubFontPath: 'public/fonts',
+  };
 
-    concat: tasks.concat,
-    watch: tasks.watch,
-    copy: tasks.copy,
-    sass: tasks.sass,
-    ngtemplates: tasks.ngtemplates,
-    uglify: tasks.uglify,
-    bgShell: tasks.bgShell,
-    mochaTest: tasks.mochaTest
-  });
+  for (var task in tasks) {
+    config[task] = tasks[task];
+  }
 
-  for (var task in pkg.devDependencies) {
-    if (task !== 'grunt' && !task.indexOf('grunt')) {
-      grunt.loadNpmTasks(task);
+  grunt.initConfig(config);
+
+  for (var dependency in pkg.devDependencies) {
+    if (dependency !== 'grunt' && !dependency.indexOf('grunt')) {
+      grunt.loadNpmTasks(dependency);
     }
   }
 
   grunt.registerTask('build:dev', [
+    'clean',
     'copy',
     'ngtemplates',
     'concat',
@@ -40,8 +39,9 @@ function gruntConfig(grunt) {
   ]);
   grunt.registerTask('build:dist', [
     'build:dev',
-    'uglify'
-
+    'uglify',
+    'filerev',
+    'userev'
   ]);
   grunt.registerTask('test:dev:server', [
     'mochaTest'
