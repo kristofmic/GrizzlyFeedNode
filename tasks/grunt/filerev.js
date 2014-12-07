@@ -1,5 +1,8 @@
 module.exports = {
   js: {
-    src: 'public/javascripts/**/*.min.js'
+    src: '<%= pubJsPath %>/**/*.min.js'
+  },
+  css: {
+    src: '<%= pubCssPath %>/**/*.min.css'
   }
 };

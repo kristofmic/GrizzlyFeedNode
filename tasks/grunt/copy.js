@@ -1,15 +1,4 @@
 module.exports = {
-  components: {
-    expand: true,
-    src: [
-      '<%= componentsPath %>/bootstrap/dist/css/bootstrap.min.css',
-      '<%= componentsPath %>/fontawesome/css/font-awesome.min.css',
-      '<%= componentsPath %>/chSnackbar/dist/snackbar.min.css'
-    ],
-    dest: '<%= pubCssPath %>/',
-    flatten: true,
-    filter: 'isFile'
-  },
   images: {
     expand: true,
     src: [

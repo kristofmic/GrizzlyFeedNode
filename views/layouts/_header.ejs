@@ -8,17 +8,15 @@
 
     <title>GrizzlyFeed</title>
 
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
-    <link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
-    <link rel="stylesheet" href="/stylesheets/snackbar.min.css">
+    <meta name="description" content="GrizzlyFeed - Feeding the web">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
     <% if (process.env.NODE_ENV === 'development') { %>
+      <link rel="stylesheet" href="/stylesheets/vendor.css">
       <link rel="stylesheet" href="/stylesheets/main.css">
     <% } else { %>
-      <link rel="stylesheet" href="/stylesheets/main.min.css">
+      <link rel="stylesheet" href="/stylesheets/vendor.min.a4e5da53.css">
+      <link rel="stylesheet" href="/stylesheets/main.min.7a583886.css">
     <% } %>
 
     <!--
