@@ -12,5 +12,7 @@ function get(req, res) {
 }
 
 function health(req, res) {
-  res.send(200, {});
+  res.send(200, {
+    status: 'alive'
+  });
 }
