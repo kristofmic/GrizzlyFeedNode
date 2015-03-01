@@ -5,6 +5,8 @@ var
   handleDeferred = require('../lib/responder').handleDeferred,
   paramFilter = require('../lib/param_filter'),
   sanitizer = require('../lib/sanitizer'),
+  Queue = require('../lib/queue'),
+  entriesQ = new Queue('entries'),
   schema,
   schemaKeys,
   entrySchema,
@@ -45,22 +47,54 @@ schema = {
     ref: 'Feed',
     index: true
   },
+  similar: {
+    type: [mongoose.SchemaTypes.ObjectId],
+    ref: 'Entry',
+    index: true
+  }
 };
 schemaKeys = _.keys(schema);
 entrySchema = mongoose.Schema(schema);
 Entry = mongoose.model('Entry', entrySchema);
 
 Entry.createOne = createOne;
+Entry.addSimilar = addSimilar;
 Entry.findNBy = findNBy;
 Entry.findBy = findBy;
+Entry.findWithinDay = findWithinDay;
 
 module.exports = Entry;
+
+function findWithinDay() {
+  var
+    deferredPromise = new Promise(defer);
+
+  return deferredPromise;
+
+  function defer(resolve, reject) {
+    var
+      dayAgo = Date.now() - (3600000 * 24),
+      query = {
+        pubdate: {$gte: dayAgo}
+      },
+      sort = {
+        pubdate: -1
+      };
+
+    Entry
+      .find()
+      .where(query)
+      .sort({ pubdate: -1})
+      .exec(handleDeferred(resolve, reject));
+  }
+}
 
 function createOne(feed, entry) {
   var
     deferredPromise = new Promise(defer);
 
-  return deferredPromise;
+  return deferredPromise
+    .then(addToQueue);
 
   function defer(resolve, reject) {
     var
@@ -74,6 +108,27 @@ function createOne(feed, entry) {
     newEntry.description = sanitizer.sanitizeHtml(newEntry.description);
 
     newEntry.save(handleDeferred(resolve, reject));
+  }
+
+  function addToQueue(entry) {
+    entriesQ.pub({
+      _id: entry._id,
+      title: entry.title,
+    });
+
+    return entry;
+  }
+}
+
+function addSimilar(entryId, similarId) {
+  var
+    deferredPromise = new Promise(defer);
+
+  return deferredPromise;
+
+  function defer(resolve, reject) {
+    Entry.findOneAndUpdate({_id: entryId}, {$push: {similar: similarId}})
+      .exec(handleDeferred(resolve, reject));
   }
 }
 
