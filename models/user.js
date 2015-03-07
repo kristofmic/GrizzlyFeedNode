@@ -53,10 +53,6 @@ schema = {
       ref: 'Feed'
     }
   }],
-  entries: {
-    type: mongoose.SchemaTypes.Mixed,
-    default: {}
-  },
   layout: {
     type: String,
     default: 'th'
