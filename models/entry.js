@@ -5,8 +5,8 @@ var
   handleDeferred = require('../lib/responder').handleDeferred,
   paramFilter = require('../lib/param_filter'),
   sanitizer = require('../lib/sanitizer'),
-  Queue = require('../lib/queue'),
-  entriesQ = new Queue('entries'),
+  kue = require('kue'),
+  entriesQ = kue.createQueue({port: process.env.REDIS_PORT, host: process.env.REDIS_HOST}),
   schema,
   schemaKeys,
   entrySchema,
@@ -111,10 +111,11 @@ function createOne(feed, entry) {
   }
 
   function addToQueue(entry) {
-    entriesQ.pub({
+
+    entriesQ.create('entry', {
       _id: entry._id,
       title: entry.title,
-    });
+    }).save();
 
     return entry;
   }

@@ -23,6 +23,7 @@
     "forever": "^0.13.0",
     "jaccard": "^0.3.0",
     "jackrabbit": "^3.0.8",
+    "kue": "^0.8.11",
     "lodash": "^3.0.0",
     "mongoose": "^3.8.15",
     "morgan": "~1.0.0",
