@@ -8,7 +8,7 @@ var
   debug = require('debug')('GrizzlyFeed'),
   cookieParser = require('cookie-parser'),
   bodyParser = require('body-parser'),
-  mongoose = require('mongoose'),
+  mongoConnect = require('./models/mongo_connect'),
 
   controllers = require('./controllers'),
   errors = require('./lib/errors'),
@@ -16,7 +16,7 @@ var
   app = express();
 
 // db setup
-mongoose.connect(process.env.DB_CONNECTION);
+mongoConnect.connect();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

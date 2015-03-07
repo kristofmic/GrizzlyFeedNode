@@ -1,5 +1,5 @@
 var
-  User = require('../../models/user'),
+  UserFeedEntry = require('../../models/user_feed_entry'),
   responder = require('../../lib/responder');
 
 module.exports = {
@@ -11,13 +11,7 @@ function create(req, res) {
     user = req.user,
     entry = req.entry;
 
-  if (!user.entries[entry._id]) {
-    user.entries[entry._id] = true;
-  }
-
-  user.markModified('entries');
-
-  return User.updateOne(user)
+  return UserFeedEntry.createOne(user._id, entry._id)
     .then(responder.handleResponse(res, 201, 'Success'))
     .catch(responder.handleError(res));
 }

@@ -3,6 +3,7 @@ var
   Feed = require('../../models/feed'),
   User = require('../../models/user'),
   Entry = require('../../models/entry'),
+  UserFeedEntry = require('../../models/user_feed_entry'),
   userHelper = require('../../lib/user_helper'),
   _ = require('lodash'),
   responder = require('../../lib/responder');
@@ -96,7 +97,7 @@ function updateEntries(req, res) {
     userFeedItem = userFeedItem.toObject();
     userFeedItem.feed = feed.toObject();
 
-    return populateFeedEntries(userFeedItem, user.entries);
+    return populateFeedEntries(userFeedItem, user);
   }
 }
 
@@ -157,7 +158,7 @@ function index(req, res) {
     .catch(responder.handleError(res));
 
   function resolveUserFeedEntries(userFeedItem) {
-    return populateFeedEntries(userFeedItem, user.entries);
+    return populateFeedEntries(userFeedItem, user);
   }
 }
 
@@ -207,20 +208,26 @@ function populateFeeds(userFeedItem) {
   }
 }
 
-function populateFeedEntries(userFeedItem, userEntries) {
+function populateFeedEntries(userFeedItem, user) {
   return Entry.findNBy(userFeedItem.userFeed.entries, {
       _feed: userFeedItem.feed._id
     })
+    .map(fetchUserFeedEntries)
     .then(addEntriesToFeed);
 
-  function addEntriesToFeed(entries) {
-    userFeedItem.feed.entries = _.map(entries, resolveUserFeedEntry);
-    return userFeedItem;
+  function fetchUserFeedEntries(entry) {
+    return UserFeedEntry.fetchOne(user._id, entry._id)
+      .then(resolveUserFeedEntry);
 
-    function resolveUserFeedEntry(entry) {
+    function resolveUserFeedEntry(userFeedEntry) {
       entry = entry.toObject();
-      entry.visited = !!userEntries[entry._id];
+      entry.visited = !!userFeedEntry;
       return entry;
     }
+  }
+
+  function addEntriesToFeed(entries) {
+    userFeedItem.feed.entries = entries;
+    return userFeedItem;
   }
 }
