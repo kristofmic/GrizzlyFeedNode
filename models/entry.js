@@ -128,7 +128,7 @@ function addSimilar(entryId, similarId) {
   return deferredPromise;
 
   function defer(resolve, reject) {
-    Entry.findOneAndUpdate({_id: entryId}, {$push: {similar: similarId}})
+    Entry.findOneAndUpdate({_id: entryId}, {$addToSet: {similar: similarId}})
       .exec(handleDeferred(resolve, reject));
   }
 }
