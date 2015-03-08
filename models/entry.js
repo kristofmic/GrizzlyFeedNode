@@ -6,7 +6,7 @@ var
   paramFilter = require('../lib/param_filter'),
   sanitizer = require('../lib/sanitizer'),
   kue = require('kue'),
-  entriesQ = kue.createQueue({port: process.env.REDIS_PORT, host: process.env.REDIS_HOST}),
+  entriesQ = kue.createQueue({ redis: {port: process.env.REDIS_PORT, host: process.env.REDIS_HOST}}),
   schema,
   schemaKeys,
   entrySchema,
