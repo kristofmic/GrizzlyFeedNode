@@ -115,7 +115,9 @@ function createOne(feed, entry) {
     entriesQ.create('entry', {
       _id: entry._id,
       title: entry.title,
-    }).save();
+    }).save(function(err){
+      console.log('error saving entry to queue: ', err);
+    });
 
     return entry;
   }
