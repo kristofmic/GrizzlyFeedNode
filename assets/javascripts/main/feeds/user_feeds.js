@@ -128,7 +128,9 @@
           _.eachRight(newFeedEntries, setNewFeedEntry);
 
           function setNewFeedEntry(newEntry) {
-            userFeedItemToUpdate.feed.entries.pop();
+            if (userFeedItemToUpdate.feed.entries.length >= userFeedItemToUpdate.userFeed.entries) {
+              userFeedItemToUpdate.feed.entries.pop();
+            }
             userFeedItemToUpdate.feed.entries.unshift(newEntry);
           }
         }

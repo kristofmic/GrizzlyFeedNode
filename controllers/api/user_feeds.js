@@ -170,14 +170,16 @@ function refresh(req, res) {
   Promise.map(feeds, populateFeeds)
     .map(refreshUserFeedItem)
     .each(transformFeedEntries)
-    .then(responder.handleResponse(res, null, newEntries))
+    .then(function() { return newEntries; })
+    .then(responder.handleResponse(res))
     .catch(responder.handleError(res));
 
   function transformFeedEntries(feedEntries) {
     _.chain(feedEntries)
       .sortBy('pubdate')
       .reverse()
-      .each(transformFeedEntry);
+      .each(transformFeedEntry)
+      .value();
 
     function transformFeedEntry(feedEntry) {
       newEntries[feedEntry._feed] = newEntries[feedEntry._feed] || [];
@@ -190,7 +192,7 @@ function refresh(req, res) {
       .then(limitEntries);
 
     function limitEntries(entries) {
-      return _.first(entries, userFeedItem.userFeed.entries);
+      return _.take(entries, userFeedItem.userFeed.entries);
     }
   }
 }

@@ -116,7 +116,7 @@ function createOne(feed, entry) {
       _id: entry._id,
       title: entry.title,
     }).save(function(err){
-      console.log('error saving entry to queue: ', err);
+      if (err) console.log('error saving entry to queue: ', err);
     });
 
     return entry;
