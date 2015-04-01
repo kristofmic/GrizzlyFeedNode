@@ -825,7 +825,7 @@
       }
 
       function setFeedEntries(res) {
-        $scope.feedToEdit.feed.entries = res.data.feed.entries;
+        $scope.feedToEdit.feed.entries = res.data.userFeedItem.feed.entries;
       }
 
       function clearFeedToEdit() {
@@ -1140,10 +1140,11 @@
 
       function setUserFeedsFromResponse(res) {
         var
-          userFeedsRes = res.data;
+          userFeedsRes = res.data,
+          userFeedItems = _.pluck(userFeedsRes, 'userFeedItem');
 
-        if (userFeedsRes && angular.isObject(userFeedsRes)) {
-          self.model.feeds = userFeedsRes;
+        if (userFeedItems && angular.isObject(userFeedItems)) {
+          self.model.feeds = userFeedItems;
           self.model.lastUpdated = new Date();
           self.model.feeds = _.groupBy(self.model.feeds, groupFeeds);
 
@@ -1668,7 +1669,7 @@ angular.module('nl.Templates', []).run(['$templateCache', function($templateCach
 
 
   $templateCache.put('feeds.html',
-    "<div id=\"feed-container\"><div class=\"row\"><div class=\"col-sm-4\"><i class=\"fa fa-th feed-layout-option\" ng-class=\"{active:layout === 'th'}\" ng-click=\"updateLayout('th')\"></i> <i class=\"fa fa-th-large feed-layout-option\" ng-class=\"{active:layout === 'thLarge'}\" ng-click=\"updateLayout('thLarge')\"></i> <i class=\"fa fa-list feed-layout-option\" ng-class=\"{active:layout === 'list'}\" ng-click=\"updateLayout('list')\"></i></div><div class=\"col-sm-4 col-sm-offset-4\"><button type=\"button\" id=\"refresh\" class=\"btn btn-default pull-right\" ng-click=\"refreshFeeds()\" ng-disabled=\"refreshing\"><i class=\"fa fa-refresh\"></i></button> <small class=\"refresh-text pull-right\">Last updated: {{ userFeeds.lastUpdated | date:\"EEE MMM d, y 'at' h:mm a\" }}</small></div></div><div class=\"row\" ng-if=\"!finishedLoading\"><div ng-include=\"'_loading.html'\"></div></div><div class=\"row\"><div class=\"col-sm-4 user-feed-column layout-{{layout}}\"><ul class=\"user-feeds list-unstyled\" data-sortable=\"sortableConfig\" ng-model=\"userFeeds.feeds[0]\"><li ng-repeat=\"userFeed in userFeeds.feeds[0]\" ng-include=\"'_feed_item.html'\" sortable-item class=\"{{layout}}-view\"></li></ul></div><div class=\"col-sm-4 user-feed-column layout-{{layout}}\"><ul class=\"user-feeds list-unstyled\" data-sortable=\"sortableConfig\" ng-model=\"userFeeds.feeds[1]\"><li ng-repeat=\"userFeed in userFeeds.feeds[1]\" ng-include=\"'_feed_item.html'\" sortable-item class=\"{{layout}}-view\"></li></ul></div><div class=\"col-sm-4 user-feed-column layout-{{layout}}\"><ul class=\"user-feeds list-unstyled\" data-sortable=\"sortableConfig\" ng-model=\"userFeeds.feeds[2]\"><li ng-repeat=\"userFeed in userFeeds.feeds[2]\" ng-include=\"'_feed_item.html'\" sortable-item class=\"{{layout}}-view\"></li></ul></div></div></div>"
+    "<div id=\"feed-container\"><div class=\"row\"><div class=\"col-sm-4\"><i class=\"fa fa-th feed-layout-option\" ng-class=\"{active:layout === 'th'}\" ng-click=\"updateLayout('th')\"></i> <i class=\"fa fa-th-large feed-layout-option\" ng-class=\"{active:layout === 'thLarge'}\" ng-click=\"updateLayout('thLarge')\"></i> <i class=\"fa fa-list feed-layout-option\" ng-class=\"{active:layout === 'list'}\" ng-click=\"updateLayout('list')\"></i></div><div class=\"col-sm-4 col-sm-offset-4\"><button type=\"button\" id=\"refresh\" class=\"btn btn-default pull-right\" ng-click=\"refreshFeeds()\" ng-disabled=\"refreshing\"><i class=\"fa fa-refresh\"></i></button> <small class=\"refresh-text pull-right\">Last updated: {{ userFeeds.lastUpdated | date:\"EEE MMM d, y 'at' h:mm a\" }}</small></div></div><div class=\"row\" ng-if=\"!finishedLoading\"><div ng-include=\"'_loading.html'\"></div></div><div class=\"row\"><div class=\"col-sm-4 user-feed-column layout-{{layout}}\" ng-repeat=\"topStory in topStories\"><ul class=\"user-feeds user-feed-top-stories list-unstyled\"><li ng-include=\"'_feed_item.html\" class=\"{{layout}}-view\"></li></ul></div></div><div class=\"row\"><div class=\"col-sm-4 user-feed-column layout-{{layout}}\"><ul class=\"user-feeds list-unstyled\" data-sortable=\"sortableConfig\" ng-model=\"userFeeds.feeds[0]\"><li ng-repeat=\"userFeed in userFeeds.feeds[0]\" ng-include=\"'_feed_item.html'\" sortable-item class=\"{{layout}}-view\"></li></ul></div><div class=\"col-sm-4 user-feed-column layout-{{layout}}\"><ul class=\"user-feeds list-unstyled\" data-sortable=\"sortableConfig\" ng-model=\"userFeeds.feeds[1]\"><li ng-repeat=\"userFeed in userFeeds.feeds[1]\" ng-include=\"'_feed_item.html'\" sortable-item class=\"{{layout}}-view\"></li></ul></div><div class=\"col-sm-4 user-feed-column layout-{{layout}}\"><ul class=\"user-feeds list-unstyled\" data-sortable=\"sortableConfig\" ng-model=\"userFeeds.feeds[2]\"><li ng-repeat=\"userFeed in userFeeds.feeds[2]\" ng-include=\"'_feed_item.html'\" sortable-item class=\"{{layout}}-view\"></li></ul></div></div></div>"
   );
 
 

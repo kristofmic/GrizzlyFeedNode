@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "grunt",
+    "start": "NODE_ENV=localhost grunt",
     "test": "grunt test:dist"
   },
   "engines": {

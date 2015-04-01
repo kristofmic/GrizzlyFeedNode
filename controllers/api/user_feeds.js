@@ -94,6 +94,7 @@ function updateEntries(req, res) {
   function getNewEntries() {
     var
       userFeedItem = user.feeds[feedIndex];
+
     userFeedItem = userFeedItem.toObject();
     userFeedItem.feed = feed.toObject();
 
@@ -229,7 +230,20 @@ function populateFeedEntries(userFeedItem, user) {
   }
 
   function addEntriesToFeed(entries) {
+    var
+      similar = {};
+
     userFeedItem.feed.entries = entries;
-    return userFeedItem;
+
+    _.each(entries, function(entry) {
+      if (entry.similar.length) {
+        similar[entry._id] = entry.similar;
+      }
+    });
+
+    return {
+      similar: similar,
+      userFeedItem: userFeedItem
+    };
   }
 }

@@ -18,6 +18,15 @@
   </div>
 
   <div class="row">
+    <div class="col-sm-4 user-feed-column layout-{{layout}}" ng-repeat="topStory in topStories">
+      <ul class="user-feeds user-feed-top-stories list-unstyled">
+        <li ng-include="'_feed_item.html" class="{{layout}}-view">
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
     <div class="col-sm-4 user-feed-column layout-{{layout}}">
       <ul class="user-feeds list-unstyled" data-sortable="sortableConfig" ng-model="userFeeds.feeds[0]">
         <li ng-repeat="userFeed in userFeeds.feeds[0]" ng-include="'_feed_item.html'" sortable-item class="{{layout}}-view">

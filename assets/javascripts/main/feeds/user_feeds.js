@@ -45,10 +45,11 @@
 
       function setUserFeedsFromResponse(res) {
         var
-          userFeedsRes = res.data;
+          userFeedsRes = res.data,
+          userFeedItems = _.pluck(userFeedsRes, 'userFeedItem');
 
-        if (userFeedsRes && angular.isObject(userFeedsRes)) {
-          self.model.feeds = userFeedsRes;
+        if (userFeedItems && angular.isObject(userFeedItems)) {
+          self.model.feeds = userFeedItems;
           self.model.lastUpdated = new Date();
           self.model.feeds = _.groupBy(self.model.feeds, groupFeeds);
 
