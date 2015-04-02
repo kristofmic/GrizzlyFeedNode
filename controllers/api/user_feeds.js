@@ -239,12 +239,14 @@ function populateFeedEntries(userFeedItem, user) {
 
 function populateTopStories(userFeedItems) {
   var
-    similar = _.chain(userFeedItems)
-      .map(getSimilar)
-      .flatten()
-      .value();
+    similar;
 
-  return Promise.map(similar, populateSimilar)
+  similar = _.chain(userFeedItems)
+    .map(getSimilar)
+    .flatten()
+    .value();
+
+  return Promise.map(similar, populateSimilarEntries)
     .then(function(similarEntries) {
       return {
         topStories: similarEntries,
@@ -268,8 +270,8 @@ function populateTopStories(userFeedItems) {
       return _.sortBy(similarEntries, function(entryId) { return entryId; });
     }
   }
-}
 
-function populateSimilar(entryIds) {
-  return Entry.findByIds(entryIds);
+  function populateSimilarEntries(entryIds) {
+    return Entry.findByIds(entryIds);
+  }
 }
