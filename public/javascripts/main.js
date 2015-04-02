@@ -825,7 +825,7 @@
       }
 
       function setFeedEntries(res) {
-        $scope.feedToEdit.feed.entries = res.data.userFeedItem.feed.entries;
+        $scope.feedToEdit.feed.entries = res.data.feed.entries;
       }
 
       function clearFeedToEdit() {
@@ -1140,8 +1140,7 @@
 
       function setUserFeedsFromResponse(res) {
         var
-          userFeedsRes = res.data,
-          userFeedItems = _.pluck(userFeedsRes, 'userFeedItem');
+          userFeedItems = res.data.userFeedItems;
 
         if (userFeedItems && angular.isObject(userFeedItems)) {
           self.model.feeds = userFeedItems;

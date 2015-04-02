@@ -62,6 +62,7 @@ Entry.addSimilar = addSimilar;
 Entry.findNBy = findNBy;
 Entry.findBy = findBy;
 Entry.findWithinDay = findWithinDay;
+Entry.findByIds = findByIds;
 
 module.exports = Entry;
 
@@ -178,5 +179,18 @@ function findBy(params) {
         .where(params)
         .exec(handleDeferred(resolve, reject));
     }
+  }
+}
+
+function findByIds(ids) {
+  var
+    deferredPromise = new Promise(defer);
+
+  return deferredPromise;
+
+  function defer(resolve, reject) {
+    Entry.find()
+      .in('_id', ids)
+      .exec(handleDeferred(resolve, reject));
   }
 }

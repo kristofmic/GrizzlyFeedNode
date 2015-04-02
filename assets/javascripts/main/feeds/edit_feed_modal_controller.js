@@ -49,7 +49,7 @@
       }
 
       function setFeedEntries(res) {
-        $scope.feedToEdit.feed.entries = res.data.userFeedItem.feed.entries;
+        $scope.feedToEdit.feed.entries = res.data.feed.entries;
       }
 
       function clearFeedToEdit() {

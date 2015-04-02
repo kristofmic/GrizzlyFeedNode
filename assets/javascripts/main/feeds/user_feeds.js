@@ -45,8 +45,7 @@
 
       function setUserFeedsFromResponse(res) {
         var
-          userFeedsRes = res.data,
-          userFeedItems = _.pluck(userFeedsRes, 'userFeedItem');
+          userFeedItems = res.data.userFeedItems;
 
         if (userFeedItems && angular.isObject(userFeedItems)) {
           self.model.feeds = userFeedItems;

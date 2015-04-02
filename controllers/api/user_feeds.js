@@ -155,6 +155,7 @@ function index(req, res) {
 
   Promise.map(feeds, populateFeeds)
     .map(resolveUserFeedEntries)
+    .then(populateTopStories)
     .then(responder.handleResponse(res))
     .catch(responder.handleError(res));
 
@@ -230,20 +231,45 @@ function populateFeedEntries(userFeedItem, user) {
   }
 
   function addEntriesToFeed(entries) {
-    var
-      similar = {};
-
     userFeedItem.feed.entries = entries;
 
-    _.each(entries, function(entry) {
-      if (entry.similar.length) {
-        similar[entry._id] = entry.similar;
-      }
+    return userFeedItem;
+  }
+}
+
+function populateTopStories(userFeedItems) {
+  var
+    similar = _.chain(userFeedItems)
+      .map(getSimilar)
+      .flatten()
+      .value();
+
+  return Promise.map(similar, populateSimilar)
+    .then(function(similarEntries) {
+      return {
+        topStories: similarEntries,
+        userFeedItems: userFeedItems
+      };
     });
 
-    return {
-      similar: similar,
-      userFeedItem: userFeedItem
-    };
+  function getSimilar(userFeedItem) {
+    return _.chain(userFeedItem.feed.entries)
+      .map(getSimilarEntries)
+      .compact()
+      .value();
   }
+
+  function getSimilarEntries(entry) {
+    var
+      similarEntries;
+
+    if (entry.similar.length) {
+      similarEntries = [entry._id].concat(entry.similar);
+      return _.sortBy(similarEntries, function(entryId) { return entryId; });
+    }
+  }
+}
+
+function populateSimilar(entryIds) {
+  return Entry.findByIds(entryIds);
 }
